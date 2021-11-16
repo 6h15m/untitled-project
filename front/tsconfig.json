@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "types": ["node"],
+        "module": "ESNext",
+        "target": "ESNext",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "isolatedModules": true,
+        "strict": true,
+        "checkJs": false,
+        "lib": [
+            "es2020",
+            "dom"
+        ]
+    }
+}

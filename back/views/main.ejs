@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>untitled.</title>
+</head>
+<body>
+hi to our main
+<div><%=big_category.big_category_name%> > <%=small_category.small_category_name%></div>
+<%
+ for (const r of rows) {
+   %>
+  <div><%= r.product_name %></div>
+<%
+ }
+ %>
+</body>
+</html>
