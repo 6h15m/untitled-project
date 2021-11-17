@@ -5,7 +5,7 @@ const config = {
   devtool: "inline-source-map",
 };
 
-const dir_list = ["home"];
+const dir_list = ["home", "cart", "detail"];
 
 module.exports = dir_list.map((dir_name) => ({
   ...config,
@@ -14,5 +14,15 @@ module.exports = dir_list.map((dir_name) => ({
   output: {
     filename: "index.bundle.js",
     path: path.resolve(__dirname, `./public/js/pages/${dir_name}`),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+    ],
   },
 }));
