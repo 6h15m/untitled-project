@@ -1,0 +1,18 @@
+{
+    "include": ["server/**/*"],
+    "exclude": ["src/**/*"],
+    "compilerOptions": {
+        "module": "ES2020",
+        "target": "es2021",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "isolatedModules": true,
+        "strict": true,
+        "checkJs": false,
+        "lib": [
+            "ES2020"
+        ],
+        "outDir": "./server-dist"
+    }
+}

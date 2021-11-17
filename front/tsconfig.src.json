@@ -1,8 +1,9 @@
 {
+    "include": ["src/**/*"],
+    "exclude": ["server/**/*"],
     "compilerOptions": {
-        "types": ["node"],
-        "module": "ESNext",
-        "target": "ESNext",
+        "module": "ES2020",
+        "target": "es2021",
         "moduleResolution": "node",
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
@@ -10,8 +11,9 @@
         "strict": true,
         "checkJs": false,
         "lib": [
-            "es2020",
+            "ES2020",
             "dom"
-        ]
+        ],
+        "outDir": "./dist"
     }
 }
