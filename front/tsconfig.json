@@ -1,6 +1,4 @@
 {
-    "include": ["src/**/*"],
-    "exclude": ["server/**/*"],
     "compilerOptions": {
         "module": "ES2020",
         "target": "es2021",
@@ -10,10 +8,5 @@
         "isolatedModules": true,
         "strict": true,
         "checkJs": false,
-        "lib": [
-            "ES2020",
-            "dom"
-        ],
-        "outDir": "./dist"
     }
 }
