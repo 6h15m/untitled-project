@@ -1,6 +1,8 @@
 import { PRODUCTS } from "../../sample-data/products.js";
 import { SMALL_CATEGORIES } from "../../sample-data/small_categories";
 import { BIG_CATEGORIES } from "../../sample-data/big_categories";
+import { TAGS } from "../../sample-data/tags";
+import { PRODUCTS_TAGS } from "../../sample-data/products_tags";
 import { OPTIONS } from "../../sample-data/options";
 import { PRODUCTS_OPTIONS } from "../../sample-data/products_options";
 import { OPTION_PROPERTIES } from "../../sample-data/option_properties";
@@ -13,7 +15,17 @@ const getBigCategoryName = (small_category_id: number) =>
   BIG_CATEGORIES[SMALL_CATEGORIES[small_category_id - 1].big_category_id - 1]
     .big_category_name;
 
-const getOption = (product_id: number) => [
+const getTagId = (product_id: number) => [
+    ...pipe(
+        PRODUCTS_TAGS,
+        filter((p) => (p.product_id == product_id ? p : null)),
+        map(p => p.tag_id)
+    ),
+];
+
+const getTagName = (tag_id: number) => TAGS[tag_id - 1].tag_name;
+
+const getOptionId = (product_id: number) => [
   ...pipe(
     PRODUCTS_OPTIONS,
     filter((p) => (p.product_id == product_id ? p : null))
@@ -46,6 +58,9 @@ export class DetailComponent extends HTMLElement {
                     )} > ${getSmallCategoryName(p.small_category_id)}
                 </div>
                 <h2 class="product-name">${p.product_name}</h2>
+                <div class="product-tags">
+                    ${[...map(t_id => `<div class="tag-name"># ${getTagName(t_id)}</div>`, getTagId(p.product_id))].join(" ")}
+                </div>
                 <div class="product-options">
                 ${[
                   ...map(
@@ -57,12 +72,12 @@ export class DetailComponent extends HTMLElement {
                             ${[
                               ...map(
                                 (op) =>
-                                  `<input type="radio" value=${op.option_property_id} class="option-property-name">${op.option_property_name}</input>`,
+                                  `<input type="radio" value=${op.option_property_id} class="option-property-name"> ${op.option_property_name}</input>`,
                                 getOptionProperty(o.option_id)
                               ),
-                            ].join("")}</div>
+                            ].join(" ")}</div>
                         `,
-                    getOption(p.product_id)
+                    getOptionId(p.product_id)
                   ),
                 ].join(" ")}
                 </div>
@@ -70,7 +85,15 @@ export class DetailComponent extends HTMLElement {
         </div>
         `;
     const detailStyle = document.createElement("style");
-    detailStyle.textContent = ``;
+    detailStyle.textContent = `
+    .product-tags {
+        display: flex;
+        flex-direction: row;
+    }
+    .tag-name {
+        color: blue;
+        margin-right: 1rem;
+    }`;
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.innerHTML = detailContent;
     shadowRoot.appendChild(detailStyle);
