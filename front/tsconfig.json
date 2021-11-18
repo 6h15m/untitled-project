@@ -1,12 +1,12 @@
 {
-    "compilerOptions": {
-        "module": "ES2020",
-        "target": "es2021",
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "isolatedModules": true,
-        "strict": true,
-        "checkJs": false,
-    }
+  "compilerOptions": {
+    "module": "ES2020",
+    "target": "es2021",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "strict": true,
+    "checkJs": false
+  }
 }
