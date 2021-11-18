@@ -51,7 +51,8 @@ export class DetailComponent extends HTMLElement {
     const p = PRODUCTS[product_id - 1];
     const detailContent = `
         <div class="wrap">
-            <div class="product">
+            <div class="product-image"></div>
+            <div class="product-info">
                 <div class="product-category">
                     ${getBigCategoryName(
                       p.small_category_id
@@ -86,6 +87,21 @@ export class DetailComponent extends HTMLElement {
         `;
     const detailStyle = document.createElement("style");
     detailStyle.textContent = `
+    .wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .product-image {
+        flex: 1;
+        border: 1px solid black;
+        margin-right: 2rem;
+    }
+    .product-info {
+        width: 20rem;
+        height: 30rem;
+        margin-right: 5rem;
+    }
     .product-tags {
         display: flex;
         flex-direction: row;

@@ -6,6 +6,9 @@ DROP TABLE users;
 DROP TABLE tags;
 DROP TABLE options;
 DROP TABLE option_properties;
+DROP TABLE detailed_products;
+DROP TABLE detailed_products_option_properties;
+DROP TABLE carts;
 
 CREATE TABLE big_categories (
     big_category_id INT PRIMARY KEY,
@@ -157,6 +160,7 @@ INSERT INTO products_tags VALUES
     (15, 5),
     (16, 3);
 
+-- TODO: 모든 상품에 기본 옵션이 있어야 함(상품 생성 구현 시 고려할 것)
 INSERT INTO products_options VALUES
     (1, 1),
     (1, 2),
@@ -165,3 +169,20 @@ INSERT INTO products_options VALUES
     (10, 1),
     (11, 1),
     (16, 1);
+
+INSERT INTO detailed_products VALUES
+    (1, 2),
+    (2, 2),
+    (3, 16);
+
+INSERT INTO detailed_products_option_properties VALUES
+    (1, 2),
+    (1, 5),
+    (2, 3),
+    (2, 6),
+    (3, 1);
+
+INSERT INTO carts VALUES
+    ('test_c', 1, 2),
+    ('test_c', 2, 1),
+    ('test_c', 3, 2);
