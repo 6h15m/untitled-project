@@ -107,6 +107,7 @@ INSERT INTO small_categories VALUES
     (9, 'Mouse Pads', 3),
     (10, 'Pens', 3);
 
+-- TODO: 상품 가격이 없다(...)
 INSERT INTO products VALUES
     (1, 'Overweight Hoodie', 1),
     (2, 'Crop Hoodie', 1),

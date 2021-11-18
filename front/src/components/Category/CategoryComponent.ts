@@ -1,6 +1,7 @@
 import { BIG_CATEGORIES } from "../../sample-data/big_categories.js";
 import { SMALL_CATEGORIES } from "../../sample-data/small_categories.js";
 import { pipe, map } from "fxts-test";
+import { join } from "../../common";
 
 export class CategoryComponent extends HTMLElement {
   static get componentName() {
@@ -12,20 +13,20 @@ export class CategoryComponent extends HTMLElement {
 
     const categoryContent = `<div class="wrap">
 <div class="big-category-container">
-${[
-  ...map(
+${join(
+  map(
     (b) => `<div class="big-category">${b.big_category_name}</div>`,
     BIG_CATEGORIES
-  ),
-].join(" ")}
+  )
+)}
 </div>
 <div class="small-category-container">
-${[
-  ...pipe(
+${join(
+  pipe(
     SMALL_CATEGORIES,
     map((s) => `<div class="small-category">${s.small_category_name}</div>`)
-  ),
-].join(" ")}
+  )
+)}
 </div>
                 
                 </div>
