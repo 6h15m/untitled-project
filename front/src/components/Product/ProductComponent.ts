@@ -10,18 +10,11 @@ export class ProductComponent extends HTMLElement {
     super();
     const productContent = `
         <div class="wrap">
-${[
-  ...map(
-    (p) => `<a href="./detail?product_id=${p.product_id}" class="product-container">
-<div class="product">${p.product_name}</div>
-</a>
-
-`,
-    PRODUCTS
-  ),
-].join(" ")}
-                
-                </div>`;
+        ${[...map(p => 
+        `<a href="./detail?product_id=${p.product_id}" class="product-container">
+            <div class="product">${p.product_name}</div>
+         </a>`, PRODUCTS),].join(" ")}
+        </div>`;
     const productStyle = document.createElement("style");
     productStyle.textContent = `
         .wrap {
