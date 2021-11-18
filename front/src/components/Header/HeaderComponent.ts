@@ -22,6 +22,7 @@ export class HeaderComponent extends HTMLElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 1.6rem;
     }
     h1 {
       margin: 0;

@@ -32,9 +32,6 @@ ${[
             `;
     const categoryStyle = document.createElement("style");
     categoryStyle.textContent = `
-    .wrap {
-        margin-top: 2rem;
-    }
     .big-category-container {
         display: flex;
         flex-flow: row wrap;
