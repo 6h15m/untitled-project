@@ -48,7 +48,7 @@ ${[
         margin-top: 0.8rem;
     }
     .small-category {
-        margin-right: 0.4rem;
+        margin-right: 0.8rem;
     }
     `;
     const shadowRoot = this.attachShadow({ mode: "open" });
