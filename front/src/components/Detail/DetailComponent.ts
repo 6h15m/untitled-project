@@ -1,4 +1,4 @@
-import { PRODUCTS } from "../../sample-data/products.js";
+import { PRODUCTS } from "../../sample-data";
 import { map } from "@fxts/core";
 import {
   getSmallCategoryNameById,

@@ -1,15 +1,17 @@
 import { filter, map, pipe } from "@fxts/core";
-import { CARTS } from "./sample-data/carts";
-import { DETAILED_PRODUCTS } from "./sample-data/detailed_products";
-import { PRODUCTS } from "./sample-data/products";
-import { DETAILED_PRODUCTS_OPTION_PROPERTIES } from "./sample-data/detailed_products_option_properties";
-import { OPTION_PROPERTIES } from "./sample-data/option_properties";
-import { SMALL_CATEGORIES } from "./sample-data/small_categories";
-import { BIG_CATEGORIES } from "./sample-data/big_categories";
-import { PRODUCTS_TAGS } from "./sample-data/products_tags";
-import { TAGS } from "./sample-data/tags";
-import { PRODUCTS_OPTIONS } from "./sample-data/products_options";
-import { OPTIONS } from "./sample-data/options";
+import {
+  SMALL_CATEGORIES,
+  BIG_CATEGORIES,
+  CARTS,
+  PRODUCTS,
+  TAGS,
+  PRODUCTS_TAGS,
+  PRODUCTS_OPTIONS,
+  OPTIONS,
+  OPTION_PROPERTIES,
+  DETAILED_PRODUCTS,
+  DETAILED_PRODUCTS_OPTION_PROPERTIES,
+} from "./sample-data";
 
 export const getCartByUserId = (user_id: string) => [
   ...pipe(
