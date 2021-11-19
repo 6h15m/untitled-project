@@ -1,4 +1,4 @@
-import { filter, map, pipe } from "fxts-test";
+import { filter, map, pipe } from "@fxts/core";
 import { CARTS } from "./sample-data/carts";
 import { DETAILED_PRODUCTS } from "./sample-data/detailed_products";
 import { PRODUCTS } from "./sample-data/products";

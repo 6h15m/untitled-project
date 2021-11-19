@@ -1,4 +1,4 @@
-import { pipe, reduce } from "fxts-test";
+import { pipe, reduce } from "@fxts/core";
 
 export const join = (iter: IterableIterator<string>) =>
   pipe(
