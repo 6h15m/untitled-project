@@ -1,12 +1,12 @@
-import { map } from "@fxts/core";
-import { BIG_CATEGORIES, SMALL_CATEGORIES } from "../../sample-data";
-import { getSmallCategoryByBigCategoryId } from "../../common-db";
-import { join } from "../../common";
-import styl from "./styl";
+import { map } from '@fxts/core';
+import { BIG_CATEGORIES, SMALL_CATEGORIES } from '../../sample-data';
+import { getSmallCategoryByBigCategoryId } from '../../common-db';
+import { join } from '../../common';
+import styl from './styl';
 
 export class CreateComponent extends HTMLElement {
   static get componentName() {
-    return "create-component";
+    return 'create-component';
   }
 
   constructor() {
@@ -19,20 +19,18 @@ export class CreateComponent extends HTMLElement {
                     <select id="big-category-selector">
                     ${join(
                       map(
-                        (b) =>
-                          `<option id=${b.big_category_id}>${b.big_category_name}</option>`,
-                        BIG_CATEGORIES
-                      )
+                        (b) => `<option id=${b.big_category_id}>${b.big_category_name}</option>`,
+                        BIG_CATEGORIES,
+                      ),
                     )}
                     </select>
                      > 
                     <select id="small-category-selector">
                     ${join(
                       map(
-                        (s) =>
-                          `<option id=${s.small_category_id}>${s.small_category_name}</option>`,
-                        SMALL_CATEGORIES
-                      )
+                        (s) => `<option id=${s.small_category_id}>${s.small_category_name}</option>`,
+                        SMALL_CATEGORIES,
+                      ),
                     )}
                     </select>
             </div>
@@ -52,9 +50,9 @@ export class CreateComponent extends HTMLElement {
             </div>
         </div>
     `;
-    const createStyle = document.createElement("style");
+    const createStyle = document.createElement('style');
     createStyle.textContent = styl;
-    const shadowRoot = this.attachShadow({ mode: "open" });
+    const shadowRoot = this.attachShadow({ mode: 'open' });
     shadowRoot.innerHTML = createContent;
 
     shadowRoot.appendChild(createStyle);

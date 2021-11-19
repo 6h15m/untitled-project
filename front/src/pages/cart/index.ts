@@ -1,6 +1,6 @@
-import { HeaderComponent } from "../../components/Header/HeaderComponent.js";
-import { FooterComponent } from "../../components/Footer/FooterComponent.js";
-import { CartComponent } from "../../components/Cart/CartComponent";
+import { HeaderComponent } from '../../components/Header/HeaderComponent.js';
+import { FooterComponent } from '../../components/Footer/FooterComponent.js';
+import { CartComponent } from '../../components/Cart/CartComponent';
 
 const user_id = 'test_c';
 
@@ -18,7 +18,7 @@ const user_id = 'test_c';
   body_el.appendChild(footer_component_el);
 })()
   .then(() => {
-    console.log("JS 스크립트 실행 완료");
+    console.log('JS 스크립트 실행 완료');
   })
   .catch((error) => {
     console.error(error);

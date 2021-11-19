@@ -1,18 +1,18 @@
-const path = require("path");
+const path = require('path');
 
 const config = {
-  mode: "development",
-  devtool: "inline-source-map",
+  mode: 'development',
+  devtool: 'inline-source-map',
 };
 
-const dir_list = ["home", "cart", "detail", "create"];
+const dir_list = ['home', 'cart', 'detail', 'create'];
 
 module.exports = dir_list.map((dir_name) => ({
   ...config,
   name: dir_name,
   entry: path.resolve(__dirname, `./dist/pages/${dir_name}/index.js`),
   output: {
-    filename: "index.bundle.js",
+    filename: 'index.bundle.js',
     path: path.resolve(__dirname, `./public/js/pages/${dir_name}`),
   },
   module: {

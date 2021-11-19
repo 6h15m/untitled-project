@@ -2,7 +2,7 @@ import styl from './styl';
 
 export class HeaderComponent extends HTMLElement {
   static get componentName() {
-    return "header-component"
+    return 'header-component';
   }
 
   constructor() {
@@ -14,13 +14,13 @@ export class HeaderComponent extends HTMLElement {
             <input class="search-container" type="text" placeholder="Search"/>
         </div>
         <div class="right-container">
-            <a href="${"/cart"}">Cart</a>
+            <a href="${'/cart'}">Cart</a>
         </div>
       </header>
-    `
-    const headerStyle = document.createElement("style");
+    `;
+    const headerStyle = document.createElement('style');
     headerStyle.textContent = styl;
-    const shadowRoot = this.attachShadow({mode: 'open'});
+    const shadowRoot = this.attachShadow({ mode: 'open' });
     shadowRoot.innerHTML = headerContent;
     shadowRoot.appendChild(headerStyle);
   }

@@ -1,11 +1,11 @@
-import { HeaderComponent } from "../../components/Header/HeaderComponent.js";
-import { FooterComponent } from "../../components/Footer/FooterComponent.js";
-import { DetailComponent } from "../../components/Detail/DetailComponent.js";
+import { HeaderComponent } from '../../components/Header/HeaderComponent.js';
+import { FooterComponent } from '../../components/Footer/FooterComponent.js';
+import { DetailComponent } from '../../components/Detail/DetailComponent.js';
 
 // TODO: 조금 더 함수형적으로 사고해보자
 const urlParams = new URLSearchParams(window.location.search);
 let product_id = 1;
-const ex_id = urlParams.get("product_id");
+const ex_id = urlParams.get('product_id');
 if (ex_id != null) {
   product_id = parseInt(ex_id);
 }
@@ -24,7 +24,7 @@ if (ex_id != null) {
   body_el.appendChild(footer_component_el);
 })()
   .then(() => {
-    console.log("JS 스크립트 실행 완료");
+    console.log('JS 스크립트 실행 완료');
   })
   .catch((error) => {
     console.error(error);
