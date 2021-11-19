@@ -47,6 +47,19 @@ app.get("/detail", (req, res) => {
   `);
 });
 
+app.get("/create", (req, res) => {
+  res.type("html").send(`
+    <html lang="ko">
+      <head>
+        <title>Untitled. | Create</title>
+        <link rel="stylesheet" type="text/css" href="${"/public/css/tmpl.css"}"/>
+      </head>
+      <body></body>
+      <script src="${"/public/js/pages/create/index.bundle.js"}"></script>
+    </html>
+  `);
+});
+
 app.listen(8081, () => {
   console.log("서버 실행");
 });
