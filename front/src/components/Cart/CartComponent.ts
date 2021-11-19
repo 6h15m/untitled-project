@@ -1,4 +1,4 @@
-import { map } from "fxts-test";
+import { map } from "@fxts/core";
 import { join } from "../../common";
 import {
   getCartByUserId,

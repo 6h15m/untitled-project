@@ -1,5 +1,5 @@
 import { PRODUCTS } from "../../sample-data/products.js";
-import { map } from "fxts-test";
+import { map } from "@fxts/core";
 import {
   getSmallCategoryNameById,
   getBigCategoryNameBySmallId,
