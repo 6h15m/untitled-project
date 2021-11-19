@@ -56,6 +56,9 @@ export class DetailComponent extends HTMLElement {
                   ),
                 )}
                 </div>
+                <div class="product-price">
+                  ${p.product_price}
+                </div>
             </div>
         </div>
         `;

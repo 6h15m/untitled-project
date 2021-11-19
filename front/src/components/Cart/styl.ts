@@ -14,15 +14,21 @@ export default `.wrap {
 .product-check {
   margin-right: 1rem;
 }
-.product {
+.product-container {
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
   flex: 1;
   height: 6rem;
   border: 1px solid black;
   margin-bottom: 1rem;
   justify-content: space-between;
   padding: 1.4rem;
+}
+.product {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
 }
 .product-name {
   font-size: 1.4em;
@@ -57,4 +63,7 @@ export default `.wrap {
   margin-left: 0.6rem;
   font-weight: 600;
   font-size: 1.8em;
+}
+.none {
+  display: none;
 }`;

@@ -25,6 +25,8 @@ export const getDetailedProductById = (detailed_product_id: number) =>
 
 export const getProductNameById = (product_id: number) => PRODUCTS[product_id - 1].product_name;
 
+export const getProductPriceById = (product_id: number) => PRODUCTS[product_id - 1].product_price;
+
 export const getDetailedProductOptionPropertyId = (detailed_product_id: number) => [
   ...pipe(
     DETAILED_PRODUCTS_OPTION_PROPERTIES,
@@ -74,3 +76,12 @@ export const getOptionPropertyByOptionId = (option_id: number) => [
     filter((o) => (o.option_id == option_id ? o : null)),
   ),
 ];
+
+export const getProductNameByDetailedProductId = (detailed_product_id: number) =>
+  getProductNameById(getDetailedProductById(detailed_product_id).product_id);
+
+export const getProductIDByDetailedProductId = (detailed_product_id: number) =>
+  getDetailedProductById(detailed_product_id).product_id;
+
+export const getProductPriceByDetailedProductId = (detailed_product_id: number) =>
+  getProductPriceById(getDetailedProductById(detailed_product_id).product_id);
