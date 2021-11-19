@@ -1,14 +1,16 @@
 -- 초기화
-DROP TABLE big_categories;
-DROP TABLE small_categories;
-DROP TABLE products;
-DROP TABLE users;
-DROP TABLE tags;
-DROP TABLE options;
-DROP TABLE option_properties;
-DROP TABLE detailed_products;
+DROP TABLE big_categories CASCADE;
+DROP TABLE small_categories CASCADE;
+DROP TABLE products CASCADE;
+DROP TABLE users CASCADE;
+DROP TABLE tags CASCADE;
+DROP TABLE options CASCADE;
+DROP TABLE option_properties CASCADE;
+DROP TABLE detailed_products CASCADE;
 DROP TABLE detailed_products_option_properties;
 DROP TABLE carts;
+DROP TABLE products_tags CASCADE;
+DROP TABLE products_options CASCADE;
 
 CREATE TABLE big_categories (
     big_category_id INT PRIMARY KEY,
@@ -25,6 +27,7 @@ CREATE TABLE small_categories (
 CREATE TABLE products (
     product_id INT PRIMARY KEY,
     product_name VARCHAR,
+    product_price INT,
     small_category_id INT,
     FOREIGN KEY (small_category_id) REFERENCES small_categories (small_category_id)
 );
@@ -90,6 +93,7 @@ CREATE TABLE carts (
     FOREIGN KEY (detailed_product_id) REFERENCES detailed_products (detailed_product_id)
 );
 
+-- 샘플 데이터
 INSERT INTO big_categories VALUES
     (1, 'Apparel'),
     (2, 'Accessories'),
@@ -107,24 +111,23 @@ INSERT INTO small_categories VALUES
     (9, 'Mouse Pads', 3),
     (10, 'Pens', 3);
 
--- TODO: 상품 가격이 없다(...)
 INSERT INTO products VALUES
-    (1, 'Overweight Hoodie', 1),
-    (2, 'Crop Hoodie', 1),
-    (3, 'Crop T-shirt', 2),
-    (4, 'Character T-shirt', 2),
-    (5, 'Half Pants', 3),
-    (6, 'Wide-fit Pants', 3),
-    (7, 'Cross Bag', 5),
-    (8, 'Tote Bag', 5),
-    (9, 'Eco Bag', 5),
-    (10, 'Necklace', 7),
-    (11, 'Steel Ring', 7),
-    (12, 'Square Tin Case', 8),
-    (13, 'Circle Tin Case', 8),
-    (14, 'Long Mouse Pad', 9),
-    (15, 'Short Mouse Pad', 9),
-    (16, 'Clip Pen', 10);
+    (1, 'Overweight Hoodie', 25000, 1),
+    (2, 'Crop Hoodie', 20000, 1),
+    (3, 'Crop T-shirt', 12000, 2),
+    (4, 'Character T-shirt', 13000, 2),
+    (5, 'Half Pants', 17000, 3),
+    (6, 'Wide-fit Pants', 18000, 3),
+    (7, 'Cross Bag', 30000, 5),
+    (8, 'Tote Bag', 32000, 5),
+    (9, 'Eco Bag', 15000, 5),
+    (10, 'Necklace', 18500, 7),
+    (11, 'Steel Ring', 16000, 7),
+    (12, 'Square Tin Case', 10000, 8),
+    (13, 'Circle Tin Case', 11000, 8),
+    (14, 'Long Mouse Pad', 16000, 9),
+    (15, 'Short Mouse Pad', 14000, 9),
+    (16, 'Clip Pen', 8000, 10);
 
 INSERT INTO users VALUES
     ('test_a', 'test_a', 'admin'),
@@ -161,14 +164,24 @@ INSERT INTO products_tags VALUES
     (15, 5),
     (16, 3);
 
--- TODO: 모든 상품에 기본 옵션이 있어야 함(상품 생성 구현 시 고려할 것)
 INSERT INTO products_options VALUES
     (1, 1),
     (1, 2),
     (2, 1),
     (2, 2),
+    (3, 1),
+    (4, 1),
+    (5, 1),
+    (6, 1),
+    (7, 1),
+    (8, 1),
+    (9, 1),
     (10, 1),
     (11, 1),
+    (12, 1),
+    (13, 1),
+    (14, 1),
+    (15, 1),
     (16, 1);
 
 INSERT INTO detailed_products VALUES
