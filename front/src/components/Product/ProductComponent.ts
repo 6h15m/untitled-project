@@ -1,5 +1,5 @@
-import { PRODUCTS } from "../../sample-data/products.js";
-import { map } from "fxts-test";
+import { PRODUCTS } from "../../sample-data";
+import { map } from "@fxts/core";
 
 export class ProductComponent extends HTMLElement {
   static get componentName() {

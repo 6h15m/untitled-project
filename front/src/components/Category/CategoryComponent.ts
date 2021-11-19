@@ -1,5 +1,4 @@
-import { BIG_CATEGORIES } from "../../sample-data/big_categories.js";
-import { SMALL_CATEGORIES } from "../../sample-data/small_categories.js";
+import { BIG_CATEGORIES, SMALL_CATEGORIES } from "../../sample-data";
 import { pipe, map } from "@fxts/core";
 import { join } from "../../common";
 
