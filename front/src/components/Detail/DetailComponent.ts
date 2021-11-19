@@ -10,6 +10,7 @@ import {
   getOptionIdByProductId,
 } from "../../common-db";
 import { join } from "../../common";
+import styl from './styl';
 
 export class DetailComponent extends HTMLElement {
   static get componentName() {
@@ -64,30 +65,7 @@ export class DetailComponent extends HTMLElement {
         </div>
         `;
     const detailStyle = document.createElement("style");
-    detailStyle.textContent = `
-    .wrap {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    .product-image {
-        flex: 1;
-        border: 1px solid black;
-        margin-right: 2rem;
-    }
-    .product-info {
-        width: 20rem;
-        height: 30rem;
-        margin-right: 5rem;
-    }
-    .product-tags {
-        display: flex;
-        flex-direction: row;
-    }
-    .tag-name {
-        color: blue;
-        margin-right: 1rem;
-    }`;
+    detailStyle.textContent = styl;
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.innerHTML = detailContent;
     shadowRoot.appendChild(detailStyle);

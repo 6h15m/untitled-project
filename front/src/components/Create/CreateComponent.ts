@@ -2,6 +2,7 @@ import { map } from "@fxts/core";
 import { BIG_CATEGORIES, SMALL_CATEGORIES } from "../../sample-data";
 import { getSmallCategoryByBigCategoryId } from "../../common-db";
 import { join } from "../../common";
+import styl from "./styl";
 
 export class CreateComponent extends HTMLElement {
   static get componentName() {
@@ -43,13 +44,19 @@ export class CreateComponent extends HTMLElement {
                 <h3>Base Price</h3>
                 <input type="text"/>
             </div>
-            <div class="tag-container"></div>
+            <div class="tag-container">
+            
+            </div>
             <div class="option-container">
             
             </div>
         </div>
     `;
+    const createStyle = document.createElement("style");
+    createStyle.textContent = styl;
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.innerHTML = createContent;
+
+    shadowRoot.appendChild(createStyle);
   }
 }
