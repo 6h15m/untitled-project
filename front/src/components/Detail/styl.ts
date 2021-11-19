@@ -20,4 +20,17 @@ export default `.wrap {
 .tag-name {
   color: blue;
   margin-right: 1rem;
-}`;
+}
+.option-property-container {
+  display: flex;
+  flex-direction: row;
+}
+.option-property {
+  margin-right: 0.6rem;
+}
+.product-price {
+  font-weight: 600;
+  font-size: 1.4em;
+  margin-top: 4rem;
+}
+`;
