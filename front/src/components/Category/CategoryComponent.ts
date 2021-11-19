@@ -1,6 +1,7 @@
 import { BIG_CATEGORIES, SMALL_CATEGORIES } from "../../sample-data";
 import { pipe, map } from "@fxts/core";
 import { join } from "../../common";
+import styl from "./styl";
 
 export class CategoryComponent extends HTMLElement {
   static get componentName() {
@@ -31,26 +32,7 @@ ${join(
                 </div>
             `;
     const categoryStyle = document.createElement("style");
-    categoryStyle.textContent = `
-    .big-category-container {
-        display: flex;
-        flex-flow: row wrap;
-        flex-direction: row;
-    }
-    .big-category {
-        margin-right: 0.8rem;
-        font-size: 1.4em;
-    }
-    .small-category-container {
-        display: flex;
-        flex-flow: row wrap;
-        flex-direction: row;
-        margin-top: 0.8rem;
-    }
-    .small-category {
-        margin-right: 0.8rem;
-    }
-    `;
+    categoryStyle.textContent = styl;
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.innerHTML = categoryContent;
     shadowRoot.appendChild(categoryStyle);
