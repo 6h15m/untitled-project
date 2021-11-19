@@ -46,6 +46,13 @@ export const getBigCategoryNameBySmallId = (small_category_id: number) =>
   BIG_CATEGORIES[SMALL_CATEGORIES[small_category_id - 1].big_category_id - 1]
     .big_category_name;
 
+export const getSmallCategoryByBigCategoryId = (big_category_id: number) => [
+  ...pipe(
+    SMALL_CATEGORIES,
+    filter((s) => (s.big_category_id == big_category_id ? s : null))
+  ),
+];
+
 export const getTagIdByProductId = (product_id: number) => [
   ...pipe(
     PRODUCTS_TAGS,
