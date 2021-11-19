@@ -10,6 +10,7 @@ export class FooterComponent extends HTMLElement {
     const footerContent = `
       <footer></footer>
     `;
+
     const footerStyle = document.createElement('style');
     footerStyle.textContent = styl;
     const shadowRoot = this.attachShadow({ mode: 'open' });

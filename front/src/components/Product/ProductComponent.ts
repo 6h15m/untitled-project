@@ -11,17 +11,20 @@ export class ProductComponent extends HTMLElement {
   constructor() {
     super();
     const productContent = `
-        <div class="wrap">
+      <div class="wrap">
         ${join(
           map(
-            (p) =>
-              `<a href="./detail?product_id=${p.product_id}" class="product-container">
-            <div class="product">${p.product_name}</div>
-         </a>`,
+            (p) => `
+            <a href="./detail?product_id=${p.product_id}" class="product-container">
+              <div class="product">${p.product_name}</div>
+            </a>
+            `,
             PRODUCTS,
           ),
         )}
-        </div>`;
+      </div>
+    `;
+
     const productStyle = document.createElement('style');
     productStyle.textContent = styl;
     const shadowRoot = this.attachShadow({ mode: 'open' });
