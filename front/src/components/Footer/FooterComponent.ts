@@ -2,7 +2,7 @@ import styl from './styl';
 
 export class FooterComponent extends HTMLElement {
   static get componentName() {
-    return "footer-component";
+    return 'footer-component';
   }
 
   constructor() {
@@ -10,9 +10,9 @@ export class FooterComponent extends HTMLElement {
     const footerContent = `
       <footer></footer>
     `;
-    const footerStyle = document.createElement("style");
+    const footerStyle = document.createElement('style');
     footerStyle.textContent = styl;
-    const shadowRoot = this.attachShadow({ mode: "open" });
+    const shadowRoot = this.attachShadow({ mode: 'open' });
     shadowRoot.innerHTML = footerContent;
     shadowRoot.appendChild(footerStyle);
   }

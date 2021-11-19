@@ -3,6 +3,7 @@ export default `
             display: flex;
             flex-flow: row wrap;
             margin-top: 1rem;
+            margin-right: -2rem;
         }
         .product-container {
             margin-right: 2rem;
