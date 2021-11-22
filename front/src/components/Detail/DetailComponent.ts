@@ -24,17 +24,20 @@ export class DetailComponent extends HTMLElement {
       <div class="wrap">
         <div class="product-image"></div>
         <div class="product-info">
-          <div class="product-category">
-            ${getBigCategoryNameBySmallId(p.small_category_id)} > ${getSmallCategoryNameById(
-      p.small_category_id,
-    )}
+          <div class="product-category">${getBigCategoryNameBySmallId(
+            p.small_category_id,
+          )} > ${getSmallCategoryNameById(p.small_category_id)}
           </div>
           <h2 class="product-name">${p.product_name}</h2>
           <div class="product-tags">
             ${
               join(
                 map(
-                  (t_id) => `<div class="tag-name"># ${getTagNameById(t_id)}</div>`,
+                  (t_id) => `
+                  <div class="tag-name">
+                    # ${getTagNameById(t_id)}
+                  </div>
+                  `,
                   getTagIdByProductId(p.product_id),
                 ),
               ) ?? ''
