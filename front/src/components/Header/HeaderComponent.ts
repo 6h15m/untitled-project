@@ -16,7 +16,7 @@ export class HeaderComponent extends HTMLElement {
           <input class="search-container" type="text" placeholder="Search"/>
         </div>
         <div class="right-container">
-            <a href="${'/cart'}">Cart</a>
+          <a href="${'/cart'}">Cart</a>
         </div>
       </header>
     `;

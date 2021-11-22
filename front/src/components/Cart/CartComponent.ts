@@ -58,11 +58,11 @@ export class CartComponent extends HTMLElement {
                       <div class="product-amount-container">
                         <input type="button" value="-" class="amount-control"/>
                         <div class="product-amount">${c.cart_product_amount}</div>
-                        <input type="button" value="+" class="amount-control"/>
+                        <input type="button" value="+" class="amount-control" />
                       </div>
                       <div class="product-total-price">
                         <!--TODO: 조금 더 아름다운 방법을 고민해보자-->
-                        <div class="none">${product_total_price.push(price * c.cart_product_amount)}</div> 
+                        <div class="none">${product_total_price.push(price * (c.cart_product_amount))}</div> 
                         ${price * c.cart_product_amount}
                       </div>
                     </div>
