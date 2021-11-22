@@ -53,7 +53,8 @@ export class DetailComponent extends HTMLElement {
                     map(
                       (op) => `
                       <div class="option-property">
-                        <input type="radio" value=${op.option_property_id} class="option-property-name"> ${op.option_property_name}</input>
+                        <input type="radio" value=${op.option_property_id} name=${o.option_id} id=${op.option_property_id}>
+                        <label for=${op.option_property_id}>${op.option_property_name}</label>
                       </div>
                       `,
                       getOptionPropertyByOptionId(o.option_id),
