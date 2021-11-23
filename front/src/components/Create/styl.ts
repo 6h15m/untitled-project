@@ -34,6 +34,7 @@ input[type="text"], input[type="password"] {
 .tags-container {
   display: flex;
   height: fit-content;
+  width: fit-content;
   padding: .6rem 0rem;
   align-items: center;
 }
@@ -50,18 +51,26 @@ input[type="text"], input[type="password"] {
   color: white;
 }
 .add-tag-btn {
+  width: 1.6rem;
   height: 1.6rem;
   border-radius: 1rem;
   border: none;
   background-color: black;
   color: white;
-  width: 1.6rem;
+  display: flex;
+  justify-content: center;
+}
+.options-container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
 }
 .option {
   display: flex;
   flex-direction: column;
   padding: 1rem;
   background-color: #F4F5F8;
+  width: fit-content;
 }
 .option-name-container {
   display: flex;
@@ -71,12 +80,12 @@ input[type="text"], input[type="password"] {
   display: flex;
   margin: 1rem auto 0.6rem auto;
   justify-content: center;
+  width: 1.6rem;
   height: 1.6rem;
   border-radius: 1rem;
   border: none;
   background-color: black;
   color: white;
-  width: 1.6rem;
 }
 .option-properties-container {
   margin-top: 1rem;
