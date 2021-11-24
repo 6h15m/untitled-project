@@ -28,7 +28,6 @@ export class CartComponent extends HTMLElement {
               let price = getProductPriceByDetailedProductId(c.detailed_product_id); // TODO: 변수를 없애고 싶다
               return `
                 <div class="cart-product">
-                  <input type="checkbox" class="product-check" value=${c.detailed_product_id}/>
                   <div class="product-container">
                     <div class="product">
                       <div class="product-left">
@@ -50,8 +49,8 @@ export class CartComponent extends HTMLElement {
                         </div>
                       </div>
                       <div class="product-right">
-                        <button value="delete">Delete</button>
-                        <div class="price">${price}</div>
+                        <button value="delete" class='delete'>X</button>
+                        <div class="price">${price.toLocaleString('ko-KR')}</div>
                       </div>
                     </div>
                     <div class="cart-product">
@@ -63,7 +62,7 @@ export class CartComponent extends HTMLElement {
                       <div class="product-total-price">
                         <!--TODO: 조금 더 아름다운 방법을 고민해보자-->
                         <div class="none">${product_total_price.push(price * (c.cart_product_amount))}</div> 
-                        ${price * c.cart_product_amount}
+                        ${(price * c.cart_product_amount).toLocaleString('ko-KR')}
                       </div>
                     </div>
                   </div>

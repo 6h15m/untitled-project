@@ -1,14 +1,21 @@
-export default `.wrap {
+export default `
+a {
+  text-decoration: none;
+  color: black;
+}
+.wrap {
   display: flex;
   flex-direction: column;
 }
-.cart-start {
-  border: 1.4px solid black;
+.product-right {
+  display: flex;
+  flex-flow: column;
+  align-items: end;
 }
 .cart-product {
   display: flex;
   flex-flow: row;
-  align-items: center;
+  align-items: end;
   justify-content: space-between;
 }
 .product-check {
@@ -18,17 +25,18 @@ export default `.wrap {
   display: flex;
   flex-flow: column;
   flex: 1;
-  height: 6rem;
-  border: 1px solid black;
+  height: 7rem;
   margin-bottom: 1rem;
   justify-content: space-between;
   padding: 1.4rem;
+  background-color: #f1f3f5;
 }
 .product {
   display: flex;
   flex-flow: row;
   justify-content: space-between;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #ced4da;
+  height: 4rem;
 }
 .product-name {
   font-size: 1.4em;
@@ -37,7 +45,8 @@ export default `.wrap {
   margin-bottom: 0.6rem;
 }
 .product-option-property {
-  opacity: 60%;
+  color: #868e96;
+  margin-top: .2rem;
 }
 .product-amount-container {
   display: flex;
@@ -50,7 +59,19 @@ export default `.wrap {
 .product-amount {
 }
 .amount-control {
+  height: 1.4rem;
   width: 1.4rem;
+  background-color: #868e96;
+  border: none;
+  border-radius: .2rem;
+  color: white;
+}
+.price {
+  margin-top: .6rem
+}
+.product-total-price {
+  font-size: 1.4em;
+  font-weight: 600;
 }
 .total-price-container {
   display: flex;
@@ -63,6 +84,12 @@ export default `.wrap {
   margin-left: 0.6rem;
   font-weight: 600;
   font-size: 1.8em;
+}
+.delete {
+  background: none;
+  border: none;
+  font-size: 1em;
+  color: #485056;
 }
 .none {
   display: none;

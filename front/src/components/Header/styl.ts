@@ -1,4 +1,9 @@
-export default `header {
+export default `
+a {
+  text-decoration: none;
+  color: black;
+}
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,8 +19,9 @@ h1 {
 .search-container {
   width: 14rem;
   height: 2rem;
-  border: 1px solid black;
+  border: none;
   border-radius: 20px;
-  margin-left: 1rem;
-  padding: 0.8rem;
+  margin-left: 1.2rem;
+  padding: 1.2rem;
+  background-color: #f8f9fa;
 }`;

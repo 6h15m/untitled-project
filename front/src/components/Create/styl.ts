@@ -1,4 +1,8 @@
 export default `
+a {
+  text-decoration: none;
+  color: black;
+}
 h3 {
   margin-bottom: .4rem;
 }
@@ -41,13 +45,13 @@ input[type="text"], input[type="password"] {
 .tag {
   margin-right: .6rem;
   padding: .4rem 1rem;
-  border: 1px solid black; 
+  background-color: #f4f5f8;
   border-radius: 1rem;
   font-size: .8rem;
   cursor: pointer;
 }
 .tag:hover {
-  background-color: black;
+  background-color: #212529;
   color: white;
 }
 .add-tag-btn {
@@ -55,7 +59,7 @@ input[type="text"], input[type="password"] {
   height: 1.6rem;
   border-radius: 1rem;
   border: none;
-  background-color: black;
+  background-color: #495057;
   color: white;
   display: flex;
   justify-content: center;
@@ -84,7 +88,7 @@ input[type="text"], input[type="password"] {
   height: 1.6rem;
   border-radius: 1rem;
   border: none;
-  background-color: black;
+  background-color: #495057;
   color: white;
 }
 .option-properties-container {

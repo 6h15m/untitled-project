@@ -1,4 +1,9 @@
-export default `.big-category-container {
+export default `
+a {
+  text-decoration: none;
+  color: black;
+}
+.big-category-container {
   display: flex;
   flex-flow: row wrap;
   flex-direction: row;

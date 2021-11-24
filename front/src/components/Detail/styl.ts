@@ -10,8 +10,8 @@ h2 {
 }
 .product-image {
   flex: 1;
-  border: 1px solid black;
   margin-right: 2rem;
+  background-color: #e9ecef;
 }
 .product-info {
   width: 25rem;
@@ -25,7 +25,7 @@ h2 {
   margin-bottom: 1.6rem;
 }
 .tag-name {
-  color: blue;
+  color: #4c6ef5;
   margin-right: 1rem;
 }
 .product-options {
@@ -61,18 +61,19 @@ h2 {
 }
 .product-price {
   font-weight: 600;
-  font-size: 1.4em;
+  font-size: 1.6em;
   margin-bottom: 1.2rem;
   float: right;
 }
 .cart-btn {
   width: inherit;
-  height: 3rem;
+  height: 3.6rem;
   margin-top: auto;
-  background-color: black;
-  border: none;
+  background-color: #364fc7;
+  border-radius: 0.2em;
   color: white;
-  font-size: 1em;
+  font-size: 1.2em;
   font-weight: 600;
+  cursor: pointer;
 }
 `;
