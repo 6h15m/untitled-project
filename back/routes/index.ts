@@ -3,9 +3,9 @@ const router = express.Router();
 import POOL from '../database/connect.js';
 
 router.get('/productSelectAll', function (req, res) {
-  (async function productSelectAll () {
+  (async function productSelectAll() {
     const product = await POOL.QUERY`SELECT * FROM products`;
-    res.send({rows: product});
+    res.send({ rows: product });
   })()
     .then(() => {
       process.release;
@@ -16,14 +16,11 @@ router.get('/productSelectAll', function (req, res) {
     });
 });
 
-router.get('/:small_category_id', function (req, res) {
-  const small_category_id = req.params.small_category_id;
-  (async function getProductBySmallCategoryId () {
-    const product = await POOL.QUERY`SELECT * FROM products WHERE small_category_id = ${small_category_id}`;
-    const small_category = await POOL.QUERY`SELECT small_category_name FROM small_categories WHERE small_category_id = ${small_category_id}`;
-    const big_category = await POOL.QUERY`SELECT b.big_category_name FROM small_categories AS s, big_categories AS b
-        WHERE s.big_category_id = b.big_category_id AND small_category_id = ${small_category_id}`;
-    res.send({rows: product, small_category: small_category[0], big_category: big_category[0]});
+router.get('/categorySelectAll', function (req, res) {
+  (async function categorySelectAll() {
+    const big_categories = await POOL.QUERY`SELECT * FROM big_categories`;
+    const small_categories = await POOL.QUERY`SELECT * FROM small_categories`;
+    res.send({ big_categories: big_categories, small_categories: small_categories });
   })()
     .then(() => {
       process.release;
