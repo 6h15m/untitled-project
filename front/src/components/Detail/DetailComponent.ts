@@ -57,7 +57,7 @@ export class DetailComponent extends HTMLElement {
                       <div class="option-property">
                         <input type="radio" value=${op.option_property_id} name=${o.option_id} id=${
                         op.option_property_id
-                      }>
+                      } ${op.option_property_base ? `checked` : ``}>
                         <label for=${op.option_property_id}>${op.option_property_name}${getAdditionalPrice(
                         op.option_property_additional_price,
                       )}</label>
@@ -85,7 +85,7 @@ export class DetailComponent extends HTMLElement {
               ${p.product_price.toLocaleString('ko-KR')}
             </div>
             <button class="cart-btn">
-              Shopping Cart
+              Add to Cart
             </button>
           </div>
         </div>
