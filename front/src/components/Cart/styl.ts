@@ -29,7 +29,7 @@ a {
   margin-bottom: 1rem;
   justify-content: space-between;
   padding: 1.4rem;
-  background-color: #f1f3f5;
+  background-color: #f8f9fa;
 }
 .product {
   display: flex;

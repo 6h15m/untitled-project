@@ -53,7 +53,12 @@ h2 {
   margin-top: 0.5rem;
 }
 .amount-control {
+  height: 1.4rem;
   width: 1.4rem;
+  background-color: #868e96;
+  border: none;
+  border-radius: .2rem;
+  color: white;
 }
 .product-bottom {
   width: inherit;
@@ -75,5 +80,6 @@ h2 {
   font-size: 1.2em;
   font-weight: 600;
   cursor: pointer;
+  border: none;
 }
 `;
