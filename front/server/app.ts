@@ -1,4 +1,5 @@
 import express from 'express';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -7,6 +8,8 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const app = express();
 
 app.use('/public', express.static(path.join(__dirname, '../public')));
+
+app.use('/@api', createProxyMiddleware({ target: 'http://localhost:8082', pathRewrite: { '^/@api': '' } }));
 
 app.get('/', (req, res) => {
   res.type('html').send(`
