@@ -52,6 +52,7 @@ CREATE TABLE option_properties (
     option_property_id INT PRIMARY KEY,
     option_property_name VARCHAR,
     option_property_additional_price INT,
+    option_property_base BOOLEAN,
     option_id INT,
     FOREIGN KEY (option_id) REFERENCES options (option_id)
 );
@@ -145,14 +146,14 @@ INSERT INTO options VALUES
     (2, 'Size');
 
 INSERT INTO option_properties VALUES
-    (1, 'Red', 0, 1),
-    (2, 'Black', 0, 1),
-    (3, 'Blue', 0, 1),
-    (4, 'White', 0, 1),
-    (5, 'S', 0, 2),
-    (6, 'M', 2000, 2),
-    (7, 'L', 5000, 2),
-    (8, 'XL', 7000, 2);
+    (1, 'Red', 0, true, 1),
+    (2, 'Black', 0, false, 1),
+    (3, 'Blue', 0, false, 1),
+    (4, 'White', 0, false, 1),
+    (5, 'S', 0, true, 2),
+    (6, 'M', 2000, false, 2),
+    (7, 'L', 5000, false, 2),
+    (8, 'XL', 7000, false, 2);
 
 INSERT INTO products_tags VALUES
     (1, 1),
