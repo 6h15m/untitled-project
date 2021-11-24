@@ -1,5 +1,6 @@
-import { map } from '@fxts/core';
-import { join, sumAll } from '../../common';
+import { map, pipe } from '@fxts/core';
+import join from '../../join';
+import { sumAll } from '../../common';
 import {
   getCartByUserId,
   getDetailedProductOptionPropertyId,
@@ -23,7 +24,8 @@ export class CartComponent extends HTMLElement {
       <div class="wrap">
         <h2>${user_id}'s Cart</h2>
         <div class="cart-product-container">
-          ${join(
+          ${pipe(
+            getCartByUserId(user_id),
             map((c) => {
               let price = getProductPriceByDetailedProductId(c.detailed_product_id); // TODO: 변수를 없애고 싶다
               return `
@@ -37,14 +39,15 @@ export class CartComponent extends HTMLElement {
                           ${getProductNameByDetailedProductId(c.detailed_product_id)}
                         </a>
                         <div class="product-option-property">
-                          ${join(
+                          ${pipe(
+                            getDetailedProductOptionPropertyId(c.detailed_product_id),
                             map((pp_id) => {
                               price += getOptionPropertyById(pp_id).option_property_additional_price;
                               return `${getOptionPropertyById(pp_id).option_property_name}(+${
                                 getOptionPropertyById(pp_id).option_property_additional_price
                               })`;
-                            }, getDetailedProductOptionPropertyId(c.detailed_product_id)),
-                            ', ',
+                            }),
+                            join(', '),
                           )}
                         </div>
                       </div>
@@ -61,18 +64,19 @@ export class CartComponent extends HTMLElement {
                       </div>
                       <div class="product-total-price">
                         <!--TODO: 조금 더 아름다운 방법을 고민해보자-->
-                        <div class="none">${product_total_price.push(price * (c.cart_product_amount))}</div> 
+                        <div class="none">${product_total_price.push(price * c.cart_product_amount)}</div> 
                         ${(price * c.cart_product_amount).toLocaleString('ko-KR')}
                       </div>
                     </div>
                   </div>
                 </div>`;
-            }, getCartByUserId(user_id)),
+            }),
+            join(''),
           )}
             </div>
             <div class="total-price-container">
               <!--TODO: 조금 더 아름다운 방법을 고민해보자-->
-              <div class="none">${total_price = sumAll(product_total_price)}</div>
+              <div class="none">${(total_price = sumAll(product_total_price))}</div>
                 Total Price <div class="total-price">${total_price.toLocaleString('ko-KR')}</div>
             </div>
         </div>`;
