@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { map } from '@fxts/core';
+import { map, pipe } from '@fxts/core';
 import styl from './styl';
-import { join } from '../../common';
+import join from '../../join';
 import { ProductsType } from '../../models/product.interface';
 
 export class ProductComponent extends HTMLElement {
@@ -16,15 +16,16 @@ export class ProductComponent extends HTMLElement {
       .then((res) => {
         const productContent = `
           <div class="wrap">
-            ${join(
+            ${pipe(
+              res.data.rows,
               map(
                 (p) => `
-            <a href='./detail?product_id=${p.product_id}' class='product-container'>
-              <div class='product'>${p.product_name}</div>
-            </a>
-            `,
-                res.data.rows,
+                <a href='./detail?product_id=${p.product_id}' class='product-container'>
+                  <div class='product'>${p.product_name}</div>
+                </a>
+                `,
               ),
+              join(''),
             )}
           </div>
         `;

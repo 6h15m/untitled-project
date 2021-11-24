@@ -1,5 +1,5 @@
 import { PRODUCTS } from '../../sample-data';
-import { map } from '@fxts/core';
+import { map, pipe } from '@fxts/core';
 import {
   getSmallCategoryNameById,
   getBigCategoryNameBySmallId,
@@ -9,7 +9,7 @@ import {
   getOptionPropertyByOptionId,
   getOptionIdByProductId,
 } from '../../common-db';
-import { join } from '../../common';
+import join from '../../join';
 import styl from './styl';
 
 export class DetailComponent extends HTMLElement {
@@ -33,25 +33,28 @@ export class DetailComponent extends HTMLElement {
           <h2 class="product-name">${p.product_name}</h2>
           <div class="product-tags">
             ${
-              join(
+              pipe(
+                getTagIdByProductId(p.product_id),
                 map(
                   (t_id) => `
                   <div class="tag-name">
                     # ${getTagNameById(t_id)}
                   </div>
                   `,
-                  getTagIdByProductId(p.product_id),
                 ),
+                join(''),
               ) ?? ''
             }
           </div>
           <div class="product-options">
-            ${join(
+            ${pipe(
+              getOptionIdByProductId(p.product_id),
               map(
                 (o) => `
                 <div class="option-name">${getOptionNameByOptionId(o.option_id)}</div>
                 <div class="option-property-container">
-                  ${join(
+                  ${pipe(
+                    getOptionPropertyByOptionId(o.option_id),
                     map(
                       (op) => `
                       <div class="option-property">
@@ -63,13 +66,13 @@ export class DetailComponent extends HTMLElement {
                       )}</label>
                       </div>
                       `,
-                      getOptionPropertyByOptionId(o.option_id),
                     ),
+                    join(''),
                   )}
                 </div>
               `,
-                getOptionIdByProductId(p.product_id),
               ),
+              join(''),
             )}
             <div class="option-name">EA</div>
             <div class="option-property-container">

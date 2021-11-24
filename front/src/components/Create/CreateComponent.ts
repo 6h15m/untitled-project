@@ -1,6 +1,6 @@
-import { map } from '@fxts/core';
+import { map, pipe } from '@fxts/core';
 import { BIG_CATEGORIES, SMALL_CATEGORIES, TAGS } from '../../sample-data';
-import { join } from '../../common';
+import join from '../../join';
 import styl from './styl';
 
 export class CreateComponent extends HTMLElement {
@@ -17,17 +17,18 @@ export class CreateComponent extends HTMLElement {
           <h3>Categories</h3>
           <div class="category-selector-container">
             <select id="big-category-selector">
-              ${join(
-                map((b) => `<option id=${b.big_category_id}>${b.big_category_name}</option>`, BIG_CATEGORIES),
+              ${pipe(
+                BIG_CATEGORIES,
+                map((b) => `<option id=${b.big_category_id}>${b.big_category_name}</option>`),
+                join(''),
               )}
             </select>
             <div class="category-arrow"> > </div>
             <select id="small-category-selector">
-              ${join(
-                map(
-                  (s) => `<option id=${s.small_category_id}>${s.small_category_name}</option>`,
-                  SMALL_CATEGORIES,
-                ),
+              ${pipe(
+                SMALL_CATEGORIES,
+                map((s) => `<option id=${s.small_category_id}>${s.small_category_name}</option>`),
+                join(''),
               )}
             </select>
           </div>
@@ -43,7 +44,11 @@ export class CreateComponent extends HTMLElement {
         <div class="product-tags-container">
           <h3>Tags</h3>
           <div class="tags-container">
-            ${join(map((t) => `<div id=${t.tag_id} class="tag">${t.tag_name}</div>`, TAGS))}
+            ${pipe(
+              TAGS,
+              map((t) => `<div id=${t.tag_id} class="tag">${t.tag_name}</div>`),
+              join(''),
+            )}
             <input type="button" value="+" class="add-tag-btn"/>
           </div>
         </div>
