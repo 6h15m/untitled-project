@@ -1,6 +1,7 @@
 import { HeaderComponent } from '../../components/Header/HeaderComponent.js';
 import { FooterComponent } from '../../components/Footer/FooterComponent.js';
 import { CartComponent } from '../../components/Cart/CartComponent';
+import getCartsData from '../../data/cart';
 
 const user_id = 'test_c';
 
@@ -9,10 +10,15 @@ const user_id = 'test_c';
   customElements.define(HeaderComponent.componentName, HeaderComponent);
   customElements.define(FooterComponent.componentName, FooterComponent);
   customElements.define(CartComponent.componentName, CartComponent);
+
+  // 데이터 fetch
+  const carts_data = await getCartsData(user_id);
+  console.log(carts_data);
   const body_el = document.body;
   const header_component_el = new HeaderComponent();
+  const cart_component_el = new CartComponent(carts_data);
   const footer_component_el = new FooterComponent();
-  const cart_component_el = new CartComponent(user_id);
+
   body_el.appendChild(header_component_el);
   body_el.appendChild(cart_component_el);
   body_el.appendChild(footer_component_el);

@@ -1,44 +1,34 @@
-import { PRODUCTS } from '../../sample-data';
-import { map, pipe } from '@fxts/core';
-import {
-  getSmallCategoryNameById,
-  getBigCategoryNameBySmallId,
-  getTagIdByProductId,
-  getTagNameById,
-  getOptionNameByOptionId,
-  getOptionPropertyByOptionId,
-  getOptionIdByProductId,
-} from '../../common-db';
+import { filter, map, pipe } from '@fxts/core';
 import join from '../../join';
 import styl from './styl';
+import { DetailType } from '../../models/detail.interface';
 
 export class DetailComponent extends HTMLElement {
   static get componentName() {
     return 'detail-component';
   }
 
-  constructor(product_id: number) {
+  constructor(detail_data: DetailType) {
     super();
-    const p = PRODUCTS[product_id - 1];
     const getAdditionalPrice = (additional_price: number) =>
       additional_price === 0 ? '' : `(+${additional_price})`;
     const detailContent = `
       <div class="wrap">
         <div class="product-image"></div>
         <div class="product-info">
-          <div class="product-category">${getBigCategoryNameBySmallId(
-            p.small_category_id,
-          )} > ${getSmallCategoryNameById(p.small_category_id)}
+          <div class="product-category">${
+            detail_data.big_category.big_category_name
+          } > ${detail_data.small_category.small_category_name}
           </div>
-          <h2 class="product-name">${p.product_name}</h2>
+          <h2 class="product-name">${detail_data.product.product_name}</h2>
           <div class="product-tags">
             ${
               pipe(
-                getTagIdByProductId(p.product_id),
+                detail_data.tags,
                 map(
-                  (t_id) => `
+                  (t) => `
                   <div class="tag-name">
-                    # ${getTagNameById(t_id)}
+                    # ${t.tag_name}
                   </div>
                   `,
                 ),
@@ -48,13 +38,14 @@ export class DetailComponent extends HTMLElement {
           </div>
           <div class="product-options">
             ${pipe(
-              getOptionIdByProductId(p.product_id),
+              detail_data.options,
               map(
                 (o) => `
-                <div class="option-name">${getOptionNameByOptionId(o.option_id)}</div>
+                <div class="option-name">${o.option_name}</div>
                 <div class="option-property-container">
                   ${pipe(
-                    getOptionPropertyByOptionId(o.option_id),
+                    detail_data.option_properties_all,
+                    filter(all => (all.option_id === o.option_id)),
                     map(
                       (op) => `
                       <div class="option-property">
@@ -85,7 +76,7 @@ export class DetailComponent extends HTMLElement {
           </div>
           <div class="product-bottom">
             <div class="product-price">
-              ${p.product_price.toLocaleString('ko-KR')}
+              ${detail_data.product.product_price.toLocaleString('ko-KR')}
             </div>
             <button class="cart-btn">
               Add to Cart
