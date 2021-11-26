@@ -6,5 +6,5 @@ export interface ProductType {
 }
 
 export interface ProductsType {
-  rows: Array<ProductType>;
+  products: Array<ProductType>;
 }

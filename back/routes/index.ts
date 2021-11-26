@@ -2,33 +2,23 @@ import express from 'express';
 const router = express.Router();
 import POOL from '../database/connect.js';
 
-router.get('/productSelectAll', function (req, res) {
-  (async function productSelectAll() {
-    const product = await POOL.QUERY`SELECT * FROM products`;
-    res.send({ rows: product });
-  })()
-    .then(() => {
-      process.release;
-    })
-    .catch((error) => {
-      console.error(error);
-      process.exit(1);
-    });
+router.get('/productSelectAll', async function (req, res, next) {
+  try {
+    const products = await POOL.QUERY`SELECT * FROM products`;
+    res.json({ products: products });
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get('/categorySelectAll', function (req, res) {
-  (async function categorySelectAll() {
+router.get('/categorySelectAll', async function (req, res, next) {
+  try {
     const big_categories = await POOL.QUERY`SELECT * FROM big_categories`;
     const small_categories = await POOL.QUERY`SELECT * FROM small_categories`;
-    res.send({ big_categories: big_categories, small_categories: small_categories });
-  })()
-    .then(() => {
-      process.release;
-    })
-    .catch((error) => {
-      console.error(error);
-      process.exit(1);
-    });
+    res.json({ big_categories: big_categories, small_categories: small_categories });
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;

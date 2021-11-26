@@ -1,14 +1,14 @@
 import { map, pipe } from '@fxts/core';
-import { BIG_CATEGORIES, SMALL_CATEGORIES, TAGS } from '../../sample-data';
 import join from '../../join';
 import styl from './styl';
+import { CreateType } from '../../models/create.interface';
 
 export class CreateComponent extends HTMLElement {
   static get componentName() {
     return 'create-component';
   }
 
-  constructor() {
+  constructor(create_data: CreateType) {
     super();
     const createContent = `
       <div class="wrap">
@@ -18,7 +18,7 @@ export class CreateComponent extends HTMLElement {
           <div class="category-selector-container">
             <select id="big-category-selector">
               ${pipe(
-                BIG_CATEGORIES,
+                create_data.big_categories,
                 map((b) => `<option id=${b.big_category_id}>${b.big_category_name}</option>`),
                 join(''),
               )}
@@ -26,7 +26,7 @@ export class CreateComponent extends HTMLElement {
             <div class="category-arrow"> > </div>
             <select id="small-category-selector">
               ${pipe(
-                SMALL_CATEGORIES,
+                create_data.small_categories,
                 map((s) => `<option id=${s.small_category_id}>${s.small_category_name}</option>`),
                 join(''),
               )}
@@ -45,7 +45,7 @@ export class CreateComponent extends HTMLElement {
           <h3>Tags</h3>
           <div class="tags-container">
             ${pipe(
-              TAGS,
+              create_data.tags,
               map((t) => `<div id=${t.tag_id} class="tag">${t.tag_name}</div>`),
               join(''),
             )}
