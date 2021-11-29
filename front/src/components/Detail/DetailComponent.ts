@@ -1,9 +1,14 @@
-import { filter, map, pipe } from '@fxts/core';
+import { each, filter, map, pipe, reduce } from '@fxts/core';
 import join from '../../join';
 import styl from './styl';
 import { DetailType } from '../../models/detail.interface';
+import { CounterComponent } from '../Counter/CounterComponent';
 
 export class DetailComponent extends HTMLElement {
+  private total_additional_price: Array<number> = [];
+  private original_price: number = 0;
+  private product_amount: number = 1;
+
   static get componentName() {
     return 'detail-component';
   }
@@ -11,14 +16,15 @@ export class DetailComponent extends HTMLElement {
   constructor(detail_data: DetailType) {
     super();
     const getAdditionalPrice = (additional_price: number) =>
-      additional_price === 0 ? '' : `(+${additional_price})`;
+      additional_price === 0 ? '' : `(+${additional_price.toLocaleString('ko-KR')})`;
+
     const detailContent = `
       <div class="wrap">
         <div class="product-image"></div>
         <div class="product-info">
-          <div class="product-category">${
-            detail_data.big_category.big_category_name
-          } > ${detail_data.small_category.small_category_name}
+          <div class="product-category">${detail_data.big_category.big_category_name} > ${
+      detail_data.small_category.small_category_name
+    }
           </div>
           <h2 class="product-name">${detail_data.product.product_name}</h2>
           <div class="product-tags">
@@ -45,13 +51,15 @@ export class DetailComponent extends HTMLElement {
                 <div class="option-property-container">
                   ${pipe(
                     detail_data.option_properties_all,
-                    filter(all => (all.option_id === o.option_id)),
+                    filter((all) => all.option_id === o.option_id),
                     map(
                       (op) => `
                       <div class="option-property">
-                        <input type="radio" value=${op.option_property_id} name=${o.option_id} id=${
-                        op.option_property_id
-                      } ${op.option_property_base ? `checked` : ``}>
+                        <input type="radio" value=${op.option_property_additional_price} name=${
+                        o.option_id
+                      } id=${op.option_property_id} ${
+                        op.option_property_base ? `checked` : ``
+                      } class='option-property-radio'>
                         <label for=${op.option_property_id}>${op.option_property_name}${getAdditionalPrice(
                         op.option_property_additional_price,
                       )}</label>
@@ -66,17 +74,12 @@ export class DetailComponent extends HTMLElement {
               join(''),
             )}
             <div class="option-name">EA</div>
-            <div class="option-property-container">
-              <div class="product-amount-container">
-                <input type="button" value="-" class="amount-control"/>
-                <div class="product-amount">1</div>
-                <input type="button" value="+" class="amount-control" />
-              </div>
+            <div class="option-property-container" id="option-property-container">
             </div>
           </div>
           <div class="product-bottom">
-            <div class="product-price">
-              ${detail_data.product.product_price.toLocaleString('ko-KR')}
+            <div class="product-price" id="product-price">
+              ${(this.original_price = detail_data.product.product_price).toLocaleString('ko-kr')}
             </div>
             <button class="cart-btn">
               Add to Cart
@@ -91,5 +94,59 @@ export class DetailComponent extends HTMLElement {
     const shadowRoot = this.attachShadow({ mode: 'open' });
     shadowRoot.innerHTML = detailContent;
     shadowRoot.appendChild(detailStyle);
+    customElements.define(CounterComponent.componentName, CounterComponent);
+    const count_component_el = new CounterComponent();
+    const op_container_el = shadowRoot.getElementById('option-property-container');
+    if (op_container_el === null) {
+      return;
+    }
+    op_container_el.appendChild(count_component_el);
   }
+
+  connectedCallback() {
+    if (this.shadowRoot) {
+      const option_property_radio_el = this.shadowRoot.querySelectorAll('input.option-property-radio');
+      const count_component_el: CounterComponent | null = this.shadowRoot.querySelector('counter-component');
+      if (count_component_el === null || option_property_radio_el === null) {
+        return;
+      }
+      count_component_el.addEventListener('click', () => this.updateAmount(count_component_el.getCount));
+      pipe(
+        option_property_radio_el,
+        map((el) => <HTMLInputElement>el),
+        each((el) => {
+          el.addEventListener('click', () => this.updatePrice(el));
+        }),
+      );
+    }
+  }
+
+  private updatePrice = (option_property_radio: HTMLInputElement) => {
+    this.total_additional_price[+(option_property_radio.getAttribute('name') ?? 1) - 1] =
+      +option_property_radio.value;
+    this.updateTotalPrice();
+  };
+
+  private updateAmount = (count: number) => {
+    this.product_amount = count;
+    this.updateTotalPrice();
+  };
+
+  private updateTotalPrice = () => {
+    const new_price =
+      (this.original_price +
+        pipe(
+          this.total_additional_price,
+          filter((a) => !isNaN(a)),
+          reduce((a, b) => a + b),
+        ) ?? 1) * this.product_amount;
+
+    if (this.shadowRoot) {
+      const product_price_el = this.shadowRoot.getElementById('product-price');
+      if (product_price_el === null) {
+        return;
+      }
+      product_price_el.innerHTML = new_price.toLocaleString('ko-kr');
+    }
+  };
 }
