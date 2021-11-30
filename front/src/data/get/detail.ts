@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DetailType } from '../models/detail.interface';
+import { DetailType } from '../../models/detail.interface';
 
 async function getDetailData(product_id: number) {
   try {

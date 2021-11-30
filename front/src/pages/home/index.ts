@@ -2,8 +2,8 @@ import { HeaderComponent } from '../../components/Header/HeaderComponent.js';
 import { FooterComponent } from '../../components/Footer/FooterComponent.js';
 import { CategoryComponent } from '../../components/Category/CategoryComponent.js';
 import { ProductComponent } from '../../components/Product/ProductComponent.js';
-import getCategoryData from '../../data/category';
-import getProductData from '../../data/product';
+import getCategoryData from '../../data/get/category';
+import getProductData from '../../data/get/product';
 
 (async () => {
   // 웹 컴포넌트 등록

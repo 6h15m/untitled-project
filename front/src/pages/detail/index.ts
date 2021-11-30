@@ -1,7 +1,7 @@
 import { HeaderComponent } from '../../components/Header/HeaderComponent.js';
 import { FooterComponent } from '../../components/Footer/FooterComponent.js';
 import { DetailComponent } from '../../components/Detail/DetailComponent.js';
-import getDetailData from '../../data/detail';
+import getDetailData from '../../data/get/detail';
 
 // TODO: 조금 더 함수형적으로 사고해보자
 const urlParams = new URLSearchParams(window.location.search);

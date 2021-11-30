@@ -1,7 +1,7 @@
 import { HeaderComponent } from '../../components/Header/HeaderComponent.js';
 import { FooterComponent } from '../../components/Footer/FooterComponent.js';
 import { CreateComponent } from '../../components/Create/CreateComponent';
-import getCreateData from '../../data/create';
+import getCreateData from '../../data/get/create';
 
 (async () => {
   // 웹 컴포넌트 등록

@@ -185,10 +185,10 @@ INSERT INTO products_options (product_id, option_id) VALUES
     (15, 1),
     (16, 1);
 
-INSERT INTO detailed_products (detailed_product_id, product_id) VALUES
-    (1, 2),
-    (2, 2),
-    (3, 16);
+INSERT INTO detailed_products (product_id) VALUES
+    (2),
+    (2),
+    (16);
 
 INSERT INTO detailed_products_option_properties (detailed_product_id, option_property_id) VALUES
     (1, 2),

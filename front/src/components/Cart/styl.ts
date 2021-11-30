@@ -7,11 +7,6 @@ a {
   display: flex;
   flex-direction: column;
 }
-.product-right {
-  display: flex;
-  flex-flow: column;
-  align-items: end;
-}
 .total-price-container {
   display: flex;
   flex-direction: row;

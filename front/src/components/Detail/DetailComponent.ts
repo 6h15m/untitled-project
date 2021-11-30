@@ -1,16 +1,28 @@
 import { each, filter, map, pipe, reduce } from '@fxts/core';
 import join from '../../join';
 import styl from './styl';
-import { DetailType } from '../../models/detail.interface';
+import { DetailType, SendDetailType } from '../../models/detail.interface';
 import { CounterComponent } from '../Counter/CounterComponent';
+import postDetailData from '../../data/post/detail';
 
 export class DetailComponent extends HTMLElement {
   private total_additional_price: Array<number> = [];
   private original_price: number = 0;
   private product_amount: number = 1;
+  private data: SendDetailType = {
+    user_id: 'test_c',
+    product_id: 0,
+    product_amount: this.product_amount,
+    option_property_ids: [],
+  };
 
   static get componentName() {
     return 'detail-component';
+  }
+
+  async sendData() {
+    alert('Product added to the cart! 🛒')
+    await postDetailData(this.data);
   }
 
   constructor(detail_data: DetailType) {
@@ -18,8 +30,18 @@ export class DetailComponent extends HTMLElement {
     const getAdditionalPrice = (additional_price: number) =>
       additional_price === 0 ? '' : `(+${additional_price.toLocaleString('ko-KR')})`;
 
+    this.data.product_id = detail_data.product.product_id;
     this.original_price = detail_data.product.product_price;
-
+    each((o) => {
+      pipe(
+        detail_data.option_properties_all,
+        filter((op) => op.option_id === o.option_id && op.option_property_base),
+        each((op) => {
+          this.data.option_property_ids[o.option_id - 1] = (op.option_property_id);
+          console.log(op.option_property_id);
+        }),
+      );
+    }, detail_data.options);
     const detailContent = `
       <div class="wrap">
         <div class="product-image"></div>
@@ -83,7 +105,7 @@ export class DetailComponent extends HTMLElement {
             <div class="product-price" id="product-price">
               ${this.original_price.toLocaleString('ko-kr')}
             </div>
-            <button class="cart-btn">
+            <button class="cart-btn" id="cart-btn">
               Add to Cart
             </button>
           </div>
@@ -106,14 +128,18 @@ export class DetailComponent extends HTMLElement {
     const option_property_radio_el = this.shadowRoot?.querySelectorAll('input.option-property-radio');
     const count_component_el: CounterComponent | null | undefined =
       this.shadowRoot?.querySelector('counter-component');
+    const cart_btn_el = this.shadowRoot?.getElementById('cart-btn');
     if (
       count_component_el === null ||
       count_component_el === undefined ||
       option_property_radio_el === null ||
-      option_property_radio_el === undefined
+      option_property_radio_el === undefined ||
+      cart_btn_el === null ||
+      cart_btn_el === undefined
     ) {
       return;
     }
+    cart_btn_el.addEventListener('click', () => this.sendData());
     count_component_el.addEventListener('click', () => this.updateAmount(count_component_el.getCount));
     pipe(
       option_property_radio_el,
@@ -127,11 +153,13 @@ export class DetailComponent extends HTMLElement {
   private updatePrice = (option_property_radio: HTMLInputElement) => {
     this.total_additional_price[+(option_property_radio.getAttribute('name') ?? 1) - 1] =
       +option_property_radio.value;
+    this.data.option_property_ids[+(option_property_radio.getAttribute('name') ?? 1) - 1] = +option_property_radio.id;
     this.updateTotalPrice();
   };
 
   private updateAmount = (count: number) => {
     this.product_amount = count;
+    this.data.product_amount = count;
     this.updateTotalPrice();
   };
 

@@ -27,3 +27,10 @@ export interface DetailType {
   options: Array<OptionType>;
   option_properties_all: Array<OptionPropertyType>;
 }
+
+export interface SendDetailType {
+  user_id: string,
+  product_id: number,
+  option_property_ids: Array<number>,
+  product_amount: number;
+}

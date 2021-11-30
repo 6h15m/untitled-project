@@ -1,6 +1,6 @@
 import styl from './styl';
 import { ProductType } from '../../models/product.interface';
-import { filter, map, pipe, take, toArray } from '@fxts/core';
+import { filter, map, pipe, take, toArray, head } from '@fxts/core';
 import { OptionPropertyType } from '../../models/detail.interface';
 import {
   CartType,
@@ -31,8 +31,8 @@ export class CardComponent extends HTMLElement {
       pipe(
         products,
         filter((p) => p.product_id === product_id),
-        take(1),
-      ).next().value;
+        head,
+      );
 
     const getProductByDetailedProductId = (detailed_product_id: number) =>
       getProductById(detailed_products[detailed_product_id - 1].product_id);
@@ -52,7 +52,7 @@ export class CardComponent extends HTMLElement {
         toArray,
       );
 
-    const product: ProductType = getProductByDetailedProductId(cart.detailed_product_id);
+    const product: ProductType = getProductByDetailedProductId(cart.detailed_product_id)!;
     this.product_total_price.push(product.product_price * cart.cart_product_amount);
     const cardContent = `
       <div class="wrap">

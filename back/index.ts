@@ -10,6 +10,8 @@ const app = express();
 const PORT = 8082;
 const HOST_NAME = `localhost`;
 
+app.use(express.json());
+
 app.use('/', indexRouter);
 app.use('/detail', detailRouter);
 app.use('/cart', cartRouter);

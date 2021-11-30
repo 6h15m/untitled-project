@@ -1,7 +1,7 @@
 import { HeaderComponent } from '../../components/Header/HeaderComponent.js';
 import { FooterComponent } from '../../components/Footer/FooterComponent.js';
 import { CartComponent } from '../../components/Cart/CartComponent';
-import getCartsData from '../../data/cart';
+import getCartsData from '../../data/get/cart';
 
 const user_id = 'test_c';
 
