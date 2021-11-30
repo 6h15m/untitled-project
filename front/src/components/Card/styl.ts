@@ -61,7 +61,11 @@ export default `
   font-size: 1.4em;
   font-weight: 600;
 }
-
+.product-right {
+  display: flex;
+  flex-flow: column;
+  align-items: end;
+}
 .delete {
   background: none;
   border: none;
