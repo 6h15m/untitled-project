@@ -1,4 +1,4 @@
-import { map, pipe } from '@fxts/core';
+import { filter, map, pipe } from '@fxts/core';
 import join from '../../join';
 import styl from './styl';
 import { CreateType } from '../../models/create.interface';
@@ -19,7 +19,10 @@ export class CreateComponent extends HTMLElement {
             <select id="big-category-selector">
               ${pipe(
                 create_data.big_categories,
-                map((b) => `<option id=${b.big_category_id}>${b.big_category_name}</option>`),
+                map(
+                  (b) =>
+                    `<option id="big-category-option" value=${b.big_category_id}>${b.big_category_name}</option>`,
+                ),
                 join(''),
               )}
             </select>
@@ -27,6 +30,11 @@ export class CreateComponent extends HTMLElement {
             <select id="small-category-selector">
               ${pipe(
                 create_data.small_categories,
+                filter(
+                  (s) =>
+                    s.big_category_id.toString() ===
+                    (<HTMLOptionElement>document.getElementById('big-category-option')).value,
+                ),
                 map((s) => `<option id=${s.small_category_id}>${s.small_category_name}</option>`),
                 join(''),
               )}

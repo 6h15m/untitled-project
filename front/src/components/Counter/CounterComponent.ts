@@ -10,14 +10,14 @@ export class CounterComponent extends HTMLElement {
     return this.count;
   }
 
-  constructor() {
+  constructor(count: number) {
     super();
-    this.count = 1;
+    this.count = count;
 
     const counterContent = `
-      <div class="product-amount-container">
+      <div class="amount-container">
         <input type="button" id="dec" value="-" class="amount-control"/>
-        <div class="product-amount" id="product-amount">${this.count}</div>
+        <div class="amount" id="amount">${this.count}</div>
         <input type="button" id="inc" value="+" class="amount-control" />
       </div>
     `;
@@ -61,11 +61,11 @@ export class CounterComponent extends HTMLElement {
 
   private update(count: number) {
     if (this.shadowRoot) {
-      const product_amount_el = this.shadowRoot.getElementById('product-amount');
-      if (product_amount_el === null) {
+      const amount_el = this.shadowRoot.getElementById('amount');
+      if (amount_el === null) {
         return;
       }
-      product_amount_el.innerHTML = String(count);
+      amount_el.innerHTML = String(count);
     }
   }
 }
