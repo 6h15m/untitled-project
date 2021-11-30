@@ -29,4 +29,11 @@ router.get('/:product_id', async function (req, res, next) {
   }
 });
 
+router.post('/addToCart', async function(req, res, next ){
+  try {
+  } catch (error) {
+    next(error);
+  }
+})
+
 export default router;

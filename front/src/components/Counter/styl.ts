@@ -1,5 +1,5 @@
 export default `
-.product-amount-container {
+.amount-container {
   display: flex;
   flex-direction: row;
   width: 6rem;
