@@ -21,8 +21,8 @@ export class DetailComponent extends HTMLElement {
   }
 
   async sendData() {
-    alert('Product added to the cart! 🛒');
     await postDetailData(this.data);
+    alert('Product added to the cart! 🛒');
   }
 
   constructor(detail_data: DetailType) {

@@ -124,9 +124,8 @@ export class CardComponent extends HTMLElement {
   }
 
   public async deleteCard() {
-    // loader start
     await deleteCartData({ detailed_product_id: this.detailed_product_id });
-    // loader end
+    alert('Product deleted! 🗑');
     this.parentNode?.removeChild(this);
   }
 }
