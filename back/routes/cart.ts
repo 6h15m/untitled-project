@@ -5,7 +5,7 @@ import POOL from '../database/connect.js';
 router.get('/:user_id', async function (req, res, next) {
   try {
     const user_id = req.params.user_id;
-    const cart = await POOL.QUERY`SELECT * FROM carts WHERE user_id = ${user_id}`;
+    const cart = await POOL.QUERY`SELECT * FROM carts WHERE user_id = ${user_id} ORDER BY detailed_product_id DESC`;
     const detailed_products = await POOL.QUERY`SELECT * from detailed_products`;
     const detailed_products_option_properties =
       await POOL.QUERY`SELECT * from detailed_products_option_properties`;
