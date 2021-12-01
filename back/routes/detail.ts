@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import POOL from '../database/connect.js';
-import { each } from '@fxts/core';
+import { each, toAsync } from '@fxts/core';
 
 router.get('/:product_id', async function (req, res, next) {
   try {
@@ -35,19 +35,20 @@ router.post('/addToCart', async function (req, res, next) {
     const data = req.body;
     const user_id = data.user_id;
     const product_id = data.product_id;
-    const option_property_ids = data.option_property_ids;
+    const option_property_ids: Array<number> = data.option_property_ids;
     const product_amount = data.product_amount;
 
     await POOL.QUERY`INSERT INTO detailed_products (product_id) VALUES (${product_id})`;
     const detailed_product_ids =
       await POOL.QUERY`SELECT detailed_product_id FROM detailed_products WHERE product_id = ${product_id} ORDER BY detailed_product_id DESC`;
     console.log(detailed_product_ids);
-    each(async (option_property_id) => {
+    await each(async (option_property_id) => {
       await POOL.QUERY`INSERT INTO detailed_products_option_properties (detailed_product_id, option_property_id) 
       VALUES (${detailed_product_ids[0].detailed_product_id}, ${option_property_id})`;
-    }, option_property_ids);
+    }, toAsync(option_property_ids));
     await POOL.QUERY`INSERT INTO carts (user_id, detailed_product_id, cart_product_amount) 
     VALUES (${String(user_id)}, ${detailed_product_ids[0].detailed_product_id}, ${product_amount})`;
+    res.json({});
   } catch (error) {
     next(error);
   }
