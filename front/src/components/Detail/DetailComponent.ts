@@ -21,7 +21,7 @@ export class DetailComponent extends HTMLElement {
   }
 
   async sendData() {
-    alert('Product added to the cart! 🛒')
+    alert('Product added to the cart! 🛒');
     await postDetailData(this.data);
   }
 
@@ -37,7 +37,7 @@ export class DetailComponent extends HTMLElement {
         detail_data.option_properties_all,
         filter((op) => op.option_id === o.option_id && op.option_property_base),
         each((op) => {
-          this.data.option_property_ids[o.option_id - 1] = (op.option_property_id);
+          this.data.option_property_ids[o.option_id - 1] = op.option_property_id;
           console.log(op.option_property_id);
         }),
       );
@@ -46,9 +46,8 @@ export class DetailComponent extends HTMLElement {
       <div class="wrap">
         <div class="product-image"></div>
         <div class="product-info">
-          <div class="product-category">${detail_data.big_category.big_category_name} > ${
-      detail_data.small_category.small_category_name
-    }
+          <div class="product-category">
+            ${detail_data.big_category.big_category_name} > ${detail_data.small_category.small_category_name}
           </div>
           <h2 class="product-name">${detail_data.product.product_name}</h2>
           <div class="product-tags">
@@ -153,7 +152,8 @@ export class DetailComponent extends HTMLElement {
   private updatePrice = (option_property_radio: HTMLInputElement) => {
     this.total_additional_price[+(option_property_radio.getAttribute('name') ?? 1) - 1] =
       +option_property_radio.value;
-    this.data.option_property_ids[+(option_property_radio.getAttribute('name') ?? 1) - 1] = +option_property_radio.id;
+    this.data.option_property_ids[+(option_property_radio.getAttribute('name') ?? 1) - 1] =
+      +option_property_radio.id;
     this.updateTotalPrice();
   };
 

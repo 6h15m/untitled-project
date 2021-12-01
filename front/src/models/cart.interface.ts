@@ -31,3 +31,7 @@ export interface CartsType {
   detailed_products_option_properties: Array<DetailedProductOptionPropertyType>;
   products: Array<ProductType>;
 }
+
+export interface DeleteDetailedProductIdType {
+  detailed_product_id: number;
+}

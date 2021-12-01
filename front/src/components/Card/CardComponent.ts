@@ -9,9 +9,14 @@ import {
 } from '../../models/cart.interface';
 import join from '../../join';
 import { CounterComponent } from '../Counter/CounterComponent';
+import deleteCartData from '../../data/delete/cart';
 
 export class CardComponent extends HTMLElement {
   private product_total_price: number[] = [];
+  private readonly detailed_product_id: number;
+
+  private readonly shadow_root: ShadowRoot;
+
   static get componentName() {
     return 'card-component';
   }
@@ -35,7 +40,13 @@ export class CardComponent extends HTMLElement {
       );
 
     const getProductByDetailedProductId = (detailed_product_id: number) =>
-      getProductById(detailed_products[detailed_product_id - 1].product_id);
+      getProductById(
+        pipe(
+          detailed_products,
+          filter((dp) => dp.detailed_product_id === detailed_product_id),
+          head,
+        )!.product_id,
+      );
 
     const getOptionPropertyById = (option_property_id: number) =>
       pipe(
@@ -53,9 +64,10 @@ export class CardComponent extends HTMLElement {
       );
 
     const product: ProductType = getProductByDetailedProductId(cart.detailed_product_id)!;
+    this.detailed_product_id = cart.detailed_product_id;
     this.product_total_price.push(product.product_price * cart.cart_product_amount);
     const cardContent = `
-      <div class="wrap">
+      <div class="wrap" id='wrap'>
         <div class="product-container">
           <div class="product">
             <div class="product-left">
@@ -75,7 +87,7 @@ export class CardComponent extends HTMLElement {
               </div>
             </div>
             <div class="product-right">
-              <button value="delete" class='delete'>X</button>
+              <button name="${product.product_id}" class='delete' id='delete-btn'>X</button>
               <div class="price">${product.product_price.toLocaleString('ko-KR')}</div>
             </div>
           </div>
@@ -93,12 +105,28 @@ export class CardComponent extends HTMLElement {
 
     const cardStyle = document.createElement('style');
     cardStyle.textContent = styl;
-    const shadowRoot = this.attachShadow({ mode: 'open' });
+    this.shadow_root = this.attachShadow({ mode: 'open' });
+    const shadowRoot = this.shadow_root;
     shadowRoot.innerHTML = cardContent;
     shadowRoot.appendChild(cardStyle);
     customElements.get(CounterComponent.componentName) ||
       customElements.define(CounterComponent.componentName, CounterComponent);
     const amount_container_el = shadowRoot.querySelector('div.amount-container');
     amount_container_el?.replaceWith(new CounterComponent(+amount_container_el.innerHTML));
+  }
+
+  connectedCallback() {
+    const delete_btn_el = this.shadowRoot?.getElementById('delete-btn');
+    if (!delete_btn_el) {
+      return;
+    }
+    delete_btn_el.addEventListener('click', () => this.deleteCard());
+  }
+
+  public async deleteCard() {
+    // loader start
+    await deleteCartData({ detailed_product_id: this.detailed_product_id });
+    // loader end
+    this.parentNode?.removeChild(this);
   }
 }
