@@ -16,6 +16,7 @@ h5 {
   font-weight: normal;
 }
 select {
+  width: 8.6rem;
   padding: 0rem 0.6rem;
   background-color: #F4F5F8;
   border: none;
@@ -27,6 +28,17 @@ input[type="text"], input[type="password"] {
   padding: .8rem;
   background-color: #F4F5F8;
   border: none;
+}
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: fit-content;
+  margin: 2rem 2rem 0 2rem;
+}
+.create {
+  display: flex;
+  flex-direction: column;
 }
 .category-selector-container {
   display: flex;
@@ -115,5 +127,15 @@ input[type="text"], input[type="password"] {
 }
 .bg-white {
   background-color: white !important;
+}
+.create-btn {
+  background-color: #495057;
+  border: none;
+  color: white;
+  width: 8rem;
+  height: 2.2rem;
+  font-size: 1.1em;
+  align-self: center;
+  margin-top: 2rem;
 }
 `;
