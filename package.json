@@ -6,11 +6,11 @@
   "scripts": {
     "start:front": "nodemon ./dist/front/server-dist/app.js",
     "start:back": "nodemon ./dist/back/index.js",
-    "front:build:server": "tsc -p ./front/server/tsconfig.json",
-    "front:build:src": "tsc -p ./front/src/tsconfig.json",
-    "front:webpack": "webpack --config ./front/webpack.config.cjs",
+    "build:front:server": "tsc -p ./front/server/tsconfig.json",
+    "build:front:src": "tsc -p ./front/src/tsconfig.json",
+    "webpack:front": "webpack --config ./front/webpack.config.cjs",
     "build:back": "tsc -p back/tsconfig.json",
-    "build:front": "run-p front:build:server front:build:src && npm run front:webpack",
+    "build:front": "run-p build:front:server build:front:src && npm run webpack:front",
     "build:models": "tsc -p models/tsconfig.json",
     "build": "run-p build:models build:front build:back"
   },
