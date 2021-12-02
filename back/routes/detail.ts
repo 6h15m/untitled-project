@@ -31,6 +31,8 @@ router.get('/:product_id', async function (req, res, next) {
 });
 
 router.post('/addToCart', async function (req, res, next) {
+  const { TRANSACTION } = POOL;
+  const { QUERY, COMMIT, ROLLBACK } = await TRANSACTION();
   try {
     const data = req.body;
     const user_id = data.user_id;
@@ -38,18 +40,19 @@ router.post('/addToCart', async function (req, res, next) {
     const option_property_ids: Array<number> = data.option_property_ids;
     const product_amount = data.product_amount;
 
-    await POOL.QUERY`INSERT INTO detailed_products (product_id) VALUES (${product_id})`;
+    await QUERY`INSERT INTO detailed_products (product_id) VALUES (${product_id})`;
     const detailed_product_ids =
-      await POOL.QUERY`SELECT detailed_product_id FROM detailed_products WHERE product_id = ${product_id} ORDER BY detailed_product_id DESC`;
-    console.log(detailed_product_ids);
+      await QUERY`SELECT detailed_product_id FROM detailed_products WHERE product_id = ${product_id} ORDER BY detailed_product_id DESC`;
     await each(async (option_property_id) => {
-      await POOL.QUERY`INSERT INTO detailed_products_option_properties (detailed_product_id, option_property_id) 
+      await QUERY`INSERT INTO detailed_products_option_properties (detailed_product_id, option_property_id) 
       VALUES (${detailed_product_ids[0].detailed_product_id}, ${option_property_id})`;
     }, toAsync(option_property_ids));
-    await POOL.QUERY`INSERT INTO carts (user_id, detailed_product_id, cart_product_amount) 
+    await QUERY`INSERT INTO carts (user_id, detailed_product_id, cart_product_amount) 
     VALUES (${String(user_id)}, ${detailed_product_ids[0].detailed_product_id}, ${product_amount})`;
+    await COMMIT();
     res.json({});
   } catch (error) {
+    await ROLLBACK();
     next(error);
   }
 });

@@ -33,14 +33,18 @@ router.get('/:user_id', async function (req, res, next) {
 });
 
 router.delete('/deleteCartProduct', async function (req, res, next) {
+  const { TRANSACTION } = POOL;
+  const { QUERY, COMMIT, ROLLBACK } = await TRANSACTION();
   try {
     const data = req.body;
     const detailed_product_id: number = data.detailed_product_id;
-    await POOL.QUERY`DELETE FROM detailed_products_option_properties WHERE detailed_product_id = ${detailed_product_id}`;
-    await POOL.QUERY`DELETE FROM carts WHERE detailed_product_id = ${detailed_product_id}`;
-    await POOL.QUERY`DELETE FROM detailed_products WHERE detailed_product_id = ${detailed_product_id}`;
+    await QUERY`DELETE FROM detailed_products_option_properties WHERE detailed_product_id = ${detailed_product_id}`;
+    await QUERY`DELETE FROM carts WHERE detailed_product_id = ${detailed_product_id}`;
+    await QUERY`DELETE FROM detailed_products WHERE detailed_product_id = ${detailed_product_id}`;
+    await COMMIT();
     res.json({});
   } catch (error) {
+    await ROLLBACK();
     next(error);
   }
 });
