@@ -1,10 +1,18 @@
 {
   "name": "untitled-project",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:front": "nodemon ./dist/front/server-dist/app.js",
+    "start:back": "nodemon ./dist/back/index.js",
+    "front:build:server": "tsc -p ./front/server/tsconfig.json",
+    "front:build:src": "tsc -p ./front/src/tsconfig.json",
+    "front:webpack": "webpack --config ./front/webpack.config.cjs",
+    "build:back": "tsc -p back/tsconfig.json",
+    "build:front": "npm run front:build:server && npm run front:build:src && npm run front:webpack",
+    "build:models": "tsc -p models/tsconfig.json",
+    "build:all": "npm run build:models && npm run build:front && npm run build:back"
   },
   "repository": {
     "type": "git",
@@ -17,6 +25,26 @@
     "url": "https://github.com/6h15m/untitled-project/issues"
   },
   "homepage": "https://github.com/6h15m/untitled-project#readme",
+  "dependencies": {
+    "@fxts/core": "^0.2.1",
+    "@types/axios": "^0.14.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.11.7",
+    "@types/pg": "^8.6.1",
+    "axios": "^0.24.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "fxsql": "^1.6.1",
+    "http-proxy-middleware": "^2.0.1",
+    "nodemon": "^2.0.15",
+    "pg": "^8.7.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.0-beta",
+    "webpack": "^5.64.1",
+    "webpack-cli": "^4.9.1"
+  },
   "devDependencies": {
     "prettier": "^2.4.1"
   }

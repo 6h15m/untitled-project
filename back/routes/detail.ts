@@ -5,7 +5,7 @@ import { each, toAsync } from '@fxts/core';
 
 router.get('/:product_id', async function (req, res, next) {
   try {
-    const product_id = req.params.product_id;
+    const product_id: number = +req.params.product_id;
     const product =
       await POOL.QUERY`SELECT product_id, product_name, product_price FROM products WHERE product_id = ${product_id}`;
     const small_category =

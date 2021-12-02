@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ProductsType } from '../../models/product.interface';
+import { ProductsType } from '../../../../models/product.interface';
 
 async function getProductData() {
   try {

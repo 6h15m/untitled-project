@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CategoryType } from '../../models/category.interface';
+import { CategoryType } from '../../../../models/category.interface';
 
 async function getCategoryData() {
   try {

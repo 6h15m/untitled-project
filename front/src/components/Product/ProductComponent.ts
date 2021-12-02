@@ -1,7 +1,7 @@
 import { map, pipe } from '@fxts/core';
 import styl from './styl';
 import join from '../../join';
-import { ProductsType } from '../../models/product.interface';
+import { ProductsType } from '../../../../models/product.interface';
 
 export class ProductComponent extends HTMLElement {
   static get componentName() {

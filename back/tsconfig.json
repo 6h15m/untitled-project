@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "types": ["node"],
     "module": "ESNext",
     "target": "ESNext",
@@ -9,14 +10,11 @@
     "isolatedModules": true,
     "allowJs": true,
     "strict": true,
-    "lib": [
-      "es2020",
-      "dom"
-    ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
-    ],
-    "outDir": "./dist"
-  }
+    "lib": ["es2020", "dom"],
+    "typeRoots": ["../node_modules/@types", "./types"],
+    "outDir": "../dist/back"
+  },
+  "references": [
+    { "path": "../models" }
+  ]
 }

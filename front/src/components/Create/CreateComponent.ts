@@ -1,7 +1,7 @@
 import { filter, map, pipe } from '@fxts/core';
 import join from '../../join';
 import styl from './styl';
-import { CreateType } from '../../models/create.interface';
+import { CreateType } from '../../../../models/create.interface';
 
 export class CreateComponent extends HTMLElement {
   static get componentName() {

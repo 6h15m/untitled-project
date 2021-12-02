@@ -8,5 +8,8 @@
     "isolatedModules": true,
     "strict": true,
     "checkJs": false
-  }
+  },
+  "references": [
+    { "path": "../models" }
+  ]
 }

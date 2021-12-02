@@ -1,7 +1,7 @@
 import { map, pipe } from '@fxts/core';
 import styl from './styl';
 import join from '../../join';
-import { CategoryType } from '../../models/category.interface';
+import { CategoryType } from '../../../../models/category.interface';
 
 export class CategoryComponent extends HTMLElement {
   static get componentName() {

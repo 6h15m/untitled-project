@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DeleteDetailedProductIdType } from '../../models/cart.interface';
+import { DeleteDetailedProductIdType } from '../../../../models/cart.interface';
 
 async function deleteCartData(data: DeleteDetailedProductIdType) {
   try {

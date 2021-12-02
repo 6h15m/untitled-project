@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SendDetailType } from '../../models/detail.interface';
+import { SendDetailType } from '../../../../models/detail.interface';
 
 async function postDetailData(data: SendDetailType) {
   try {

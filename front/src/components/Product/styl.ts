@@ -7,7 +7,7 @@ a {
   display: flex;
   flex-flow: row wrap;
   margin-top: 1rem;
-  margin-right: -2rem;
+  margin-right: -4rem;
 }
 .product-container {
   margin-right: 2rem;

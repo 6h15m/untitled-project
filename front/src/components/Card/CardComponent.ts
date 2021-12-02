@@ -1,12 +1,12 @@
 import styl from './styl';
-import { ProductType } from '../../models/product.interface';
+import { ProductType } from '../../../../models/product.interface';
 import { filter, map, pipe, take, toArray, head } from '@fxts/core';
-import { OptionPropertyType } from '../../models/detail.interface';
+import { OptionPropertyType } from '../../../../models/detail.interface';
 import {
   CartType,
   DetailedProductOptionPropertyType,
   DetailedProductType,
-} from '../../models/cart.interface';
+} from '../../../../models/cart.interface';
 import join from '../../join';
 import { CounterComponent } from '../Counter/CounterComponent';
 import deleteCartData from '../../data/delete/cart';
@@ -14,7 +14,6 @@ import deleteCartData from '../../data/delete/cart';
 export class CardComponent extends HTMLElement {
   private product_total_price: number[] = [];
   private readonly detailed_product_id: number;
-
   private readonly shadow_root: ShadowRoot;
 
   static get componentName() {
