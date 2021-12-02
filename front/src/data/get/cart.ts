@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CartsType } from '../../models/cart.interface';
+import { CartsType } from '../../../../models/cart.interface';
 
 export default async function getCartsData(user_id: string) {
   try {

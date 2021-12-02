@@ -2,6 +2,6 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "lib": ["ES2020", "dom", "dom.iterable"],
-    "outDir": "../dist"
+    "outDir": "../../dist/front/dist"
   }
 }

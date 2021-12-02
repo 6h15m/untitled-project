@@ -1,7 +1,7 @@
 import { each, filter, map, pipe, reduce } from '@fxts/core';
 import join from '../../join';
 import styl from './styl';
-import { DetailType, SendDetailType } from '../../models/detail.interface';
+import { DetailType, SendDetailType } from '../../../../models/detail.interface';
 import { CounterComponent } from '../Counter/CounterComponent';
 import postDetailData from '../../data/post/detail';
 
