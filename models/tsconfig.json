@@ -7,8 +7,5 @@
     "outDir": "./dist",
     "composite": true,
     "moduleResolution": "Node"
-  },
-  "watchOptions": {
-    "watchDirectory": "./"
   }
 }

@@ -3,6 +3,10 @@ h2 {
   margin-top: 1.2rem;
   margin-bottom: 1rem;
 }
+a {
+  text-decoration: none;
+  color: black;
+}
 .wrap {
   display: flex;
   flex-direction: row;
@@ -18,6 +22,13 @@ h2 {
   height: 34rem;
   display: flex;
   flex-direction: column;
+}
+.product-category {
+  display: flex;
+  align-items: center;
+}
+.category-arrow {
+  margin: 0 .2rem;
 }
 .product-tags {
   display: flex;
