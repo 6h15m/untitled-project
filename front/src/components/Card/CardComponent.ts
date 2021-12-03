@@ -6,9 +6,10 @@ import { CounterComponent } from '../Counter/CounterComponent';
 import deleteCartData from '../../data/delete/cart';
 
 export class CardComponent extends HTMLElement {
+  private cart_data: CartType;
   private product_total_price: number[] = [];
-  private readonly detailed_product_id: number;
   private readonly shadow_root: ShadowRoot;
+  private readonly counter_component_el: CounterComponent;
 
   static get componentName() {
     return 'card-component';
@@ -16,23 +17,23 @@ export class CardComponent extends HTMLElement {
   get productTotalPrice() {
     return this.product_total_price;
   }
-  constructor(cart: CartType) {
+  constructor(cart_data: CartType) {
     super();
-    this.detailed_product_id = cart.detailed_product.id;
-    this.product_total_price.push(cart.detailed_product.price * cart.product_amount);
+    this.cart_data = cart_data;
+    this.product_total_price.push(cart_data.detailed_product.price * cart_data.product_amount);
     const cardContent = `
       <div class="wrap" id='wrap'>
         <div class="product-container">
           <div class="product">
             <div class="product-left">
-              <a href="../detail?product_id=${cart.detailed_product.id}" class="product-name">
-                ${cart.detailed_product.name}
+              <a href="../detail?product_id=${cart_data.detailed_product.id}" class="product-name">
+                ${cart_data.detailed_product.name}
               </a>
               <div class="product-option-property">
                 ${pipe(
-                  cart.detailed_product.option_properties,
+                  cart_data.detailed_product.option_properties,
                   map((op) => {
-                    cart.detailed_product.price += op.additional_price;
+                    cart_data.detailed_product.price += op.additional_price;
                     return `${op.name}(+${op.additional_price})`;
                   }),
                   join(', '),
@@ -40,16 +41,16 @@ export class CardComponent extends HTMLElement {
               </div>
             </div>
             <div class="product-right">
-              <button name="${cart.detailed_product.id}" class='delete' id='delete-btn'>X</button>
-              <div class="price">${cart.detailed_product.price.toLocaleString('ko-KR')}</div>
+              <button name="${cart_data.detailed_product.id}" class='delete' id='delete-btn'>X</button>
+              <div class="price">${cart_data.detailed_product.price.toLocaleString('ko-KR')}</div>
             </div>
           </div>
           <div class="cart-product">
-            <div class="amount-container" id=${cart.detailed_product.id}>
-            ${cart.product_amount}
+            <div class="amount-container" id=${cart_data.detailed_product.id}>
+            ${cart_data.product_amount}
             </div>
-            <div class="product-total-price">
-              ${(cart.detailed_product.price * cart.product_amount).toLocaleString('ko-KR')}
+            <div class="product-total-price" id='product-total-price'>
+              ${(cart_data.detailed_product.price * cart_data.product_amount).toLocaleString('ko-KR')}
             </div>
           </div>
         </div>
@@ -64,21 +65,29 @@ export class CardComponent extends HTMLElement {
     shadowRoot.appendChild(cardStyle);
     customElements.get(CounterComponent.componentName) ||
       customElements.define(CounterComponent.componentName, CounterComponent);
+    this.counter_component_el = new CounterComponent(this.cart_data.product_amount);
     const amount_container_el = shadowRoot.querySelector('div.amount-container');
-    amount_container_el?.replaceWith(new CounterComponent(+amount_container_el.innerHTML));
+    amount_container_el?.replaceWith(this.counter_component_el);
   }
 
   connectedCallback() {
     const delete_btn_el = this.shadowRoot?.getElementById('delete-btn');
-    if (!delete_btn_el) {
-      return;
-    }
-    delete_btn_el.addEventListener('click', () => this.deleteCard());
+    delete_btn_el?.addEventListener('click', () => this.deleteCard());
+    this.counter_component_el?.addEventListener('click', () =>
+      this.updateProductTotalPrice(this.counter_component_el.getCount),
+    );
   }
 
-  public async deleteCard() {
-    await deleteCartData({ detailed_product_id: this.detailed_product_id });
+  private async deleteCard() {
+    await deleteCartData({ detailed_product_id: this.cart_data.detailed_product.id });
     alert('Product deleted! 🗑');
     this.parentNode?.removeChild(this);
+  }
+
+  private updateProductTotalPrice(count: number) {
+    const product_total_price_el = this.shadow_root.getElementById('product-total-price');
+    product_total_price_el!.innerHTML = (count * this.cart_data.detailed_product.price).toLocaleString(
+      'ko-kr',
+    );
   }
 }
