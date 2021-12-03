@@ -1,7 +1,7 @@
 import { each, filter, pipe, reduce } from '@fxts/core';
 import styl from './styl';
-import { CartsType } from '../../../../models/cart.interface';
 import { CardComponent } from '../Card/CardComponent';
+import { GetCartsType } from '../../../../models/data.interface';
 
 export class CartComponent extends HTMLElement {
   private total_price: number = 0;
@@ -11,7 +11,7 @@ export class CartComponent extends HTMLElement {
     return 'cart-component';
   }
 
-  constructor(carts_data: CartsType) {
+  constructor(carts_data: GetCartsType) {
     super();
 
     const cartContent = `
@@ -35,19 +35,9 @@ export class CartComponent extends HTMLElement {
     customElements.define(CardComponent.componentName, CardComponent);
 
     pipe(
-      carts_data.cart,
+      carts_data.carts,
       each((c) => {
-        shadowRoot
-          .getElementById('cart-product-container')
-          ?.appendChild(
-            new CardComponent(
-              c,
-              carts_data.products,
-              carts_data.option_properties,
-              carts_data.detailed_products_option_properties,
-              carts_data.detailed_products,
-            ),
-          );
+        shadowRoot.getElementById('cart-product-container')?.appendChild(new CardComponent(c));
       }),
     );
   }

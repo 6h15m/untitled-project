@@ -13,94 +13,94 @@ DROP TABLE products_tags CASCADE;
 DROP TABLE products_options CASCADE;
 
 CREATE TABLE big_categories (
-    big_category_id SERIAL PRIMARY KEY,
-    big_category_name VARCHAR
+    id SERIAL PRIMARY KEY,
+    name VARCHAR
 );
 
 CREATE TABLE small_categories (
-    small_category_id SERIAL PRIMARY KEY,
-    small_category_name VARCHAR,
+    id SERIAL PRIMARY KEY,
+    name VARCHAR,
     big_category_id INT,
-    FOREIGN KEY (big_category_id) REFERENCES big_categories (big_category_id)
+    FOREIGN KEY (big_category_id) REFERENCES big_categories (id)
 );
 
 CREATE TABLE products (
-    product_id SERIAL PRIMARY KEY,
-    product_name VARCHAR,
-    product_price INT,
+    id SERIAL PRIMARY KEY,
+    name VARCHAR,
+    price INT,
     small_category_id INT,
-    FOREIGN KEY (small_category_id) REFERENCES small_categories (small_category_id)
+    FOREIGN KEY (small_category_id) REFERENCES small_categories (id)
 );
 
 CREATE TABLE users (
-    user_id VARCHAR PRIMARY KEY,
-    user_password VARCHAR,
-    user_role VARCHAR
+    id VARCHAR PRIMARY KEY,
+    password VARCHAR,
+    role VARCHAR
 );
 
 CREATE TABLE tags (
-    tag_id SERIAL PRIMARY KEY,
-    tag_name VARCHAR
+    id SERIAL PRIMARY KEY,
+    name VARCHAR
 );
 
 CREATE TABLE options (
-    option_id SERIAL PRIMARY KEY,
-    option_name VARCHAR
+    id SERIAL PRIMARY KEY,
+    name VARCHAR
 );
 
 CREATE TABLE option_properties (
-    option_property_id SERIAL PRIMARY KEY,
-    option_property_name VARCHAR,
-    option_property_additional_price INT,
-    option_property_base BOOLEAN,
+    id SERIAL PRIMARY KEY,
+    name VARCHAR,
+    additional_price INT,
+    base BOOLEAN,
     option_id INT,
-    FOREIGN KEY (option_id) REFERENCES options (option_id)
+    FOREIGN KEY (option_id) REFERENCES options (id)
 );
 
 -- 중간 테이블
 CREATE TABLE products_tags (
     product_id INT,
     tag_id INT,
-    FOREIGN KEY (product_id) REFERENCES products (product_id),
-    FOREIGN KEY (tag_id) REFERENCES tags (tag_id)
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    FOREIGN KEY (tag_id) REFERENCES tags (id)
 );
 
 CREATE TABLE products_options (
     product_id INT,
     option_id INT,
-    FOREIGN KEY (product_id) REFERENCES products (product_id),
-    FOREIGN KEY (option_id) REFERENCES options (option_id)
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    FOREIGN KEY (option_id) REFERENCES options (id)
 );
 
 -- 장바구니 관련 테이블
 CREATE TABLE detailed_products (
-    detailed_product_id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     product_id INT,
-    FOREIGN KEY (product_id) REFERENCES products (product_id)
+    FOREIGN KEY (product_id) REFERENCES products (id)
 );
 
 CREATE TABLE detailed_products_option_properties (
     detailed_product_id INT,
     option_property_id INT,
-    FOREIGN KEY (detailed_product_id) REFERENCES detailed_products (detailed_product_id),
-    FOREIGN KEY (option_property_id) REFERENCES option_properties (option_property_id)
+    FOREIGN KEY (detailed_product_id) REFERENCES detailed_products (id),
+    FOREIGN KEY (option_property_id) REFERENCES option_properties (id)
 );
 
 CREATE TABLE carts (
     user_id VARCHAR,
     detailed_product_id INT,
-    cart_product_amount INT,
-    FOREIGN KEY (user_id) REFERENCES users (user_id),
-    FOREIGN KEY (detailed_product_id) REFERENCES detailed_products (detailed_product_id)
+    product_amount INT,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (detailed_product_id) REFERENCES detailed_products (id)
 );
 
 -- 샘플 데이터
-INSERT INTO big_categories (big_category_name) VALUES
+INSERT INTO big_categories (name) VALUES
     ('Apparel'),
     ('Accessories'),
     ('Stationary');
 
-INSERT INTO small_categories (small_category_name, big_category_id) VALUES
+INSERT INTO small_categories (name, big_category_id) VALUES
     ('Hoodies', 1),
     ('T-shirts', 1),
     ('Pants', 1),
@@ -112,7 +112,7 @@ INSERT INTO small_categories (small_category_name, big_category_id) VALUES
     ('Mouse Pads', 3),
     ('Pens', 3);
 
-INSERT INTO products (product_name, product_price, small_category_id) VALUES
+INSERT INTO products (name, price, small_category_id) VALUES
     ('Overweight Hoodie', 25000, 1),
     ('Crop Hoodie', 20000, 1),
     ('Crop T-shirt', 12000, 2),
@@ -134,18 +134,18 @@ INSERT INTO users VALUES
     ('test_a', 'test_a', 'admin'),
     ('test_c', 'test_c', 'customer');
 
-INSERT INTO tags (tag_name) VALUES
+INSERT INTO tags (name) VALUES
     ('Trendy'),
     ('Modern'),
     ('Useful'),
     ('Summer'),
     ('Deskterior');
 
-INSERT INTO options (option_name) VALUES
+INSERT INTO options (name) VALUES
     ('Color'),
     ('Size');
 
-INSERT INTO option_properties (option_property_name, option_property_additional_price, option_property_base, option_id)VALUES
+INSERT INTO option_properties (name, additional_price, base, option_id)VALUES
     ('Red', 0, true, 1),
     ('Black', 0, false, 1),
     ('Blue', 0, false, 1),
@@ -184,20 +184,3 @@ INSERT INTO products_options (product_id, option_id) VALUES
     (14, 1),
     (15, 1),
     (16, 1);
-
-INSERT INTO detailed_products (product_id) VALUES
-    (2),
-    (2),
-    (16);
-
-INSERT INTO detailed_products_option_properties (detailed_product_id, option_property_id) VALUES
-    (1, 2),
-    (1, 5),
-    (2, 3),
-    (2, 6),
-    (3, 1);
-
-INSERT INTO carts (user_id, detailed_product_id, cart_product_amount) VALUES
-    ('test_c', 1, 2),
-    ('test_c', 2, 1),
-    ('test_c', 3, 2);

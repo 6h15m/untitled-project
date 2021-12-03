@@ -7,7 +7,7 @@
     "build:front:server:w": "tsc -w -p ./front/server/tsconfig.json",
     "build:front:src:w": "tsc -w -p ./front/src/tsconfig.json",
     "build:back:w": "tsc -w -p back/tsconfig.json",
-    "build:models": "tsc -p models/tsconfig.json",
+    "build:models:w": "tsc -w -p models/tsconfig.json",
     "webpack:front:w": "webpack --watch --config ./front/webpack.config.cjs",
     "build-webpack:front:src:w": "run-p build:front:src:w webpack:front:w",
     "build-webpack:front:w": "run-p build:front:server:w build-webpack:front:src:w",

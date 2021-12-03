@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { SendDetailType } from '../../../../models/detail.interface';
+import { PostDetailType } from '../../../../models/data.interface';
 
-async function postDetailData(data: SendDetailType) {
+async function postDetailData(data: PostDetailType) {
   try {
     console.log(data);
     await axios.post(`/@api/detail/addToCart`, JSON.stringify(data), {
@@ -9,7 +9,7 @@ async function postDetailData(data: SendDetailType) {
         'Content-Type': `application/json`,
       },
     });
-    console.log('add cart' + data);
+    console.log(data);
   } catch (err) {
     console.error(err);
     throw err;

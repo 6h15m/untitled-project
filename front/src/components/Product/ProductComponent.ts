@@ -1,23 +1,23 @@
 import { map, pipe } from '@fxts/core';
 import styl from './styl';
 import join from '../../join';
-import { ProductsType } from '../../../../models/product.interface';
+import { GetProductsType } from '../../../../models/data.interface';
 
 export class ProductComponent extends HTMLElement {
   static get componentName() {
     return 'product-component';
   }
 
-  constructor(product_data: ProductsType) {
+  constructor(products_data: GetProductsType) {
     super();
     const productContent = `
       <div class="wrap">
         ${pipe(
-          product_data.products,
+          products_data.products,
           map(
             (p) => `
-            <a href='./detail?product_id=${p.product_id}' class='product-container'>
-              <div class='product'>${p.product_name}</div>
+            <a href='./detail?product_id=${p.id}' class='product-container'>
+              <div class='product'>${p.name}</div>
             </a>
             `,
           ),

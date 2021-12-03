@@ -1,23 +1,23 @@
 import { map, pipe } from '@fxts/core';
 import styl from './styl';
 import join from '../../join';
-import { CategoryType } from '../../../../models/category.interface';
+import { GetCategoriesType } from '../../../../models/data.interface';
 
 export class CategoryComponent extends HTMLElement {
   static get componentName() {
     return 'category-component';
   }
 
-  constructor(category_data: CategoryType) {
+  constructor(categories_data: GetCategoriesType) {
     super();
     const categoryContent = `
       <div class="wrap">
         <div class="big-category-container">
           ${pipe(
-            category_data.big_categories,
+            categories_data.big_categories,
             map(
               (b) => `
-              <div class="big-category">${b.big_category_name}</div>
+              <div class="big-category">${b.name}</div>
               `,
             ),
             join(''),
@@ -25,10 +25,10 @@ export class CategoryComponent extends HTMLElement {
         </div>
         <div class="small-category-container">
           ${pipe(
-            category_data.small_categories,
+            categories_data.small_categories,
             map(
               (s) => `
-                <div class="small-category">${s.small_category_name}</div>
+                <div class="small-category">${s.name}</div>
               `,
             ),
             join(''),

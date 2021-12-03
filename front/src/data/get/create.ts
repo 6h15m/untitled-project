@@ -1,14 +1,13 @@
 import axios from 'axios';
-import { CreateType } from '../../../../models/create.interface';
+import { GetCategoriesType, TagType } from '../../../../models/data.interface';
 
-async function getCategoryData() {
+export default async function getCreateData() {
   try {
-    const res = await axios.get<CreateType>('/@api/create');
-    return res.data;
+    const res_categories = await axios.get<GetCategoriesType>('/@api/categories');
+    const res_tags = await axios.get<Array<TagType>>('/@api/tags');
+    return { categories: res_categories.data, tags: res_tags.data };
   } catch (err) {
     console.error(err);
     throw err;
   }
 }
-
-export default getCategoryData;
