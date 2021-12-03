@@ -2,6 +2,7 @@ import styl from './styl';
 
 export class CounterComponent extends HTMLElement {
   private count: number;
+  private readonly shadow_root: ShadowRoot;
   static get componentName() {
     return 'counter-component';
   }
@@ -24,23 +25,19 @@ export class CounterComponent extends HTMLElement {
 
     const counterStyle = document.createElement('style');
     counterStyle.textContent = styl;
-    const shadowRoot = this.attachShadow({ mode: 'open' });
+    this.shadow_root = this.attachShadow({ mode: 'open' });
+    const shadowRoot = this.shadow_root;
     shadowRoot.innerHTML = counterContent;
     shadowRoot.appendChild(counterStyle);
   }
 
   connectedCallback() {
-    if (this.shadowRoot) {
-      const inc_el = this.shadowRoot.getElementById('inc');
-      const dec_el = this.shadowRoot.getElementById('dec');
-      if (inc_el === null || dec_el === null) {
-        return;
-      }
-      inc_el.onclick = () => this.inc();
-      dec_el.onclick = () => this.dec();
+    const inc_el = this.shadow_root.getElementById('inc');
+    const dec_el = this.shadow_root.getElementById('dec');
+    inc_el!.onclick = () => this.inc();
+    dec_el!.onclick = () => this.dec();
 
-      this.update(this.count);
-    }
+    this.update(this.count);
   }
 
   private inc() {
@@ -60,12 +57,7 @@ export class CounterComponent extends HTMLElement {
   }
 
   private update(count: number) {
-    if (this.shadowRoot) {
-      const amount_el = this.shadowRoot.getElementById('amount');
-      if (amount_el === null) {
-        return;
-      }
-      amount_el.innerHTML = String(count);
-    }
+    const amount_el = this.shadow_root.getElementById('amount');
+    amount_el!.innerHTML = String(count);
   }
 }
