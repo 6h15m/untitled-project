@@ -3,13 +3,7 @@ import { FooterComponent } from '../../components/Footer/FooterComponent.js';
 import { DetailComponent } from '../../components/Detail/DetailComponent.js';
 import getDetailData from '../../data/get/detail';
 
-// TODO: 조금 더 함수형적으로 사고해보자
-const urlParams = new URLSearchParams(window.location.search);
-let product_id = 1;
-const ex_id = urlParams.get('product_id');
-if (ex_id != null) {
-  product_id = parseInt(ex_id);
-}
+const product_id = parseInt(new URLSearchParams(window.location.search).get('product_id')!);
 
 (async () => {
   // 웹 컴포넌트 등록
