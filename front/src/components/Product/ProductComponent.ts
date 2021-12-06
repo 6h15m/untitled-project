@@ -22,7 +22,11 @@ export class ProductComponent extends HTMLElement {
             `,
           ),
           join(''),
-        )}
+        ) ?? `
+        <div class="no-product">
+          No products in this category! 😖
+        </div>
+        `} 
       </div>
     `;
     const productStyle = document.createElement('style');
