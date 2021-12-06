@@ -41,11 +41,11 @@ export class DetailComponent extends HTMLElement {
         <div class="product-image"></div>
         <div class="product-info">
           <div class="product-category">
-            <a class='product-big-category'>
+            <a class='product-big-category' href='http://localhost:8081?big_category_id=${detail_data.big_category.id}'>
               ${detail_data.big_category.name}
             </a>
             <div class='category-arrow'>></div> 
-            <a class='product-small-category'>
+            <a class='product-small-category' href='http://localhost:8081?small_category_id=${detail_data.small_category.id}'>
             ${detail_data.small_category.name}
             </a>
           </div>
