@@ -63,19 +63,7 @@ input::-webkit-inner-spin-button {
   align-items: center;
   width: 35rem;
   flex-flow: row wrap;
-}
-.tag {
-  margin-right: .6rem;
-  padding: .4rem 1rem;
-  background-color: #f4f5f8;
-  border-radius: 1rem;
-  font-size: .8rem;
-  cursor: pointer;
-  margin-bottom: .6rem;
-}
-.tag:hover {
-  background-color: #212529;
-  color: white;
+  margin-bottom: -1.4rem;
 }
 .add-tag-btn {
   width: 1.6rem;
@@ -86,7 +74,7 @@ input::-webkit-inner-spin-button {
   color: white;
   display: flex;
   justify-content: center;
-  margin-bottom: .6rem;
+  margin-bottom: 1.4rem;
 }
 .options-container {
   display: flex;
@@ -149,5 +137,27 @@ input::-webkit-inner-spin-button {
   font-size: 1.1em;
   align-self: center;
   margin-top: 2rem;
+}
+.tag {
+  margin-bottom: 1.4rem;
+}
+
+input[type="checkbox"]:not(:checked), 
+input[type="checkbox"]:checked {
+  display:none;
+}
+
+input[type="checkbox"] + label {
+  margin-right: .6rem;
+  padding: .4rem 1rem;
+  background-color: #f4f5f8;
+  border-radius: 1rem;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label {
+  color: white;
+  background-color: #212529;
 }
 `;

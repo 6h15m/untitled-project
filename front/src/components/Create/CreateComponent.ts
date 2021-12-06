@@ -7,6 +7,7 @@ import { GetCreateType } from '../../../../models/data.interface';
 export class CreateComponent extends HTMLElement {
   private readonly shadow_root: ShadowRoot;
   private readonly create_data: GetCreateType;
+  private last_tag_id: number;
 
   static get componentName() {
     return 'create-component';
@@ -15,6 +16,7 @@ export class CreateComponent extends HTMLElement {
   constructor(create_data: GetCreateType) {
     super();
     this.create_data = create_data;
+    this.last_tag_id = create_data.tags[create_data.tags.length - 1].id;
     const createContent = `
       <div class="wrap">
         <h2>Create New Product</h2>
@@ -54,7 +56,13 @@ export class CreateComponent extends HTMLElement {
               <div class="tags-container" id="tags-container">
                 ${pipe(
                   create_data.tags,
-                  map((t) => `<div id=${t.id} class="tag">${t.name}</div>`),
+                  map(
+                    (t) => `
+                      <div class='tag'>
+                        <input type='checkbox' id="tag-${t.id}">
+                        <label for="tag-${t.id}">${t.name}</label>
+                      </div>`,
+                  ),
                   join(''),
                 )}
                 <input type="button" value="+" class="add-tag-btn" id="add-tag-btn"/>
@@ -103,10 +111,16 @@ export class CreateComponent extends HTMLElement {
 
   private addTag = (add_tag_btn_el: HTMLElement) => {
     const tag_name = prompt("What's your new tag name? 😲");
-    const tag_id = 1;
     const tags_container_el = this.shadow_root.getElementById('tags-container');
     const createTag = document.createElement('div');
-    createTag.innerHTML = `<div id=${tag_id} class="tag">${tag_name}</div>`;
+    createTag.innerHTML = `
+      <div class="tag">
+        <input type='checkbox' id="tag-${this.last_tag_id + 1}">
+        <label for="tag-${this.last_tag_id + 1}">${tag_name}</label>
+      </div>
+    `;
+    tags_container_el!.appendChild(createTag.firstChild!);
     tags_container_el!.insertBefore(createTag.firstChild!, add_tag_btn_el!);
+    this.last_tag_id += 1;
   };
 }
