@@ -1,4 +1,4 @@
-import { each, filter, map, pipe, reduce } from '@fxts/core';
+import { each, filter, map, pipe, reduce, toArray } from '@fxts/core';
 import join from '../../join';
 import styl from './styl';
 import { GetDetailType, PostDetailType } from '../../../../models/data.interface';
@@ -41,11 +41,15 @@ export class DetailComponent extends HTMLElement {
         <div class="product-image"></div>
         <div class="product-info">
           <div class="product-category">
-            <a class='product-big-category' href='http://localhost:8081?big_category_id=${detail_data.big_category.id}'>
+            <a class='product-big-category' href='http://localhost:8081?big_category_id=${
+              detail_data.big_category.id
+            }'>
               ${detail_data.big_category.name}
             </a>
             <div class='category-arrow'>></div> 
-            <a class='product-small-category' href='http://localhost:8081?small_category_id=${detail_data.small_category.id}'>
+            <a class='product-small-category' href='http://localhost:8081?small_category_id=${
+              detail_data.small_category.id
+            }'>
             ${detail_data.small_category.name}
             </a>
           </div>
@@ -139,6 +143,11 @@ export class DetailComponent extends HTMLElement {
   }
 
   async sendData() {
+    this.data.option_property_ids = pipe(
+      this.data.option_property_ids,
+      filter((id) => id != null),
+      toArray,
+    );
     await postDetailData(this.data);
     alert('Product added to the cart! 🛒');
   }
