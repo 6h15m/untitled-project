@@ -17,7 +17,6 @@ router.get('/:user_id', async function (req, res, next) {
           < detailed_products_option_properties
             - option_property
     `;
-    console.log(carts_data[0]._.detailed_product._.detailed_products_option_properties);
     res.json({
       user_id: user_id,
       carts: pipe(
