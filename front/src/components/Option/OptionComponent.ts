@@ -1,9 +1,10 @@
 import styl from './styl';
 import { OptionPropertyComponent } from '../OptionProperty/OptionPropertyComponent';
-import { map, pipe, toArray } from '@fxts/core';
+import { each, map, pipe, toArray } from '@fxts/core';
 
 export class OptionComponent extends HTMLElement {
   private readonly shadow_root: ShadowRoot;
+  private readonly option_property_component_el: OptionPropertyComponent;
 
   static get componentName() {
     return 'option-component';
@@ -34,9 +35,10 @@ export class OptionComponent extends HTMLElement {
     shadowRoot.innerHTML = optionContent;
     shadowRoot.appendChild(optionStyle);
     customElements.define(OptionPropertyComponent.componentName, OptionPropertyComponent);
+    this.option_property_component_el = new OptionPropertyComponent()
     this.shadow_root
       .getElementById('option-properties-outer-container')
-      ?.appendChild(new OptionPropertyComponent());
+      ?.appendChild(this.option_property_component_el);
   }
 
   connectedCallback() {
@@ -64,6 +66,19 @@ export class OptionComponent extends HTMLElement {
     createOption.appendChild(createOptionProperties);
     options_container_el.insertBefore(createOption, add_option_btn_el);
   }
+
+  checkNullValue = () => {
+    const input_els = this.shadow_root.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
+    pipe(
+      input_els,
+      each((el) => {
+        if (!el.value) {
+          throw 'Unfilled Field';
+        }
+      }),
+    );
+    return this.option_property_component_el.checkNullValue();
+  };
 
   getOptionData() {
     const option_els = this.shadow_root.querySelectorAll('div.option');

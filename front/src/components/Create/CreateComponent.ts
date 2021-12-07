@@ -1,4 +1,4 @@
-import { filter, map, pipe, toArray } from '@fxts/core';
+import { each, filter, map, pipe, toArray } from '@fxts/core';
 import join from '../../join';
 import styl from './styl';
 import { OptionComponent } from '../Option/OptionComponent';
@@ -99,9 +99,28 @@ export class CreateComponent extends HTMLElement {
       this.addTag(add_tag_btn_el);
     });
     create_btn_el?.addEventListener('click', () => {
-      this.sendProductData();
+      try {
+        this.checkNullValue();
+        this.sendProductData();
+      } catch (e) {
+        alert('Please fill all value! 😔');
+      }
     });
   }
+
+  private checkNullValue = () => {
+    const input_els = this.shadow_root.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
+    pipe(
+      input_els,
+      filter((el) => el.name !== 'tag'),
+      each((el) => {
+        if (!el.value) {
+          throw 'Unfilled field';
+        }
+      }),
+    );
+    return this.option_component_el.checkNullValue();
+  };
 
   private getSelectedValue = (selector_el: HTMLSelectElement) =>
     +selector_el.options[selector_el.selectedIndex].value;

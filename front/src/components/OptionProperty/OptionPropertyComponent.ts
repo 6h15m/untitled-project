@@ -1,5 +1,5 @@
 import styl from './styl';
-import { map, pipe, toArray } from '@fxts/core';
+import { each, map, pipe, toArray } from '@fxts/core';
 
 export class OptionPropertyComponent extends HTMLElement {
   private readonly shadow_root: ShadowRoot;
@@ -49,6 +49,19 @@ export class OptionPropertyComponent extends HTMLElement {
       );
     });
   }
+
+  checkNullValue = () => {
+    const input_els = this.shadow_root.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
+    pipe(
+      input_els,
+      each((el) => {
+        if (!el.value) {
+          throw 'Unfilled Field';
+        }
+      }),
+    );
+    return true;
+  };
 
   private static addOptionProperty(
     option_properties_container_el: HTMLElement,
