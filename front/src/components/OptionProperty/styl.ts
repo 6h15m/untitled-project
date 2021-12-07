@@ -64,4 +64,9 @@ input::-webkit-inner-spin-button {
 .bg-white {
   background-color: white !important;
 }
+.property-base-container {
+  display: flex;
+  margin-right: 2rem;
+  align-items: center;
+}
 `;

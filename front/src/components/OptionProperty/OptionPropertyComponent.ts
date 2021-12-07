@@ -1,4 +1,5 @@
 import styl from './styl';
+import { map, pipe, toArray } from '@fxts/core';
 
 export class OptionPropertyComponent extends HTMLElement {
   private readonly shadow_root: ShadowRoot;
@@ -13,6 +14,10 @@ export class OptionPropertyComponent extends HTMLElement {
       <div class="wrap" id="option-properties-container">
         <h4>Option Properties</h4>
         <div class="option-property">
+          <div class='property-base-container'>
+            <h5>Base Property</h5>
+            <input type='radio' name='base' checked/>
+          </div>
           <div class="property-name-container">
             <h5>Property Name</h5>
             <input type="text" class="property-input"/>
@@ -52,14 +57,38 @@ export class OptionPropertyComponent extends HTMLElement {
     const createOptionProperty = document.createElement('div');
     createOptionProperty.className = 'option-property';
     createOptionProperty.innerHTML = `
+      <div class='property-base-container'>
+        <h5>Base Property</h5>
+        <input type='radio' name='base'/>
+      </div>
       <div class="property-name-container">
         <h5>Property Name</h5>
-        <input type="text" class="property-input"/>
+        <input type="text" class="property-input" name='name'/>
       </div>
       <div class="additional-price-container">
         <h5>Additional Price</h5>
-        <input type="number" class="property-input" placeholder='0'/>
+        <input type="number" class="property-input" placeholder='0' name='additional-price'/>
       </div>`;
     option_properties_container_el.insertBefore(createOptionProperty, add_option_property_btn_el);
+  }
+
+  getOptionPropertyData() {
+    const option_property_els = this.shadow_root.querySelectorAll('div.option-property');
+    return pipe(
+      option_property_els,
+      map((el) => ({
+        base:
+          (
+            el.querySelector('div.property-base-container')?.querySelector('input') as HTMLInputElement
+          )?.hasAttribute('checked') ?? false,
+        name:
+          (el.querySelector('div.property-name-container')?.querySelector('input') as HTMLInputElement)
+            ?.value ?? '',
+        additional_price:
+          +(el.querySelector('div.additional-price-container')?.querySelector('input') as HTMLInputElement)
+            ?.value ?? 0,
+      })),
+      toArray,
+    );
   }
 }

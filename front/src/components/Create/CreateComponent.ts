@@ -1,13 +1,15 @@
-import { filter, map, pipe } from '@fxts/core';
+import { filter, map, pipe, toArray } from '@fxts/core';
 import join from '../../join';
 import styl from './styl';
 import { OptionComponent } from '../Option/OptionComponent';
 import { GetCreateType } from '../../../../models/data.interface';
+import postCreateData from '../../data/post/create';
 
 export class CreateComponent extends HTMLElement {
   private readonly shadow_root: ShadowRoot;
   private readonly create_data: GetCreateType;
   private last_tag_id: number;
+  private readonly option_component_el: OptionComponent;
 
   static get componentName() {
     return 'create-component';
@@ -44,11 +46,11 @@ export class CreateComponent extends HTMLElement {
           </div>
           <div class="product-name-container">
             <h3>Product Name</h3>
-            <input type="text"/>
+            <input type="text" id="product-name-field"/>
           </div>
           <div class="product-price-container">
             <h3>Product Price</h3>
-            <input type="number" placeholder='0'/>
+            <input type="number" placeholder='0' id='product-price-field'/>
           </div>
           <div class="product-tags-container">
             <h3>Tags</h3>
@@ -59,7 +61,7 @@ export class CreateComponent extends HTMLElement {
                   map(
                     (t) => `
                       <div class='tag'>
-                        <input type='checkbox' id="tag-${t.id}">
+                        <input type='checkbox' id="tag-${t.id}" name='tag' value=${t.id}>
                         <label for="tag-${t.id}">${t.name}</label>
                       </div>`,
                   ),
@@ -70,7 +72,7 @@ export class CreateComponent extends HTMLElement {
             </div>
           </div>
           <div class="product-options-container" id="product-options-container"></div>
-          <input type='submit' value='Create' class='create-btn'/>
+          <input type='button' value='Create' class='create-btn' id='create-btn'/>
         </form>
       </div>
     `;
@@ -82,17 +84,22 @@ export class CreateComponent extends HTMLElement {
     shadowRoot.innerHTML = createContent;
     shadowRoot.appendChild(createStyle);
     customElements.define(OptionComponent.componentName, OptionComponent);
-    this.shadow_root.getElementById('product-options-container')?.appendChild(new OptionComponent());
+    this.option_component_el = new OptionComponent();
+    this.shadow_root.getElementById('product-options-container')?.appendChild(this.option_component_el);
   }
 
   connectedCallback() {
     const big_category_selector_el = this.shadow_root.getElementById('big-category-selector');
     const add_tag_btn_el = this.shadow_root.getElementById('add-tag-btn');
+    const create_btn_el = this.shadow_root.getElementById('create-btn');
     big_category_selector_el?.addEventListener('change', () => {
       this.changeSmallCategoryOptions(this.getSelectedValue(big_category_selector_el as HTMLSelectElement));
     });
     add_tag_btn_el?.addEventListener('click', () => {
       this.addTag(add_tag_btn_el);
+    });
+    create_btn_el?.addEventListener('click', () => {
+      this.sendProductData();
     });
   }
 
@@ -115,12 +122,36 @@ export class CreateComponent extends HTMLElement {
     const createTag = document.createElement('div');
     createTag.innerHTML = `
       <div class="tag">
-        <input type='checkbox' id="tag-${this.last_tag_id + 1}">
-        <label for="tag-${this.last_tag_id + 1}">${tag_name}</label>
+        <input type='checkbox' id="tag-${this.last_tag_id + 1}" value=${this.last_tag_id + 1} name='tag'>
+        <label for="tag-${this.last_tag_id + 1}" is='new'>${tag_name}</label>
       </div>
     `;
     tags_container_el!.appendChild(createTag.firstChild!);
     tags_container_el!.insertBefore(createTag.firstChild!, add_tag_btn_el!);
     this.last_tag_id += 1;
   };
+
+  async sendProductData() {
+    const small_category_selector_el = this.shadow_root.getElementById(
+      'small-category-selector',
+    ) as HTMLSelectElement;
+    const product_name_field_el = this.shadow_root.getElementById('product-name-field') as HTMLInputElement;
+    const product_price_field_el = this.shadow_root.getElementById('product-price-field') as HTMLInputElement;
+    const selected_tag_els = this.shadow_root.querySelectorAll(
+      'input[name="tag"]:checked',
+    ) as NodeListOf<HTMLInputElement>;
+
+    await postCreateData({
+      small_category_id: +small_category_selector_el.options[small_category_selector_el.selectedIndex].id,
+      product_name: product_name_field_el.value,
+      product_price: +product_price_field_el.value,
+      tags: pipe(
+        selected_tag_els,
+        map((s) => ({ id: +s.value, name: s.labels![0].hasAttribute('is') ? s.labels![0].innerHTML : '' })),
+        toArray,
+      ),
+      options: this.option_component_el.getOptionData(),
+    });
+    alert('Product created! 😉');
+  }
 }

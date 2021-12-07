@@ -31,8 +31,22 @@ export interface OptionPropertyType {
   id: number;
   name: string;
   additional_price: number;
-  base: number;
-  option_id: number;
+  base: boolean;
+  option_id?: number;
+}
+
+export interface PostOptionType {
+  id?: number;
+  name: string;
+  option_properties: Array<PostOptionPropertyType>;
+}
+
+export interface PostOptionPropertyType {
+  id?: number;
+  name: string;
+  additional_price: number;
+  base: boolean;
+  option_id?: number;
 }
 
 export interface DetailedProductType {
@@ -59,6 +73,14 @@ export interface GetProductsType {
 export interface GetCreateType {
   categories: GetCategoriesType;
   tags: Array<TagType>;
+}
+
+export interface PostCreateType {
+  small_category_id: number;
+  product_name: string;
+  product_price: number;
+  tags: Array<TagType>;
+  options: Array<PostOptionType>;
 }
 
 export interface GetDetailType {

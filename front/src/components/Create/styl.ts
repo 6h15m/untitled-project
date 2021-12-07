@@ -61,7 +61,7 @@ input::-webkit-inner-spin-button {
 .tags-container {
   display: flex;
   align-items: center;
-  width: 35rem;
+  width: 42rem;
   flex-flow: row wrap;
   margin-bottom: -1.4rem;
 }

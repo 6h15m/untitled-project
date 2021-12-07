@@ -1,5 +1,6 @@
 import styl from './styl';
 import { OptionPropertyComponent } from '../OptionProperty/OptionPropertyComponent';
+import { map, pipe, toArray } from '@fxts/core';
 
 export class OptionComponent extends HTMLElement {
   private readonly shadow_root: ShadowRoot;
@@ -17,9 +18,9 @@ export class OptionComponent extends HTMLElement {
           <div class="option">
             <div class="option-name-container">
               <h4>Option Name</h4>
-              <input type="text" class='bg-white'/>
+              <input type="text" class='bg-white' name='option-name'/>
             </div>
-            <div id="option-properties-outer-container"></div>
+            <div class='option-properties-outer-container' id="option-properties-outer-container"></div>
           </div>
           <input type="button" value="+" class="add-btn" id="add-option-btn"/>
         </div>
@@ -43,6 +44,7 @@ export class OptionComponent extends HTMLElement {
     const options_container_el = this.shadow_root.getElementById('options-container');
     add_option_btn_el?.addEventListener('click', () => {
       OptionComponent.addOption(options_container_el as HTMLElement, add_option_btn_el as HTMLElement);
+      this.getOptionData();
     });
   }
 
@@ -50,6 +52,7 @@ export class OptionComponent extends HTMLElement {
     const createOption = document.createElement('div');
     const createOptionProperties = document.createElement('div');
     createOptionProperties.id = 'option-properties-outer-container';
+    createOptionProperties.className = 'option-properties-outer-container';
     createOptionProperties.appendChild(new OptionPropertyComponent());
     createOption.className = 'option';
     createOption.innerHTML = `
@@ -60,5 +63,21 @@ export class OptionComponent extends HTMLElement {
     `;
     createOption.appendChild(createOptionProperties);
     options_container_el.insertBefore(createOption, add_option_btn_el);
+  }
+
+  getOptionData() {
+    const option_els = this.shadow_root.querySelectorAll('div.option');
+    return pipe(
+      option_els,
+      map((el) => ({
+        name: el.querySelector('div.option-name-container')?.querySelector('input')?.value ?? '',
+        option_properties: (
+          el
+            .querySelector('div.option-properties-outer-container')
+            ?.querySelector('option-property-component') as OptionPropertyComponent
+        ).getOptionPropertyData(),
+      })),
+      toArray
+    );
   }
 }
