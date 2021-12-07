@@ -12,21 +12,37 @@ export class ProductComponent extends HTMLElement {
     super();
     const productContent = `
       <div class="wrap">
-        ${pipe(
-          products_data.products,
-          map(
-            (p) => `
+        ${
+          pipe(
+            products_data.products,
+            map(
+              (p) => `
             <a href='./detail?product_id=${p.id}' class='product-container'>
-              <div class='product'>${p.name}</div>
+              <div class='product'>
+                <div class='product-tags-container'>
+                  ${pipe(
+                    p.tags,
+                    map(
+                      (tag) => `
+                        <div class='tag'># ${tag.name}</div>
+                      `,
+                    ),
+                    join(''),
+                  ) ?? ''}
+                </div>
+                <div class='product-name'>${p.name}</div>
+              </div>
             </a>
             `,
-          ),
-          join(''),
-        ) ?? `
+            ),
+            join(''),
+          ) ??
+          `
         <div class="no-product">
           No products in this category! 😖
         </div>
-        `} 
+        `
+        } 
       </div>
     `;
     const productStyle = document.createElement('style');

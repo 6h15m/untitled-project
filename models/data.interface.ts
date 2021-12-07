@@ -67,7 +67,13 @@ export interface GetCategoriesType {
 }
 
 export interface GetProductsType {
-  products: Array<ProductType>;
+  products: Array<{
+    id: number;
+    name: string;
+    price: number;
+    small_category_id: number;
+    tags: Array<TagType>;
+  }>;
 }
 
 export interface GetCreateType {

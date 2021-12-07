@@ -6,8 +6,28 @@ const { SQL, ASSOCIATE, CL } = POOL;
 
 router.get('/products', async function (req, res, next) {
   try {
-    const products = await POOL.QUERY`SELECT * FROM products`;
-    res.json({ products: products });
+    const products_data = await ASSOCIATE`
+      products
+        < products_tags
+          - tag
+    `;
+    res.json({
+      products: pipe(
+        products_data,
+        map((product_data: any) => ({
+          id: product_data.id,
+          name: product_data.name,
+          price: product_data.price,
+          small_category_id: product_data.small_category_id,
+          tags: pipe(
+            product_data._.products_tags,
+            map((product_tag: any) => product_tag._.tag),
+            toArray,
+          ),
+        })),
+        toArray,
+      ),
+    });
   } catch (error) {
     next(error);
   }
@@ -31,10 +51,8 @@ router.get('/productsFromBigCategoryId/:big_category_id', async function (req, r
         query: SQL`WHERE big_category_id = ${big_category_id}`,
         column: CL('id'),
       }}
-       < products
-         
+       < products   
     `;
-    console.log(products_data);
     res.json({
       products: pipe(
         products_data,
