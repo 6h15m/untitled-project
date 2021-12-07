@@ -18,7 +18,17 @@ a {
   height: 14rem;
   background-color: #e9ecef;
   display: flex;
-  align-items: flex-end;
+  justify-content: flex-end;
   padding: 1rem;
+  flex-flow: column;
+}
+.product-tags-container {
+  display: flex;
+  margin-bottom: .4rem;
+}
+.tag {
+  color: #4c6ef5;
+  margin-right: .4rem;
+  font-size: .9em;
 }
 `;
