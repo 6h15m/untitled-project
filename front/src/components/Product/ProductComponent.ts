@@ -39,7 +39,7 @@ export class ProductComponent extends HTMLElement {
           ) ??
           `
         <div class="no-product">
-          No products in this category! 😖
+          No products in here! 😖
         </div>
         `
         } 
