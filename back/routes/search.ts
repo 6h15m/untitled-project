@@ -9,7 +9,7 @@ router.get('/:query', async function (req, res, next) {
     const query = req.params.query;
     const product_data_from_name = await ASSOCIATE`
       products ${{
-        query: SQL`WHERE name LIKE ${'%' + query + '%'}`,
+        query: SQL`WHERE UPPER(name) LIKE UPPER(${'%' + query + '%'})`,
       }}
         < products_tags
           - tag
