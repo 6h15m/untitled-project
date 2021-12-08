@@ -57,6 +57,11 @@ export interface DetailedProductType {
   option_properties: Array<OptionPropertyType>;
 }
 
+export interface DetailedProductsOptionPropertyType {
+  detailed_product_id: number;
+  option_property_id: number;
+}
+
 export interface CartType {
   product_amount: number;
   detailed_product: DetailedProductType;
