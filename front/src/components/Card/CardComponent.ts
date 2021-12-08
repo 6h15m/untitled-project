@@ -1,7 +1,6 @@
 import styl from './styl';
-import { map, pipe } from '@fxts/core';
+import { map, pipe, join } from '@fxts/core';
 import { CartType } from '../../../../models/data.interface';
-import join from '../../join';
 import { CounterComponent } from '../Counter/CounterComponent';
 import deleteCartData from '../../data/delete/cart';
 

@@ -1,5 +1,4 @@
-import { each, filter, map, pipe, reduce, toArray } from '@fxts/core';
-import join from '../../join';
+import { each, filter, map, pipe, reduce, toArray, join } from '@fxts/core';
 import styl from './styl';
 import { GetDetailType, PostDetailType } from '../../../../models/data.interface';
 import { CounterComponent } from '../Counter/CounterComponent';
