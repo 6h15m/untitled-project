@@ -4,7 +4,7 @@ import POOL from '../database/connect.js';
 import { flat, map, pipe, toArray } from '@fxts/core';
 const { SQL, ASSOCIATE, CL } = POOL;
 
-const modifyProductData = (products_data: any) => ({
+export const modifyProductData = (products_data: any) => ({
   products: pipe(
     products_data,
     map((product_data: any) => ({

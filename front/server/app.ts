@@ -63,6 +63,19 @@ app.get('/create', (req, res) => {
   `);
 });
 
+app.get('/search', (req, res) => {
+  res.type('html').send(`
+    <html lang="ko">
+      <head>
+        <title>Untitled. | Search</title>
+        <link rel="stylesheet" type="text/css" href="${'/public/css/tmpl.css'}"/>
+      </head>
+      <body></body>
+      <script src="${'/public/js/pages/search/index.bundle.js'}"></script>
+    </html>
+  `);
+});
+
 app.listen(8081, () => {
   console.log('서버 실행');
 });

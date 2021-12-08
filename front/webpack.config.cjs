@@ -5,7 +5,7 @@ const config = {
   devtool: 'inline-source-map',
 };
 
-const dir_list = ['home', 'cart', 'detail', 'create'];
+const dir_list = ['home', 'cart', 'detail', 'create', 'search'];
 
 module.exports = dir_list.map((dir_name) => ({
   ...config,

@@ -5,6 +5,7 @@ import indexRouter from './routes/index.js';
 import detailRouter from './routes/detail.js';
 import cartRouter from './routes/cart.js';
 import createRouter from './routes/create.js';
+import searchRouter from './routes/search.js';
 
 const app = express();
 const PORT = 8082;
@@ -16,6 +17,7 @@ app.use('/', indexRouter);
 app.use('/detail', detailRouter);
 app.use('/cart', cartRouter);
 app.use('/create', createRouter);
+app.use('/search', searchRouter);
 
 const defaultErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   console.error(error);
