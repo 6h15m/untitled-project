@@ -40,17 +40,11 @@ export class CartComponent extends HTMLElement {
         shadowRoot.getElementById('cart-product-container')?.appendChild(new CardComponent(c));
       }),
     );
+
+    this.isCartEmpty();
   }
 
   connectedCallback() {
-    const cart_product_container_el = this.shadow_root.getElementById('cart-product-container');
-    if (cart_product_container_el?.hasChildNodes()) {
-      const notice_el = this.shadow_root.getElementById('notice');
-      if (notice_el) this.shadow_root.removeChild(notice_el);
-      return;
-    } else {
-      CartComponent.addNoProductNotice(cart_product_container_el!);
-    }
   }
 
   private static addNoProductNotice(cart_product_container_el: HTMLElement) {
@@ -60,6 +54,17 @@ export class CartComponent extends HTMLElement {
     const notice_content = document.createTextNode('Oops! Your cart is empty! 😞');
     notice.appendChild(notice_content);
     cart_product_container_el.appendChild(notice);
+  }
+
+  isCartEmpty() {
+    const cart_product_container_el = this.shadow_root.getElementById('cart-product-container');
+    if (cart_product_container_el?.hasChildNodes()) {
+      const notice_el = this.shadow_root.getElementById('notice');
+      if (notice_el) this.shadow_root.removeChild(notice_el);
+      return;
+    } else {
+      CartComponent.addNoProductNotice(cart_product_container_el!);
+    }
   }
 
   private updateTotalPrice = (product_total_price: number[]) => {

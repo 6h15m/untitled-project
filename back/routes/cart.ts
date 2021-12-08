@@ -25,6 +25,7 @@ router.get('/:user_id', async function (req, res, next) {
           product_amount: cart.product_amount,
           detailed_product: {
             id: cart._.detailed_product.id,
+            product_id: cart._.detailed_product._.product.id,
             name: cart._.detailed_product._.product.name,
             price: cart._.detailed_product._.product.price,
             option_properties: pipe(

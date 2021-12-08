@@ -50,6 +50,7 @@ export interface PostOptionPropertyType {
 }
 
 export interface DetailedProductType {
+  product_id?: number;
   id: number;
   name: string;
   price: number;

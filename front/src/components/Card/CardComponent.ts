@@ -26,7 +26,7 @@ export class CardComponent extends HTMLElement {
         <div class="product-container">
           <div class="product">
             <div class="product-left">
-              <a href="../detail?product_id=${cart_data.detailed_product.id}" class="product-name">
+              <a href="../detail?product_id=${cart_data.detailed_product.product_id}" class="product-name">
                 ${cart_data.detailed_product.name}
               </a>
               <div class="product-option-property">
