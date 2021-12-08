@@ -1,5 +1,4 @@
-import { each, filter, map, pipe, toArray } from '@fxts/core';
-import join from '../../join';
+import { each, filter, map, pipe, toArray, join } from '@fxts/core';
 import styl from './styl';
 import { OptionComponent } from '../Option/OptionComponent';
 import { GetCreateType } from '../../../../models/data.interface';
