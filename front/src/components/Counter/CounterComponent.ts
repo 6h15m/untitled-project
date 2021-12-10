@@ -1,50 +1,59 @@
 import styl from './styl';
 
 export class CounterComponent extends HTMLElement {
-  private count: number;
-  private readonly shadow_root: ShadowRoot;
   static get componentName() {
     return 'counter-component';
   }
 
-  get getCount() {
-    return this.count;
+  get count() {
+    return this._count;
   }
+
+  private _count: number;
+  private readonly shadow_root: ShadowRoot;
+  private readonly inc_button_el: HTMLInputElement;
+  private readonly dec_button_el: HTMLInputElement;
+  private readonly amount_el: HTMLDivElement;
 
   constructor(count: number) {
     super();
-    this.count = count;
-
-    const counterContent = `
-      <div class="amount-container">
-        <input type="button" id="dec" value="-" class="amount-control"/>
-        <div class="amount" id="amount">${this.count}</div>
-        <input type="button" id="inc" value="+" class="amount-control" />
-      </div>
-    `;
-
-    const counterStyle = document.createElement('style');
-    counterStyle.textContent = styl;
+    this._count = count;
     this.shadow_root = this.attachShadow({ mode: 'open' });
-    const shadowRoot = this.shadow_root;
-    shadowRoot.innerHTML = counterContent;
-    shadowRoot.appendChild(counterStyle);
-  }
+    this.inc_button_el = document.createElement('input');
+    this.inc_button_el.setAttribute('type', 'button');
+    this.inc_button_el.setAttribute('id', 'inc');
+    this.inc_button_el.setAttribute('value', '+');
+    this.inc_button_el.classList.add('amount-control');
+    this.dec_button_el = document.createElement('input');
+    this.dec_button_el.setAttribute('type', 'button');
+    this.dec_button_el.setAttribute('id', 'dec');
+    this.dec_button_el.setAttribute('value', '-');
+    this.dec_button_el.classList.add('amount-control');
+    this.amount_el = document.createElement('div');
+    this.amount_el.classList.add('amount');
+    this.amount_el.setAttribute('id', 'amount');
+    this.amount_el.innerHTML = `${this.count}`;
 
-  connectedCallback() {
-    const inc_el = this.shadow_root.getElementById('inc');
-    const dec_el = this.shadow_root.getElementById('dec');
-    inc_el!.onclick = () => this.inc();
-    dec_el!.onclick = () => this.dec();
+    const counter_style = document.createElement('style');
+    counter_style.textContent = styl;
+    this.shadow_root.appendChild(counter_style);
 
-    this.update(this.count);
+    const container_el = document.createElement('div');
+    container_el.classList.add('counter-container');
+    container_el.appendChild(this.dec_button_el);
+    container_el.appendChild(this.amount_el);
+    container_el.appendChild(this.inc_button_el);
+    this.shadow_root.appendChild(container_el);
+
+    this.inc_button_el.addEventListener('click', () => this.inc());
+    this.dec_button_el.addEventListener('click', () => this.dec());
   }
 
   private inc() {
     if (this.count === 100) {
       return;
     } else {
-      this.update(++this.count);
+      this.changeCount(++this._count);
     }
   }
 
@@ -52,12 +61,19 @@ export class CounterComponent extends HTMLElement {
     if (this.count === 1) {
       return;
     } else {
-      this.update(--this.count);
+      this.changeCount(--this._count);
     }
   }
 
-  private update(count: number) {
-    const amount_el = this.shadow_root.getElementById('amount');
-    amount_el!.innerHTML = String(count);
+  private changeCount(changed_count: number) {
+    this.amount_el.innerHTML = `${changed_count}`;
+    this.dispatchEvent(
+      new CustomEvent('@untitled/counter_change', {
+        bubbles: true,
+        cancelable: true,
+        composed: false,
+        detail: { changed_count },
+      }),
+    );
   }
 }

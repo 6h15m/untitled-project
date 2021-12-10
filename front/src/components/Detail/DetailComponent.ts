@@ -130,7 +130,7 @@ export class DetailComponent extends HTMLElement {
     const cart_btn_el = this.shadowRoot?.getElementById('cart-btn');
     cart_btn_el?.addEventListener('click', () => this.sendData());
     count_component_el?.addEventListener('click', () =>
-      this.updateAmount((count_component_el as CounterComponent).getCount),
+      this.updateAmount((count_component_el as CounterComponent).count),
     );
     pipe(
       option_property_radio_el,
