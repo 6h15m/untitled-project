@@ -118,3 +118,17 @@ export interface GetCartsType {
 export interface DeleteCartType {
   detailed_product_id: number;
 }
+
+interface CustomEventMap {
+  '@untitled/counter_change': CustomEvent<number>;
+  '@untitled/product_total_price_change': CustomEvent<number>;
+  '@untitled/delete_card': CustomEvent<HTMLElement>;
+}
+declare global {
+  interface HTMLElement {
+    addEventListener<K extends keyof CustomEventMap>(
+      type: K,
+      listener: (this: HTMLElement, event: CustomEventMap[K]) => void,
+    ): void;
+  }
+}

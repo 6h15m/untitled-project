@@ -1,92 +1,150 @@
 import styl from './styl';
-import { map, pipe, join } from '@fxts/core';
+import { map, pipe, join, reduce } from '@fxts/core';
 import { CartType } from '../../../../models/data.interface';
 import { CounterComponent } from '../Counter/CounterComponent';
 import deleteCartData from '../../data/delete/cart';
 
 export class CardComponent extends HTMLElement {
-  private cart_data: CartType;
-  private product_total_price: number[] = [];
-  private readonly shadow_root: ShadowRoot;
-  private readonly counter_component_el: CounterComponent;
-
   static get componentName() {
     return 'card-component';
   }
-  get productTotalPrice() {
-    return this.product_total_price;
+
+  get product_total_price() {
+    return this._product_total_price;
   }
+
+  private cart_data: CartType;
+  private _product_total_price: number = 0;
+  private readonly shadow_root: ShadowRoot;
+  private readonly product_price: number = 0;
+  private readonly product_info_container_el: HTMLDivElement;
+  private readonly product_info_left_el: HTMLDivElement;
+  private readonly product_name_el: HTMLAnchorElement;
+  private readonly product_option_properties_el: HTMLDivElement;
+  private readonly product_info_right_el: HTMLDivElement;
+  private readonly delete_btn_el: HTMLButtonElement;
+  private readonly product_price_el: HTMLDivElement;
+  private readonly cart_info_container_el: HTMLDivElement;
+  private readonly counter_component_el: CounterComponent;
+  private readonly product_total_price_el: HTMLDivElement;
+
   constructor(cart_data: CartType) {
     super();
     this.cart_data = cart_data;
-    this.product_total_price.push(cart_data.detailed_product.price * cart_data.product_amount);
-    const cardContent = `
-      <div class="wrap" id='wrap'>
-        <div class="product-container">
-          <div class="product">
-            <div class="product-left">
-              <a href="../detail?product_id=${cart_data.detailed_product.product_id}" class="product-name">
-                ${cart_data.detailed_product.name}
-              </a>
-              <div class="product-option-property">
-                ${pipe(
-                  cart_data.detailed_product.option_properties,
-                  map((op) => {
-                    cart_data.detailed_product.price += op.additional_price;
-                    return `${op.name}(+${op.additional_price})`;
-                  }),
-                  join(', '),
-                )}
-              </div>
-            </div>
-            <div class="product-right">
-              <button name="${cart_data.detailed_product.id}" class='delete' id='delete-btn'>X</button>
-              <div class="price">${cart_data.detailed_product.price.toLocaleString('ko-KR')}</div>
-            </div>
-          </div>
-          <div class="cart-product">
-            <div class="amount-container" id=${cart_data.detailed_product.id}>
-            ${cart_data.product_amount}
-            </div>
-            <div class="product-total-price" id='product-total-price'>
-              ${(cart_data.detailed_product.price * cart_data.product_amount).toLocaleString('ko-KR')}
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
+    this.product_price =
+      cart_data.detailed_product.price +
+      pipe(
+        cart_data.detailed_product.option_properties,
+        map((op) => op.additional_price),
+        reduce((a, b) => a + b),
+      );
+    this._product_total_price = this.product_price * cart_data.product_amount;
 
-    const cardStyle = document.createElement('style');
-    cardStyle.textContent = styl;
     this.shadow_root = this.attachShadow({ mode: 'open' });
-    const shadowRoot = this.shadow_root;
-    shadowRoot.innerHTML = cardContent;
-    shadowRoot.appendChild(cardStyle);
+    this.product_info_container_el = document.createElement('div');
+    this.product_info_container_el.classList.add('product-info-container');
+
+    this.product_info_left_el = document.createElement('div');
+    this.product_info_left_el.classList.add('product-info-left');
+
+    this.product_name_el = document.createElement('a');
+    this.product_name_el.classList.add('product-name');
+    this.product_name_el.setAttribute(
+      'href',
+      '../detail?product_id=${cart_data.detailed_product.product_id}',
+    );
+    this.product_name_el.innerHTML = cart_data.detailed_product.name;
+
+    this.product_option_properties_el = document.createElement('div');
+    this.product_option_properties_el.classList.add('product-option-properties');
+    this.product_option_properties_el.innerHTML = pipe(
+      cart_data.detailed_product.option_properties,
+      map((op) => {
+        cart_data.detailed_product.price += op.additional_price;
+        return `${op.name}(+${op.additional_price})`;
+      }),
+      join(', '),
+    );
+
+    this.product_info_left_el.appendChild(this.product_name_el);
+    this.product_info_left_el.appendChild(this.product_option_properties_el);
+
+    this.product_info_right_el = document.createElement('div');
+    this.product_info_right_el.classList.add('product-info-right');
+
+    this.delete_btn_el = document.createElement('button');
+    this.delete_btn_el.classList.add('delete-btn');
+    this.delete_btn_el.setAttribute('id', 'delete-btn');
+    this.delete_btn_el.innerHTML = 'X';
+
+    this.product_price_el = document.createElement('div');
+    this.product_price_el.classList.add('product-price');
+    this.product_price_el.innerHTML = this.product_price.toLocaleString('ko-KR');
+
+    this.product_info_right_el.appendChild(this.delete_btn_el);
+    this.product_info_right_el.appendChild(this.product_price_el);
+
+    this.product_info_container_el.appendChild(this.product_info_left_el);
+    this.product_info_container_el.appendChild(this.product_info_right_el);
+
+    this.cart_info_container_el = document.createElement('div');
+    this.cart_info_container_el.classList.add('cart-info-container');
+
     customElements.get(CounterComponent.componentName) ||
       customElements.define(CounterComponent.componentName, CounterComponent);
     this.counter_component_el = new CounterComponent(this.cart_data.product_amount);
-    const amount_container_el = shadowRoot.querySelector('div.amount-container');
-    amount_container_el?.replaceWith(this.counter_component_el);
+
+    this.product_total_price_el = document.createElement('div');
+    this.product_total_price_el.classList.add('product-total-price');
+    this.product_total_price_el.innerHTML = this.product_total_price.toLocaleString('ko-KR');
+
+    this.cart_info_container_el.appendChild(this.counter_component_el);
+    this.cart_info_container_el.appendChild(this.product_total_price_el);
+
+    const card_style = document.createElement('style');
+    card_style.textContent = styl;
+    this.shadow_root.appendChild(card_style);
+
+    const container_el = document.createElement('div');
+    container_el.classList.add('card-container');
+    container_el.appendChild(this.product_info_container_el);
+    container_el.appendChild(this.cart_info_container_el);
+    this.shadow_root.appendChild(container_el);
+
+    this.delete_btn_el?.addEventListener('click', () => this.deleteCard(this));
+    this.counter_component_el.addEventListener('@untitled/counter_change', (e: CustomEvent<number>) => {
+      this.updateProductTotalPrice(this.counter_component_el.count);
+    });
   }
 
-  connectedCallback() {
-    const delete_btn_el = this.shadowRoot?.getElementById('delete-btn');
-    delete_btn_el?.addEventListener('click', () => this.deleteCard());
-    this.counter_component_el?.addEventListener('click', () =>
-      this.updateProductTotalPrice(this.counter_component_el.getCount),
-    );
-  }
-
-  private async deleteCard() {
+  private async deleteCard(card: HTMLElement) {
     await deleteCartData({ detailed_product_id: this.cart_data.detailed_product.id });
     alert('Product deleted! 🗑');
     this.parentNode?.removeChild(this);
+    this.dispatchEvent(
+      new CustomEvent('@untitled/delete_card', {
+        bubbles: true,
+        cancelable: true,
+        composed: false,
+        detail: { card },
+      }),
+    );
   }
 
-  private updateProductTotalPrice(count: number) {
-    const product_total_price_el = this.shadow_root.getElementById('product-total-price');
-    product_total_price_el!.innerHTML = (count * this.cart_data.detailed_product.price).toLocaleString(
-      'ko-kr',
+  private updateProductTotalPrice(updated_count: number) {
+    this._product_total_price = updated_count * this.cart_data.detailed_product.price;
+    this.product_total_price_el.innerHTML = this.product_total_price.toLocaleString('ko-kr');
+    this.changeProductTotalPrice(this.product_total_price);
+  }
+
+  private changeProductTotalPrice(product_total_price: number) {
+    this.dispatchEvent(
+      new CustomEvent('@untitled/product_total_price_change', {
+        bubbles: true,
+        cancelable: true,
+        composed: false,
+        detail: { product_total_price },
+      }),
     );
   }
 }

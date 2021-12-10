@@ -1,5 +1,5 @@
 export default `
-.amount-container {
+.counter-container {
   display: flex;
   flex-direction: row;
   width: 6rem;

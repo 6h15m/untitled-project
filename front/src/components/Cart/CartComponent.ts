@@ -1,4 +1,4 @@
-import { each, filter, pipe, reduce } from '@fxts/core';
+import { each, filter, map, pipe, reduce, toArray } from '@fxts/core';
 import styl from './styl';
 import { CardComponent } from '../Card/CardComponent';
 import { GetCartsType } from '../../../../models/data.interface';
@@ -33,18 +33,27 @@ export class CartComponent extends HTMLElement {
     shadowRoot.innerHTML = cartContent;
     shadowRoot.appendChild(cartStyle);
     customElements.define(CardComponent.componentName, CardComponent);
-
     pipe(
       carts_data.carts,
       each((c) => {
         shadowRoot.getElementById('cart-product-container')?.appendChild(new CardComponent(c));
       }),
     );
-
     this.isCartEmpty();
-  }
+    this.updateTotalPrice(this.getProductTotalPrices());
 
-  connectedCallback() {
+    const card_component_els = this.shadow_root.querySelectorAll(
+      'card-component',
+    ) as NodeListOf<CardComponent>;
+    each((el) => {
+      el.addEventListener('@untitled/product_total_price_change', (e: CustomEvent<number>) => {
+        this.updateTotalPrice(this.getProductTotalPrices());
+      });
+      el.addEventListener('@untitled/delete_card', (e: CustomEvent<HTMLElement>) => {
+        this.isCartEmpty();
+        this.updateTotalPrice(this.getProductTotalPrices());
+      });
+    }, card_component_els);
   }
 
   private static addNoProductNotice(cart_product_container_el: HTMLElement) {
@@ -67,17 +76,29 @@ export class CartComponent extends HTMLElement {
     }
   }
 
+  private getProductTotalPrices = () =>
+    pipe(
+      this.shadow_root.getElementById('cart-product-container')?.childNodes as NodeListOf<CardComponent>,
+      map((a) => a.product_total_price),
+      toArray,
+    );
+
   private updateTotalPrice = (product_total_price: number[]) => {
-    const product_price_el = this.shadow_root.getElementById('total-price');
-    if (product_price_el === undefined || product_price_el === null) {
-      return;
+    console.log('update total price');
+    if (product_total_price.length !== 0) {
+      this.total_price = reduce(
+        (a, b) => a + b,
+        pipe(
+          product_total_price,
+          filter((a) => !isNaN(a)),
+        ),
+      );
+    } else {
+      this.total_price = 0;
     }
-    product_price_el.innerHTML = reduce(
-      (a, b) => a + b,
-      pipe(
-        product_total_price,
-        filter((a) => !isNaN(a)),
-      ),
-    ).toLocaleString('ko-kr');
+    console.log(this.total_price);
+    this.shadow_root.getElementById('total-price')!.innerHTML = this.total_price
+      ? this.total_price.toLocaleString('ko-kr')
+      : `${0}`;
   };
 }
