@@ -3,7 +3,7 @@ a {
   text-decoration: none;
   color: black;
 }
-.wrap {
+.cart-container {
   display: flex;
   flex-direction: column;
 }

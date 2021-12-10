@@ -1,5 +1,5 @@
-import styl from './styl';
 import { map, pipe, join, reduce } from '@fxts/core';
+import styl from './styl';
 import { CartType } from '../../../../models/data.interface';
 import { CounterComponent } from '../Counter/CounterComponent';
 import deleteCartData from '../../data/delete/cart';
@@ -15,8 +15,9 @@ export class CardComponent extends HTMLElement {
 
   private cart_data: CartType;
   private _product_total_price: number = 0;
-  private readonly shadow_root: ShadowRoot;
   private readonly product_price: number = 0;
+
+  private readonly shadow_root: ShadowRoot;
   private readonly product_info_container_el: HTMLDivElement;
   private readonly product_info_left_el: HTMLDivElement;
   private readonly product_name_el: HTMLAnchorElement;
@@ -41,6 +42,7 @@ export class CardComponent extends HTMLElement {
     this._product_total_price = this.product_price * cart_data.product_amount;
 
     this.shadow_root = this.attachShadow({ mode: 'open' });
+
     this.product_info_container_el = document.createElement('div');
     this.product_info_container_el.classList.add('product-info-container');
 
@@ -111,16 +113,15 @@ export class CardComponent extends HTMLElement {
     container_el.appendChild(this.cart_info_container_el);
     this.shadow_root.appendChild(container_el);
 
-    this.delete_btn_el?.addEventListener('click', () => this.deleteCard(this));
-    this.counter_component_el.addEventListener('@untitled/counter_change', (e: CustomEvent<number>) => {
-      this.updateProductTotalPrice(this.counter_component_el.count);
+    this.delete_btn_el.addEventListener('click', () => this.deleteCard(this));
+    this.counter_component_el.addEventListener('@untitled/counter_change', (e) => {
+      this.updateProductTotalPrice(e.detail.changed_count);
     });
   }
 
   private async deleteCard(card: HTMLElement) {
     await deleteCartData({ detailed_product_id: this.cart_data.detailed_product.id });
     alert('Product deleted! 🗑');
-    this.parentNode?.removeChild(this);
     this.dispatchEvent(
       new CustomEvent('@untitled/delete_card', {
         bubbles: true,
@@ -132,18 +133,17 @@ export class CardComponent extends HTMLElement {
   }
 
   private updateProductTotalPrice(updated_count: number) {
-    this._product_total_price = updated_count * this.cart_data.detailed_product.price;
+    this._product_total_price = updated_count * this.product_price;
     this.product_total_price_el.innerHTML = this.product_total_price.toLocaleString('ko-kr');
-    this.changeProductTotalPrice(this.product_total_price);
+    this.changeProductTotalPrice();
   }
 
-  private changeProductTotalPrice(product_total_price: number) {
+  private changeProductTotalPrice() {
     this.dispatchEvent(
       new CustomEvent('@untitled/product_total_price_change', {
         bubbles: true,
         cancelable: true,
         composed: false,
-        detail: { product_total_price },
       }),
     );
   }

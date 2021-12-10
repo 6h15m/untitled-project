@@ -120,9 +120,9 @@ export interface DeleteCartType {
 }
 
 interface CustomEventMap {
-  '@untitled/counter_change': CustomEvent<number>;
-  '@untitled/product_total_price_change': CustomEvent<number>;
-  '@untitled/delete_card': CustomEvent<HTMLElement>;
+  '@untitled/counter_change': CustomEvent<{ changed_count: number }>;
+  '@untitled/product_total_price_change': CustomEvent;
+  '@untitled/delete_card': CustomEvent<{ card: HTMLElement }>;
 }
 declare global {
   interface HTMLElement {
