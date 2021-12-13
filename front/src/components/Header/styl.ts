@@ -9,14 +9,15 @@ header {
   align-items: center;
   margin-bottom: 1.6rem;
 }
-h1 {
-  margin: 0;
-}
 .left-container {
   display: flex;
   flex-direction: row;
 }
-.search-container {
+.title {
+  font-size: 2em;
+  font-weight: bold;
+}
+.search-input {
   width: 14rem;
   height: 2rem;
   border: none;

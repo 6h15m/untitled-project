@@ -72,14 +72,16 @@ export interface GetCategoriesType {
   big_categories: Array<BigCategoryType>;
 }
 
+export interface GetProductType {
+  id: number;
+  name: string;
+  price: number;
+  small_category_id: number;
+  tags: Array<TagType>;
+}
+
 export interface GetProductsType {
-  products: Array<{
-    id: number;
-    name: string;
-    price: number;
-    small_category_id: number;
-    tags: Array<TagType>;
-  }>;
+  products: Array<GetProductType>;
 }
 
 export interface GetCreateType {

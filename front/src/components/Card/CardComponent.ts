@@ -121,7 +121,7 @@ export class CardComponent extends HTMLElement {
 
   private async deleteCard(card: HTMLElement) {
     await deleteCartData({ detailed_product_id: this.cart_data.detailed_product.id });
-    alert('Product deleted! 🗑');
+    alert('ProductList deleted! 🗑');
     this.dispatchEvent(
       new CustomEvent('@untitled/delete_card', {
         bubbles: true,
