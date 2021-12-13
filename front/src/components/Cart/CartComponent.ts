@@ -7,6 +7,7 @@ export class CartComponent extends HTMLElement {
   static get componentName() {
     return 'cart-component';
   }
+
   private carts_data: GetCartsType;
   private total_price: number = 0;
 
@@ -22,6 +23,7 @@ export class CartComponent extends HTMLElement {
     super();
     this.carts_data = carts_data;
     this.card_component_els = [];
+
     this.shadow_root = this.attachShadow({ mode: 'open' });
 
     this.cart_name_el = document.createElement('h2');

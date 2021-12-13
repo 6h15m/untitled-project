@@ -18,17 +18,21 @@ export class CounterComponent extends HTMLElement {
   constructor(count: number) {
     super();
     this._count = count;
+
     this.shadow_root = this.attachShadow({ mode: 'open' });
+
     this.inc_button_el = document.createElement('input');
     this.inc_button_el.setAttribute('type', 'button');
     this.inc_button_el.setAttribute('id', 'inc');
     this.inc_button_el.setAttribute('value', '+');
     this.inc_button_el.classList.add('amount-control');
+
     this.dec_button_el = document.createElement('input');
     this.dec_button_el.setAttribute('type', 'button');
     this.dec_button_el.setAttribute('id', 'dec');
     this.dec_button_el.setAttribute('value', '-');
     this.dec_button_el.classList.add('amount-control');
+
     this.amount_el = document.createElement('div');
     this.amount_el.classList.add('amount');
     this.amount_el.setAttribute('id', 'amount');

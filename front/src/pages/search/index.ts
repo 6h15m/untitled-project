@@ -1,6 +1,6 @@
 import { HeaderComponent } from '../../components/Header/HeaderComponent.js';
 import { FooterComponent } from '../../components/Footer/FooterComponent.js';
-import { ProductComponent } from '../../components/Product/ProductComponent.js';
+import { ProductListComponent } from '../../components/ProductList/ProductListComponent.js';
 import getSearchData from '../../data/get/search';
 
 const query = new URLSearchParams(window.location.search).get('q') ?? '';
@@ -9,7 +9,7 @@ const query = new URLSearchParams(window.location.search).get('q') ?? '';
   // 웹 컴포넌트 등록
   customElements.define(HeaderComponent.componentName, HeaderComponent);
   customElements.define(FooterComponent.componentName, FooterComponent);
-  customElements.define(ProductComponent.componentName, ProductComponent);
+  customElements.define(ProductListComponent.componentName, ProductListComponent);
 
   // 데이터 fetch
   const searched_products_data = await getSearchData(query);
@@ -18,7 +18,7 @@ const query = new URLSearchParams(window.location.search).get('q') ?? '';
   const body_el = document.body;
   const header_component_el = new HeaderComponent();
   const footer_component_el = new FooterComponent();
-  const products_component_el = new ProductComponent(searched_products_data);
+  const products_component_el = new ProductListComponent(searched_products_data);
 
   body_el.appendChild(header_component_el);
   body_el.appendChild(products_component_el);
