@@ -29,7 +29,7 @@ export class HeaderComponent extends HTMLElement {
     this.title_el = document.createElement('a');
     this.title_el.setAttribute('href', this.host_location);
     this.title_el.classList.add('title');
-    this.title_el.innerHTML = 'Untitled';
+    this.title_el.innerHTML = 'Untitled.';
 
     this.search_input_el = document.createElement('input');
     this.search_input_el.setAttribute('type', 'text');
