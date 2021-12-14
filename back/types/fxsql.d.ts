@@ -1,1 +1,1 @@
-declare module 'fxsql';
+declare module "fxsql";

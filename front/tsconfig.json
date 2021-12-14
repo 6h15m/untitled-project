@@ -1,14 +1,28 @@
 {
   "compilerOptions": {
-    "module": "ES2020",
-    "target": "es2021",
-    "moduleResolution": "node",
+    "target": "es2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
     "strict": true,
-    "checkJs": false
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
+  "include": [
+    "src"
+  ],
   "references": [
     { "path": "../models" }
   ]

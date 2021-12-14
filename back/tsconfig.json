@@ -1,3 +1,5 @@
+
+
 {
   "compilerOptions": {
     "baseUrl": "./",
@@ -12,7 +14,7 @@
     "strict": true,
     "lib": ["es2020", "dom"],
     "typeRoots": ["../node_modules/@types", "./types"],
-    "outDir": "../dist/back"
+    "outDir": "./dist"
   },
   "references": [
     { "path": "../models" }

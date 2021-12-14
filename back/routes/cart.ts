@@ -1,16 +1,16 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import POOL from '../database/connect.js';
-import { map, pipe, toArray } from '@fxts/core';
+import POOL from "../database/connect.js";
+import { map, pipe, toArray } from "@fxts/core";
 const { SQL, ASSOCIATE, CL } = POOL;
 
-router.get('/:user_id', async function (req, res, next) {
+router.get("/:user_id", async function (req, res, next) {
   try {
     const user_id = req.params.user_id;
     const carts_data = await ASSOCIATE`
       carts ${{
         query: SQL`WHERE user_id = ${user_id} ORDER BY detailed_product_id DESC`,
-        column: CL('detailed_product_id', 'product_amount'),
+        column: CL("detailed_product_id", "product_amount"),
       }}
         - detailed_product
           - product
@@ -33,13 +33,14 @@ router.get('/:user_id', async function (req, res, next) {
               map((option_property: any) => ({
                 id: option_property._.option_property.id,
                 name: option_property._.option_property.name,
-                additional_price: option_property._.option_property.additional_price,
+                additional_price:
+                  option_property._.option_property.additional_price,
               })),
               toArray
             ),
           },
         })),
-        toArray,
+        toArray
       ),
     });
   } catch (error) {
@@ -47,7 +48,7 @@ router.get('/:user_id', async function (req, res, next) {
   }
 });
 
-router.delete('/deleteCartProduct', async function (req, res, next) {
+router.delete("/deleteCartProduct", async function (req, res, next) {
   const { TRANSACTION } = POOL;
   const { QUERY, COMMIT, ROLLBACK } = await TRANSACTION();
   try {

@@ -122,15 +122,15 @@ export interface DeleteCartType {
 }
 
 interface CustomEventMap {
-  '@untitled/counter_change': CustomEvent<{ changed_count: number }>;
-  '@untitled/product_total_price_change': CustomEvent;
-  '@untitled/delete_card': CustomEvent<{ card: HTMLElement }>;
+  "@untitled/counter_change": CustomEvent<{ changed_count: number }>;
+  "@untitled/product_total_price_change": CustomEvent;
+  "@untitled/delete_card": CustomEvent<{ card: HTMLElement }>;
 }
 declare global {
   interface HTMLElement {
     addEventListener<K extends keyof CustomEventMap>(
       type: K,
-      listener: (this: HTMLElement, event: CustomEventMap[K]) => void,
+      listener: (this: HTMLElement, event: CustomEventMap[K]) => void
     ): void;
   }
 }

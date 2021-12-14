@@ -1,8 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "lib": ["ES2020"],
-    "outDir": "../../dist/front/server-dist",
-    "esModuleInterop": true
-  }
-}
