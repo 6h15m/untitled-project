@@ -32,7 +32,7 @@ export interface OptionPropertyType {
   name: string;
   additional_price: number;
   base: boolean;
-  option_id?: number;
+  option_id: number;
 }
 
 export interface PostOptionType {

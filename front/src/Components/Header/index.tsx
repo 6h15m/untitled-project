@@ -7,7 +7,7 @@ export const Header = ({}: HeaderProps) => (
   <header>
     <HeaderWrap>
       <div className="left-container">
-        <a className="title" href="https://localhost:3000">
+        <a className="title" href="http://localhost:3000">
           Untitled.
         </a>
         <input className="search-input" type="text" placeholder="Search" />

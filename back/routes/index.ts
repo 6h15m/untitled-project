@@ -35,31 +35,26 @@ router.get("/products", async function (req, res, next) {
   }
 });
 
-router.get(
-  "/productsFromSmallCategoryId/:small_category_id",
-  async function (req, res, next) {
-    try {
-      const small_category_id = +req.params.small_category_id;
-      const products_data = await ASSOCIATE`
+router.get("/products/:small_category_id", async function (req, res, next) {
+  try {
+    const small_category_id = +req.params.small_category_id;
+    const products_data = await ASSOCIATE`
       products ${{
         query: SQL`WHERE small_category_id = ${small_category_id}`,
       }}
         < products_tags
           - tag
     `;
-      res.json(modifyProductData(products_data));
-    } catch (error) {
-      next(error);
-    }
+    res.json(modifyProductData(products_data));
+  } catch (error) {
+    next(error);
   }
-);
+});
 
-router.get(
-  "/productsFromBigCategoryId/:big_category_id",
-  async function (req, res, next) {
-    try {
-      const big_category_id = +req.params.big_category_id;
-      const products_data = await ASSOCIATE`
+router.get("/products/:big_category_id", async function (req, res, next) {
+  try {
+    const big_category_id = +req.params.big_category_id;
+    const products_data = await ASSOCIATE`
       - small_categories ${{
         query: SQL`WHERE big_category_id = ${big_category_id}`,
         column: CL("id"),
@@ -68,21 +63,20 @@ router.get(
           < products_tags
             - tag
     `;
-      res.json(
-        modifyProductData(
-          pipe(
-            products_data,
-            map((data: any) => data._.products),
-            flat,
-            toArray
-          )
+    res.json(
+      modifyProductData(
+        pipe(
+          products_data,
+          map((data: any) => data._.products),
+          flat,
+          toArray
         )
-      );
-    } catch (error) {
-      next(error);
-    }
+      )
+    );
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 router.get("/categories", async function (req, res, next) {
   try {

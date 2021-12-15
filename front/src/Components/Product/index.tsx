@@ -6,11 +6,11 @@ import { Tag } from '../Tag';
 
 export const Product = ({ product }: { product: GetProductType }) => (
   <ProductWrap>
-    <a className="product-container" href={`http://localhost:3000/detail?product_id=${product.id}`}>
+    <a className="product-container" href={`/detail?product_id=${product.id}`}>
       <div className="tags-container">
         {pipe(
           product.tags,
-          map((tag) => <Tag tag={tag} />),
+          map((tag) => <Tag key={tag.id} tag={tag} />),
           toArray,
         )}
       </div>

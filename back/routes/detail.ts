@@ -125,7 +125,10 @@ router.get("/:product_id", async function (req, res, next) {
         name: product_data[0].name,
         price: product_data[0].price,
       },
-      small_category: product_data[0]._.small_category,
+      small_category: {
+        id: product_data[0]._.small_category.id,
+        name: product_data[0]._.small_category.name,
+      },
       big_category: {
         id: product_data[0]._.small_category._.big_category.id,
         name: product_data[0]._.small_category._.big_category.name,
@@ -147,6 +150,7 @@ router.get("/:product_id", async function (req, res, next) {
               name: option_property.name,
               additional_price: option_property.additional_price,
               base: option_property.base,
+              option_id: option_property.option_id,
             })),
             toArray
           ),
