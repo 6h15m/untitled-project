@@ -12,9 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@fxts/core": "^0.3.2",
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/node": "^16.11.12",
     "@types/pg": "^8.6.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "fxsql": "^1.6.1",
     "nodemon": "^2.0.15",

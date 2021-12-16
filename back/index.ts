@@ -1,5 +1,6 @@
 import type { ErrorRequestHandler } from "express";
 import express from "express";
+import cors from "cors";
 import * as http from "http";
 import indexRouter from "./routes/index.js";
 import detailRouter from "./routes/detail.js";
@@ -13,6 +14,7 @@ const HOST_NAME = `localhost`;
 
 app.use(express.json());
 
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use("/api/", indexRouter);
 app.use("/api/detail", detailRouter);
 app.use("/api/cart", cartRouter);
