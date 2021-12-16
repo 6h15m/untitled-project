@@ -1,12 +1,12 @@
 import React from 'react';
 import useSWR from 'swr';
-import { Header } from '../../Components/Header';
-import { ProductList } from '../../Components/ProductList';
 import { GetCategoriesType, GetProductsType } from '../../../../models/data.interface';
 import fetcher from '../../@utils/fetcher';
-import { CategoryList } from '../../Components/CategoryList';
+import { Header, CategoryList, ProductList } from '../../Components';
 
-export const MainPage = () => {
+export interface MainPageProps {}
+
+export const MainPage = (props: MainPageProps) => {
   const selected_small_category_id = parseInt(
     new URLSearchParams(window.location.search).get('small_category_id') || '',
   );

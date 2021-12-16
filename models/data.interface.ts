@@ -6,14 +6,14 @@ export interface BigCategoryType {
 export interface SmallCategoryType {
   id: number;
   name: string;
-  big_category_id: number;
+  big_category_id?: number;
 }
 
 export interface ProductType {
   id: number;
   name: string;
   price: number;
-  small_category_id: number;
+  small_category_id?: number;
 }
 
 export interface TagType {

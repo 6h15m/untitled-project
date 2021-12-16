@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-export const Counter = ({ default_count, changeCount }: { default_count: number; changeCount: Function }) => {
+export interface CounterProps {
+  default_count: number;
+  changeCount?: Function;
+}
+
+export const Counter = ({ default_count, changeCount }: CounterProps) => {
   const [count, setCount] = useState(default_count);
 
   const inc = () => {
@@ -27,7 +32,7 @@ export const Counter = ({ default_count, changeCount }: { default_count: number;
   };
 
   useEffect(() => {
-    changeCount(count);
+    changeCount && changeCount(count);
   }, [handleCount]);
 
   return (

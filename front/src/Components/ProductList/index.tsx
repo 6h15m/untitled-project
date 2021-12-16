@@ -4,7 +4,11 @@ import { map, pipe, toArray } from '@fxts/core';
 import { GetProductsType } from '../../../../models/data.interface';
 import { Product } from '../Product';
 
-export const ProductList = ({ products_data }: { products_data: GetProductsType }) => (
+export interface ProductListProps {
+  products_data: GetProductsType;
+}
+
+export const ProductList = ({ products_data }: ProductListProps) => (
   <ProductListWrap>
     {pipe(
       products_data.products,

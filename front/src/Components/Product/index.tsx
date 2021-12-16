@@ -4,7 +4,11 @@ import { pipe, map, toArray } from '@fxts/core';
 import { GetProductType } from '../../../../models/data.interface';
 import { Tag } from '../Tag';
 
-export const Product = ({ product }: { product: GetProductType }) => (
+export interface ProductProps {
+  product: GetProductType;
+}
+
+export const Product = ({ product }: ProductProps) => (
   <ProductWrap>
     <a className="product-container" href={`/detail?product_id=${product.id}`}>
       <div className="tags-container">

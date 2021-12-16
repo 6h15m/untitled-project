@@ -3,13 +3,11 @@ import styled from 'styled-components';
 import { pipe, map, toArray, filter } from '@fxts/core';
 import { GetCategoriesType } from '../../../../models/data.interface';
 
-export const CategoryList = ({
-  categories_data,
-  selected_big_category_id,
-}: {
+export interface CategoryListProps {
   categories_data: GetCategoriesType;
-  selected_big_category_id: number;
-}) => {
+  selected_big_category_id?: number;
+}
+export const CategoryList = ({ categories_data, selected_big_category_id }: CategoryListProps) => {
   return (
     <CategoryListWrap>
       <div className="big-categories-container">

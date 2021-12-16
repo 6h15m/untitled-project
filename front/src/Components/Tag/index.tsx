@@ -2,7 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { TagType } from '../../../../models/data.interface';
 
-export const Tag = ({ tag: tag }: { tag: TagType }) => (
+export interface TagProps {
+  tag: TagType;
+}
+
+export const Tag = ({ tag: tag }: TagProps) => (
   <TagWrap>
     <div className="tag"># {tag.name}</div>
   </TagWrap>
