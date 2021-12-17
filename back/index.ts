@@ -1,6 +1,5 @@
 import type { ErrorRequestHandler } from "express";
 import express from "express";
-import cors from "cors";
 import * as http from "http";
 import indexRouter from "./routes/index.js";
 import detailRouter from "./routes/detail.js";
@@ -11,10 +10,24 @@ import searchRouter from "./routes/search.js";
 const app = express();
 const PORT = 8082;
 const HOST_NAME = `localhost`;
+const ALLOWED_ORIGINS = ["http://localhost:6006", "http://localhost:3000"];
 
 app.use(express.json());
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  const theOrigin =
+    origin && ALLOWED_ORIGINS.indexOf(origin) >= 0
+      ? origin
+      : ALLOWED_ORIGINS[0];
+  res.header("Access-Control-Allow-Origin", theOrigin);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.use("/api/", indexRouter);
 app.use("/api/detail", detailRouter);
 app.use("/api/cart", cartRouter);

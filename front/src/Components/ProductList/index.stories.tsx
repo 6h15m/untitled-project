@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 
-import { Product } from '../Product';
+import { Product } from '../index';
 import { ProductList, ProductListProps } from './index';
 
 export default {

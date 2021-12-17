@@ -5,7 +5,7 @@ import { GetCategoriesType } from '../../../../models/data.interface';
 
 export interface CategoryListProps {
   categories_data: GetCategoriesType;
-  selected_big_category_id?: number;
+  selected_big_category_id: number | null;
 }
 export const CategoryList = ({ categories_data, selected_big_category_id }: CategoryListProps) => {
   return (

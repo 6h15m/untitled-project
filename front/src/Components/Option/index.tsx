@@ -31,6 +31,11 @@ export const Option = ({ option, changeOptionProperty }: OptionProps) => {
 };
 
 const OptionWrap = styled.div`
+  .option-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
   .option-properties-container {
     display: flex;
     flex-direction: row;

@@ -10,4 +10,11 @@ export default {
 
 const Template: Story<MainPageProps> = (args) => <MainPage {...args} />;
 
-export const Base = Template.bind({});
+export const NoSelected = Template.bind({});
+NoSelected.args = { selected_small_category_id: null, selected_big_category_id: null };
+
+export const BigCategorySelected = Template.bind({});
+BigCategorySelected.args = { selected_small_category_id: null, selected_big_category_id: 2 };
+
+export const SmallCategorySelected = Template.bind({});
+SmallCategorySelected.args = { selected_small_category_id: 1, selected_big_category_id: null };

@@ -4,16 +4,12 @@ import { GetCategoriesType, GetProductsType } from '../../../../models/data.inte
 import fetcher from '../../@utils/fetcher';
 import { Header, CategoryList, ProductList } from '../../Components';
 
-export interface MainPageProps {}
+export interface MainPageProps {
+  selected_small_category_id: number | null;
+  selected_big_category_id: number | null;
+}
 
-export const MainPage = (props: MainPageProps) => {
-  const selected_small_category_id = parseInt(
-    new URLSearchParams(window.location.search).get('small_category_id') || '',
-  );
-  const selected_big_category_id = parseInt(
-    new URLSearchParams(window.location.search).get('big_category_id') || '',
-  );
-
+export const MainPage = ({ selected_small_category_id, selected_big_category_id }: MainPageProps) => {
   const { data: products_data } = useSWR<GetProductsType>(
     selected_small_category_id
       ? `/api/products/${selected_small_category_id}`

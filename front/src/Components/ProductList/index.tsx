@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { map, pipe, toArray } from '@fxts/core';
 import { GetProductsType } from '../../../../models/data.interface';
-import { Product } from '../Product';
+import { Product } from '../index';
 
 export interface ProductListProps {
   products_data: GetProductsType;

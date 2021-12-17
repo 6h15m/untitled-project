@@ -10,4 +10,7 @@ export default {
 
 const Template: Story<DetailPageProps> = (args) => <DetailPage {...args} />;
 
-export const Base = Template.bind({});
+export const NoProductId = Template.bind({});
+
+export const HasProductId = Template.bind({});
+HasProductId.args = { product_id: 4 };
