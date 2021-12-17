@@ -3,21 +3,29 @@ import styled from 'styled-components';
 
 interface HeaderProps {}
 
-export const Header = ({}: HeaderProps) => (
-  <header>
-    <HeaderWrap>
-      <div className="left-container">
-        <a className="title" href="http://localhost:3000">
-          Untitled.
-        </a>
-        <input className="search-input" type="text" placeholder="Search" />
-      </div>
-      <div className="right-container">
-        <a href="https://localhost:3000/cart">Cart</a>
-      </div>
-    </HeaderWrap>
-  </header>
-);
+export const Header = ({}: HeaderProps) => {
+  const searchKeyPressEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      console.log(e.currentTarget.value);
+      window.location.href = `http://localhost:3000/search?q=${e.currentTarget.value}`;
+    }
+  };
+  return (
+    <header>
+      <HeaderWrap>
+        <div className="left-container">
+          <a className="title" href="http://localhost:3000">
+            Untitled.
+          </a>
+          <input className="search-input" type="text" placeholder="Search" onKeyPress={searchKeyPressEvent} />
+        </div>
+        <div className="right-container">
+          <a href="https://localhost:3000/cart">Cart</a>
+        </div>
+      </HeaderWrap>
+    </header>
+  );
+};
 
 const HeaderWrap = styled.div`
   display: flex;
