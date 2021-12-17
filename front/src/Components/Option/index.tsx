@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { pipe, map, toArray } from '@fxts/core';
-import { OptionType } from '../../../../models/data.interface';
+import { changeOptionPropertyType, OptionType } from '../../../../models/data.interface';
 import { OptionProperty } from '../index';
 
 export interface OptionProps {
   option: OptionType;
-  changeOptionProperty?: Function;
+  changeOptionProperty?: changeOptionPropertyType;
 }
 
 export const Option = ({ option, changeOptionProperty }: OptionProps) => {

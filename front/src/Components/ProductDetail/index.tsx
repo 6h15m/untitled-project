@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { pipe, map, toArray, filter, reduce } from '@fxts/core';
+import { pipe, map, toArray, filter, reduce, each } from '@fxts/core';
 import axios from 'axios';
-import { GetDetailType } from '../../../../models/data.interface';
+import { changeCountType, changeOptionPropertyType, GetDetailType } from '../../../../models/data.interface';
 import { Counter, DefaultInfo, Option } from '../index';
 
 let additional_prices: Array<number> = [];
@@ -18,12 +18,31 @@ export const ProductDetail = ({ detail_data }: ProductDetailProps) => {
   const [totalPrice, setTotalPrice] = useState(detail_data.product.price);
   const [count, setCount] = useState(default_count);
 
-  const changeCount = (count: number) => {
+  useEffect(() => {
+    pipe(
+      detail_data.options,
+      each((option) =>
+        pipe(
+          option.option_properties,
+          filter((option_property) => option_property.base),
+          each((option_property) => {
+            _option_property_ids[option.id - 1] = option_property.id;
+          }),
+        ),
+      ),
+    );
+  }, []);
+
+  const changeCount: changeCountType = (count) => {
     setTotalPrice(price * count);
     setCount(count);
   };
 
-  const changeOptionProperty = (option_property_id: number, additional_price: number, option_id: number) => {
+  const changeOptionProperty: changeOptionPropertyType = (
+    option_property_id,
+    additional_price,
+    option_id,
+  ) => {
     additional_prices[option_id - 1] = additional_price;
     _option_property_ids[option_id - 1] = option_property_id;
     setPrice(
@@ -36,25 +55,22 @@ export const ProductDetail = ({ detail_data }: ProductDetailProps) => {
     );
   };
 
-  const addCart = useCallback(
-    (e) => {
-      axios
-        .post('/api/detail/addToCart', {
-          user_id: 'test_c',
-          product_id: detail_data.product.id,
-          option_property_ids: pipe(
-            _option_property_ids,
-            filter((id) => id != null),
-            toArray,
-          ),
-          product_amount: count,
-        })
-        .then(() => {
-          alert('Product added to the cart! 🛒');
-        });
-    },
-    [_option_property_ids, count],
-  );
+  const addCart = useCallback(() => {
+    axios
+      .post('/api/detail/addToCart', {
+        user_id: 'test_c',
+        product_id: detail_data.product.id,
+        option_property_ids: pipe(
+          _option_property_ids,
+          filter((id) => id != null),
+          toArray,
+        ),
+        product_amount: count,
+      })
+      .then(() => {
+        alert('Product added to the cart! 🛒');
+      });
+  }, [_option_property_ids, count]);
 
   return (
     <ProductDetailWrap>

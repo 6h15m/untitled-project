@@ -8,3 +8,5 @@ export * from './Product';
 export * from './ProductDetail';
 export * from './ProductList';
 export * from './Tag';
+export * from './Cart';
+export * from './Card';

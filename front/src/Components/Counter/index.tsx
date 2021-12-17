@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { changeCountType } from '../../../../models/data.interface';
 
 export interface CounterProps {
   default_count: number;
-  changeCount?: Function;
+  changeCount?: changeCountType;
 }
 
 export const Counter = ({ default_count, changeCount }: CounterProps) => {

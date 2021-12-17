@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {}
 
@@ -20,7 +21,7 @@ export const Header = ({}: HeaderProps) => {
           <input className="search-input" type="text" placeholder="Search" onKeyPress={searchKeyPressEvent} />
         </div>
         <div className="right-container">
-          <a href="https://localhost:3000/cart">Cart</a>
+          <Link to="/cart">Cart</Link>
         </div>
       </HeaderWrap>
     </header>

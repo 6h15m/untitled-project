@@ -121,6 +121,19 @@ export interface DeleteCartType {
   detailed_product_id: number;
 }
 
+export type changeOptionPropertyType = (
+  option_property_id: number,
+  additional_price: number,
+  option_id: number
+) => void;
+
+export type changeCountType = (count: number) => void;
+
+export type changeTotalPriceType = (
+  detailed_product_id: number,
+  total_price: number
+) => void;
+
 interface CustomEventMap {
   "@untitled/counter_change": CustomEvent<{ changed_count: number }>;
   "@untitled/product_total_price_change": CustomEvent;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { OptionPropertyType } from '../../../../models/data.interface';
+import { changeOptionPropertyType, OptionPropertyType } from '../../../../models/data.interface';
 
 export interface OptionPropertyProps {
   option_property: OptionPropertyType;
-  changeOptionProperty?: Function;
+  changeOptionProperty?: changeOptionPropertyType;
 }
 
 export const OptionProperty = ({ option_property, changeOptionProperty }: OptionPropertyProps) => {
