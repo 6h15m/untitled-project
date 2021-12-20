@@ -4,7 +4,7 @@ import { Meta, Story } from '@storybook/react';
 import { Counter, CounterProps } from './index';
 
 export default {
-  title: 'Components/Counter',
+  title: 'components/Counter',
   component: Counter,
 } as Meta;
 

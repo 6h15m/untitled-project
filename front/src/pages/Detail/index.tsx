@@ -2,7 +2,7 @@ import React from 'react';
 import useSWR from 'swr';
 import { GetDetailType } from '../../../../models/data.interface';
 import { fetcher, getParams } from '../../@utils';
-import { Header, ProductDetail } from '../../Components';
+import { Header, ProductDetail } from '../../components';
 
 export interface DetailPageProps {}
 

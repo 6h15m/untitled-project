@@ -1,16 +1,15 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 
-import { DefaultInfo, DefaultInfoProps } from './index';
+import { Counter, DefaultInfo, Option } from '../index';
+import { ProductDetail, ProductDetailProps } from './index';
 
 export default {
-  title: 'Components/DefaultInfo',
-  component: DefaultInfo,
+  title: 'components/ProductDetail',
+  component: ProductDetail,
+  subcomponents: { Counter, DefaultInfo, Option },
 } as Meta;
-
-const Template: Story<DefaultInfoProps> = (args) => <DefaultInfo {...args} />;
-
-export const Base = Template.bind({});
+export const Base: Story<ProductDetailProps> = (args) => <ProductDetail {...args} />;
 Base.args = {
   detail_data: {
     product: { id: 1, name: 'Overweight Hoodie', price: 25000 },

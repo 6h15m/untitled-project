@@ -5,7 +5,7 @@ import { Product } from '../index';
 import { ProductList, ProductListProps } from './index';
 
 export default {
-  title: 'Components/ProductList',
+  title: 'components/ProductList',
   component: ProductList,
   subcomponents: { Product },
 } as Meta;

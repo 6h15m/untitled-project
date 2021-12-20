@@ -4,7 +4,7 @@ import { Meta, Story } from '@storybook/react';
 import { Tag, TagProps } from './index';
 
 export default {
-  title: 'Components/Tag',
+  title: 'components/Tag',
   component: Tag,
 } as Meta;
 

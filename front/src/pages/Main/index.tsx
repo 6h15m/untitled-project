@@ -2,7 +2,7 @@ import React from 'react';
 import useSWR from 'swr';
 import { GetCategoriesType, GetProductsType } from '../../../../models/data.interface';
 import { fetcher, getParams } from '../../@utils';
-import { CategoryList, Header, ProductList } from '../../Components';
+import { CategoryList, Header, ProductList } from '../../components';
 
 export interface MainPageProps {}
 

@@ -2,7 +2,7 @@ import React from 'react';
 import useSWR from 'swr';
 import { GetCartsType } from '../../../../models/data.interface';
 import { fetcher } from '../../@utils';
-import { Cart, Header } from '../../Components';
+import { Cart, Header } from '../../components';
 
 export interface CartPageProps {
   user_id: string;

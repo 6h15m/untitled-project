@@ -4,7 +4,7 @@ import { OptionProperty } from '../index';
 import { Option, OptionProps } from './index';
 
 export default {
-  title: 'Components/Option',
+  title: 'components/Option',
   component: Option,
   subcomponents: { OptionProperty },
 } as Meta;

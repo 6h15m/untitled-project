@@ -4,7 +4,7 @@ import { Meta, Story } from '@storybook/react';
 import { OptionProperty, OptionPropertyProps } from './index';
 
 export default {
-  title: 'Components/OptionProperty',
+  title: 'components/OptionProperty',
   component: OptionProperty,
 } as Meta;
 
