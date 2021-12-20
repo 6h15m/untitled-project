@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GetCategoriesType, TagType } from '../../../../models/data.interface';
-import { CategoryListForm, OptionForm, TagForm } from '../index';
+import { CategoryListForm, OptionForm, TagListForm } from '../index';
 import * as S from './style';
 
 export interface CreateProps {
@@ -9,10 +9,26 @@ export interface CreateProps {
 }
 
 export const Create = ({ categories_data, tags_data }: CreateProps) => {
+  const [optionNumber, setOptionNumber] = useState(0);
+  const [optionList, setOptionList] = useState([
+    <OptionForm option_number={optionNumber} key={`option-form-${optionNumber}`} />,
+  ]);
+
+  const addOption = () => {
+    setOptionList(
+      optionList.concat(<OptionForm option_number={optionNumber + 1} key={`option-form-${optionNumber}`} />),
+    );
+    setOptionNumber(optionNumber + 1);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <S.Create>
       <h2>Create New Product</h2>
-      <S.CreateForm>
+      <S.CreateForm onSubmit={handleSubmit}>
         <S.FormBox>
           <h3>Categories</h3>
           <CategoryListForm categories_data={categories_data} />
@@ -27,14 +43,12 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
         </S.FormBox>
         <S.FormBox>
           <h3>Tags</h3>
-          <TagForm tags_data={tags_data} />
+          <TagListForm tags_data={tags_data} />
         </S.FormBox>
         <S.FormBox>
           <h3>Options</h3>
-          <S.OptionsBox>
-            <OptionForm />
-          </S.OptionsBox>
-          <S.AddOptionBtn>+</S.AddOptionBtn>
+          <S.OptionsBox>{optionList}</S.OptionsBox>
+          <S.AddOptionBtn onClick={addOption}>+</S.AddOptionBtn>
         </S.FormBox>
         <S.CreateBtn type="submit" value="Create" />
       </S.CreateForm>

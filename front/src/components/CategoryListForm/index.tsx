@@ -1,5 +1,5 @@
 import { filter, map, pipe, toArray } from '@fxts/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { GetCategoriesType } from '../../../../models/data.interface';
 import * as S from './style';
 
@@ -8,13 +8,19 @@ export interface CategoryListFormProps {
 }
 
 export const CategoryListForm = ({ categories_data }: CategoryListFormProps) => {
+  const [selectedBigCategoryId, setSelectedBigCategoryId] = useState(categories_data.big_categories[0].id);
+
+  const changeBigCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBigCategoryId(+e.currentTarget.value);
+  };
+
   return (
     <S.CategorySelectorBox>
-      <S.CategorySelector>
+      <S.CategorySelector onChange={changeBigCategory}>
         {pipe(
           categories_data.big_categories,
           map((b) => (
-            <option id="big-category-option" value={b.id} key={b.id}>
+            <option value={b.id} key={b.id}>
               {b.name}
             </option>
           )),
@@ -25,12 +31,8 @@ export const CategoryListForm = ({ categories_data }: CategoryListFormProps) => 
       <S.CategorySelector>
         {pipe(
           categories_data.small_categories,
-          filter((s) => s.big_category_id === categories_data.big_categories[0].id),
-          map((s) => (
-            <option id={`${s.id}`} key={s.id}>
-              {s.name}
-            </option>
-          )),
+          filter((s) => s.big_category_id === selectedBigCategoryId),
+          map((s) => <option key={s.id}>{s.name}</option>),
           toArray,
         )}
       </S.CategorySelector>

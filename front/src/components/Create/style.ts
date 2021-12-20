@@ -44,4 +44,5 @@ export const CreateBtn = styled.input`
   font-size: 1.1em;
   align-self: center;
   margin-top: 2rem;
+  cursor: pointer;
 `;
