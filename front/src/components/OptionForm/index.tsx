@@ -37,7 +37,9 @@ export const OptionForm = ({ option_number }: OptionFormProps) => {
       <S.FormBox>
         <h4>Option Properties</h4>
         <S.OptionPropertiesBox>{optionPropertyList}</S.OptionPropertiesBox>
-        <S.AddOptionPropertyBtn onClick={addOptionProperty}>+</S.AddOptionPropertyBtn>
+        <S.AddOptionPropertyBtn type="button" onClick={addOptionProperty}>
+          +
+        </S.AddOptionPropertyBtn>
       </S.FormBox>
     </S.OptionForm>
   );

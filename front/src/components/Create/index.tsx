@@ -1,3 +1,4 @@
+import { each, filter, pipe } from '@fxts/core';
 import React, { useState } from 'react';
 import { GetCategoriesType, TagType } from '../../../../models/data.interface';
 import { CategoryListForm, OptionForm, TagListForm } from '../index';
@@ -23,8 +24,27 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
     setOptionNumber(optionNumber + 1);
   };
 
+  const hasNullValue = () => {
+    const input_els = document.querySelectorAll('input');
+    pipe(
+      input_els,
+      filter((el) => el.type !== 'checkbox' && el.placeholder !== 'Search'),
+      each((el) => {
+        if (!el.value) {
+          throw 'Please fill all value! 😔';
+        }
+      }),
+    );
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
+    console.log('submit');
     e.preventDefault();
+    try {
+      hasNullValue();
+    } catch (e) {
+      alert(e);
+    }
   };
 
   return (
@@ -50,7 +70,9 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
         <S.FormBox>
           <h3>Options</h3>
           <S.OptionsBox>{optionList}</S.OptionsBox>
-          <S.AddOptionBtn onClick={addOption}>+</S.AddOptionBtn>
+          <S.AddOptionBtn type="button" onClick={addOption}>
+            +
+          </S.AddOptionBtn>
         </S.FormBox>
         <S.CreateBtn type="submit" value="Create" />
       </S.CreateForm>
