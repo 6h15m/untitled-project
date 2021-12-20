@@ -5,7 +5,7 @@ import * as S from './style';
 
 export interface CategoryListProps {
   categories_data: GetCategoriesType;
-  selected_big_category_id: number | null;
+  selected_big_category_id?: number;
 }
 
 export const CategoryList = ({ categories_data, selected_big_category_id }: CategoryListProps) => {
