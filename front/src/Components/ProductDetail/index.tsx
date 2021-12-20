@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { pipe, map, toArray, filter, reduce, each } from '@fxts/core';
+import { each, filter, map, pipe, reduce, toArray } from '@fxts/core';
 import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
 import { changeCountType, changeOptionPropertyType, GetDetailType } from '../../../../models/data.interface';
 import { Counter, DefaultInfo, Option } from '../index';
+import * as S from './style';
 
 let additional_prices: Array<number> = [];
 let _option_property_ids: Array<number> = [];
@@ -13,25 +13,9 @@ export interface ProductDetailProps {
 }
 
 export const ProductDetail = ({ detail_data }: ProductDetailProps) => {
-  const default_count = 1;
   const [price, setPrice] = useState(detail_data.product.price);
   const [totalPrice, setTotalPrice] = useState(detail_data.product.price);
-  const [count, setCount] = useState(default_count);
-
-  useEffect(() => {
-    pipe(
-      detail_data.options,
-      each((option) =>
-        pipe(
-          option.option_properties,
-          filter((option_property) => option_property.base),
-          each((option_property) => {
-            _option_property_ids[option.id - 1] = option_property.id;
-          }),
-        ),
-      ),
-    );
-  }, []);
+  const [count, setCount] = useState(1);
 
   const changeCount: changeCountType = (count) => {
     setTotalPrice(price * count);
@@ -70,15 +54,29 @@ export const ProductDetail = ({ detail_data }: ProductDetailProps) => {
       .then(() => {
         alert('Product added to the cart! 🛒');
       });
-  }, [_option_property_ids, count]);
+  }, [detail_data.product.id, count]);
+
+  useEffect(() => {
+    each(
+      (option) =>
+        pipe(
+          option.option_properties,
+          filter((option_property) => option_property.base),
+          each((option_property) => {
+            _option_property_ids[option.id - 1] = option_property.id;
+          }),
+        ),
+      detail_data.options,
+    );
+  }, [detail_data.options]);
 
   return (
-    <ProductDetailWrap>
-      <ProductImg />
-      <div className="product-info-container">
-        <div className="product-info-top-container">
+    <S.ProductDetail>
+      <S.ProductImg />
+      <S.ProductInfoBox>
+        <>
           <DefaultInfo detail_data={detail_data} />
-          <div className="product-options-container">
+          <S.ProductOptionsBox>
             {pipe(
               detail_data.options,
               map((option) => (
@@ -86,67 +84,17 @@ export const ProductDetail = ({ detail_data }: ProductDetailProps) => {
               )),
               toArray,
             )}
-            <div className="product-ea-container">
-              <div className="option-name">EA</div>
-              <Counter default_count={default_count} changeCount={changeCount} />
-            </div>
-          </div>
-        </div>
-        <div className="product-info-bottom-container">
-          <div className="product-price">{totalPrice.toLocaleString('ko-kr')}</div>
-          <button className="product-to-cart-btn" onClick={addCart}>
-            Add to Cart
-          </button>
-        </div>
-      </div>
-    </ProductDetailWrap>
+            <>
+              <S.OptionNameText>EA</S.OptionNameText>
+              <Counter default_count={count} changeCount={changeCount} />
+            </>
+          </S.ProductOptionsBox>
+        </>
+        <S.ProductInfoBottomBox>
+          <S.ProductPriceText>{totalPrice.toLocaleString('ko-kr')}</S.ProductPriceText>
+          <S.ProductToCartBtn onClick={addCart}>Add to Cart</S.ProductToCartBtn>
+        </S.ProductInfoBottomBox>
+      </S.ProductInfoBox>
+    </S.ProductDetail>
   );
 };
-
-const ProductImg = styled.div`
-  flex: 1;
-  margin-right: 2rem;
-  background-color: #e9ecef;
-`;
-
-const ProductDetailWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  .product-options-container {
-    margin-top: 1.6rem;
-  }
-  .product-info-container {
-    width: 25rem;
-    height: 34rem;
-    display: flex;
-    flex-direction: column;
-  }
-  .option-name {
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 0.6rem;
-  }
-  .product-info-bottom-container {
-    width: inherit;
-    margin-top: auto;
-  }
-  .product-price {
-    font-weight: 600;
-    font-size: 1.6em;
-    margin-bottom: 1.2rem;
-    float: right;
-  }
-  .product-to-cart-btn {
-    width: inherit;
-    height: 3.6rem;
-    margin-top: auto;
-    background-color: #364fc7;
-    border-radius: 0.2em;
-    color: white;
-    font-size: 1.2em;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-  }
-`;

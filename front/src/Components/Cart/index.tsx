@@ -1,28 +1,22 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { changeTotalPriceType, GetCartsType } from '../../../../models/data.interface';
 import { each, map, pipe, reduce, toArray } from '@fxts/core';
+import React, { useState } from 'react';
+import { changeTotalPriceType, GetCartsType } from '../../../../models/data.interface';
+import { objToArray, productPriceCalc } from '../../@utils';
 import { Card } from '../Card';
-import { productPriceCalc } from '../../@utils';
+import * as S from './style';
+
+let _product_total_prices: { [index: number]: number } = {};
 
 export interface CartProps {
   carts_data: GetCartsType;
 }
-let _product_total_prices: { [index: number]: number } = {};
-
-function* objToArray(obj: { [index: number]: number }) {
-  for (const o in obj) yield obj[o];
-}
 
 export const Cart = ({ carts_data }: CartProps) => {
-  pipe(
-    carts_data.carts,
-    each((cart_data) => {
-      _product_total_prices[cart_data.detailed_product.id] =
-        productPriceCalc(cart_data) * cart_data.product_amount;
-    }),
-  );
-  console.log(_product_total_prices);
+  each((cart_data) => {
+    _product_total_prices[cart_data.detailed_product.id] =
+      productPriceCalc(cart_data) * cart_data.product_amount;
+  }, carts_data.carts);
+
   const [totalPrice, setTotalPrice] = useState(
     pipe(
       objToArray(_product_total_prices),
@@ -39,10 +33,11 @@ export const Cart = ({ carts_data }: CartProps) => {
       ) || 0,
     );
   };
+
   return (
-    <CartWrap>
+    <S.Cart>
       <h2>{carts_data.user_id}'s Cart</h2>
-      <>
+      <S.CardsBox>
         {pipe(
           carts_data.carts,
           map((cart_data) => {
@@ -56,30 +51,11 @@ export const Cart = ({ carts_data }: CartProps) => {
           }),
           toArray,
         )}
-      </>
-      <TotalPriceContainer>
+      </S.CardsBox>
+      <S.TotalPriceBox>
         <h3>Total Price</h3>
-        <TotalPrice>{totalPrice.toLocaleString('ko-kr')}</TotalPrice>
-      </TotalPriceContainer>
-    </CartWrap>
+        <S.TotalPrice>{totalPrice.toLocaleString('ko-kr')}</S.TotalPrice>
+      </S.TotalPriceBox>
+    </S.Cart>
   );
 };
-
-const TotalPriceContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 1em;
-  align-self: flex-end;
-`;
-
-const TotalPrice = styled.div`
-  margin-left: 0.6rem;
-  font-weight: 600;
-  font-size: 1.8em;
-`;
-
-const CartWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-`;

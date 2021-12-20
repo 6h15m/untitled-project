@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { changeOptionPropertyType, OptionPropertyType } from '../../../../models/data.interface';
+import * as S from './style';
 
 export interface OptionPropertyProps {
   option_property: OptionPropertyType;
@@ -8,10 +8,10 @@ export interface OptionPropertyProps {
 }
 
 export const OptionProperty = ({ option_property, changeOptionProperty }: OptionPropertyProps) => {
-  let first_checked = option_property.base;
-  const [selectedOptionProperty, setSeletedOptionProperty] = useState<number>(option_property.id);
+  const [selectedOptionProperty, setSelectedOptionProperty] = useState<number>(option_property.id);
+
   const handleSelectedOptionProperty = (event: any) => {
-    setSeletedOptionProperty(event.target.value);
+    setSelectedOptionProperty(event.target.value);
     changeOptionProperty &&
       changeOptionProperty(
         selectedOptionProperty,
@@ -19,14 +19,15 @@ export const OptionProperty = ({ option_property, changeOptionProperty }: Option
         option_property.option_id,
       );
   };
+
   return (
-    <OptionPropertyWrap>
+    <S.OptionProperty>
       <input
         type="radio"
         id={`${option_property.id}`}
         value={option_property.id}
         name={`${option_property.option_id}`}
-        defaultChecked={first_checked}
+        defaultChecked={option_property.base}
         onChange={handleSelectedOptionProperty}
       />
       <label htmlFor={`${option_property.id}`}>
@@ -35,13 +36,6 @@ export const OptionProperty = ({ option_property, changeOptionProperty }: Option
           ? ''
           : `(+${option_property.additional_price.toLocaleString('ko-KR')})`}
       </label>
-    </OptionPropertyWrap>
+    </S.OptionProperty>
   );
 };
-
-const OptionPropertyWrap = styled.div`
-  margin-right: 0.6rem;
-  label {
-    margin-left: 0.4rem;
-  }
-`;

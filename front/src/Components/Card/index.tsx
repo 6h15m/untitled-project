@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
-import { CartType, changeCountType, changeTotalPriceType } from '../../../../models/data.interface';
-import { Counter } from '../Counter';
 import { map, pipe, toArray } from '@fxts/core';
 import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
+import { CartType, changeCountType, changeTotalPriceType } from '../../../../models/data.interface';
 import { productPriceCalc } from '../../@utils';
+import { Counter } from '../Counter';
+import * as S from './style';
 
 export interface CardProps {
   cart_data: CartType;
@@ -16,10 +16,12 @@ export const Card = ({ cart_data, changeTotalPrice }: CardProps) => {
   const product_price = productPriceCalc(cart_data);
   const [amount, setAmount] = useState(cart_data.product_amount);
   const [totalPrice, setTotalPrice] = useState(product_price * amount);
+
   const changeAmount: changeCountType = (count) => {
     setAmount(count);
     setTotalPrice(product_price * count);
   };
+
   const deleteCard = useCallback(() => {
     axios
       .delete('/api/cart/deleteCartProduct', {
@@ -28,20 +30,20 @@ export const Card = ({ cart_data, changeTotalPrice }: CardProps) => {
       .then(() => {
         alert('Product deleted! 🗑');
       });
-  }, []);
+  }, [cart_data.detailed_product.id]);
 
   useEffect(() => {
     changeTotalPrice && changeTotalPrice(cart_data.detailed_product.id, totalPrice);
-  }, [deleteCard, changeAmount]);
+  }, [changeTotalPrice, totalPrice, cart_data.detailed_product.id]);
 
   return (
-    <CardWrap>
-      <ProductInfoContainer>
-        <ProductInfo>
-          <ProductName href={`../detail?product_id=${cart_data.detailed_product.product_id}`}>
+    <S.Card>
+      <S.ProductInfoBox>
+        <S.ProductInfo>
+          <S.ProductName to={`../detail?product_id=${cart_data.detailed_product.product_id}`}>
             {cart_data.detailed_product.name}
-          </ProductName>
-          <ProductOptionProperties>
+          </S.ProductName>
+          <S.ProductOptionProperties>
             {pipe(
               cart_data.detailed_product.option_properties,
               map(
@@ -50,83 +52,17 @@ export const Card = ({ cart_data, changeTotalPrice }: CardProps) => {
               ),
               toArray,
             )}
-          </ProductOptionProperties>
-        </ProductInfo>
-        <ProductInfo right>
-          <DeleteBtn onClick={deleteCard}>X</DeleteBtn>
-          <ProductPrice>{product_price.toLocaleString('ko-kr')}</ProductPrice>
-        </ProductInfo>
-      </ProductInfoContainer>
-      <CartInfoContainer>
+          </S.ProductOptionProperties>
+        </S.ProductInfo>
+        <S.ProductInfo right>
+          <S.DeleteBtn onClick={deleteCard}>X</S.DeleteBtn>
+          <S.ProductPrice>{product_price.toLocaleString('ko-kr')}</S.ProductPrice>
+        </S.ProductInfo>
+      </S.ProductInfoBox>
+      <S.CartInfoBox>
         <Counter default_count={default_count} changeCount={changeAmount} />
-        <TotalPrice>{totalPrice.toLocaleString('ko-kr')}</TotalPrice>
-      </CartInfoContainer>
-    </CardWrap>
+        <S.TotalPrice>{totalPrice.toLocaleString('ko-kr')}</S.TotalPrice>
+      </S.CartInfoBox>
+    </S.Card>
   );
 };
-
-const ProductInfoContainer = styled.div`
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  border-bottom: 1px solid #ced4da;
-  height: 5rem;
-`;
-
-const CartInfoContainer = styled.div`
-  display: flex;
-  flex-flow: row;
-  align-items: end;
-  justify-content: space-between;
-  margin-top: 0.2rem;
-`;
-
-const ProductInfo = styled.div`
-  ${(props: { right?: boolean }) =>
-    props.right &&
-    css`
-      display: flex;
-      flex-flow: column;
-      align-items: end;
-    `}
-`;
-
-const DeleteBtn = styled.button`
-  background: none;
-  border: none;
-  font-size: 1em;
-  color: #485056;
-  cursor: pointer;
-`;
-
-const ProductName = styled.a`
-  font-size: 1.4em;
-  font-weight: 600;
-  text-decoration: none;
-  margin-bottom: 0.6rem;
-`;
-
-const ProductOptionProperties = styled.div`
-  color: #868e96;
-  margin-top: 0.3rem;
-`;
-
-const ProductPrice = styled.div`
-  margin-top: 0.6rem;
-`;
-
-const TotalPrice = styled.div`
-  font-size: 1.4em;
-  font-weight: 600;
-`;
-
-const CardWrap = styled.div`
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-  height: 10rem;
-  margin-bottom: 1rem;
-  justify-content: space-between;
-  padding: 2rem;
-  background-color: #f8f9fa;
-`;

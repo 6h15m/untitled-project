@@ -1,14 +1,14 @@
 import React from 'react';
 import useSWR from 'swr';
 import { GetDetailType } from '../../../../models/data.interface';
-import { fetcher } from '../../@utils';
+import { fetcher, getParams } from '../../@utils';
 import { Header, ProductDetail } from '../../Components';
 
-export interface DetailPageProps {
-  product_id: number | null;
-}
+export interface DetailPageProps {}
 
-export const DetailPage = ({ product_id }: DetailPageProps) => {
+export const DetailPage = ({}: DetailPageProps) => {
+  const product_id = parseInt(getParams('product_id'));
+
   const { data: detail_data } = useSWR<GetDetailType>(
     product_id ? `/api/detail/${product_id}` : `/api/detail/1`,
     fetcher,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { changeCountType } from '../../../../models/data.interface';
+import * as S from './style';
 
 export interface CounterProps {
   default_count: number;
@@ -34,30 +34,13 @@ export const Counter = ({ default_count, changeCount }: CounterProps) => {
 
   useEffect(() => {
     changeCount && changeCount(count);
-  }, [handleCount]);
+  }, [changeCount, count]);
 
   return (
-    <CounterWrap>
-      <input type="button" value="-" className="amount-control" onClick={handleCount} />
-      <div id="amount">{count}</div>
-      <input type="button" value="+" className="amount-control" onClick={handleCount} />
-    </CounterWrap>
+    <S.Counter>
+      <S.AmountControlInput type="button" value="-" onClick={handleCount} />
+      <S.AmountText>{count}</S.AmountText>
+      <S.AmountControlInput type="button" value="+" className="amount-control" onClick={handleCount} />
+    </S.Counter>
   );
 };
-
-const CounterWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 6rem;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.5rem;
-  .amount-control {
-    height: 1.4rem;
-    width: 1.4rem;
-    background-color: #868e96;
-    border: none;
-    border-radius: 0.2rem;
-    color: white;
-  }
-`;

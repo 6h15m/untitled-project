@@ -1,69 +1,42 @@
+import { filter, map, pipe, toArray } from '@fxts/core';
 import React from 'react';
-import styled from 'styled-components';
-import { pipe, map, toArray, filter } from '@fxts/core';
 import { GetCategoriesType } from '../../../../models/data.interface';
+import * as S from './style';
 
 export interface CategoryListProps {
   categories_data: GetCategoriesType;
   selected_big_category_id: number | null;
 }
+
 export const CategoryList = ({ categories_data, selected_big_category_id }: CategoryListProps) => {
   return (
-    <CategoryListWrap>
-      <div className="big-categories-container">
-        <BigCategory href="/">All</BigCategory>
+    <S.CategoryList>
+      <S.CategoriesBox>
+        <S.BigCategory href="/">All</S.BigCategory>
         {pipe(
           categories_data.big_categories,
           map((big_category) => (
-            <BigCategory key={big_category.id} href={`?big_category_id=${big_category.id}`}>
+            <S.BigCategory key={big_category.id} href={`?big_category_id=${big_category.id}`}>
               {big_category.name}
-            </BigCategory>
+            </S.BigCategory>
           )),
           toArray,
         )}
-      </div>
-      <div className="small-categories-container">
+      </S.CategoriesBox>
+      <S.CategoriesBox>
         {pipe(
           categories_data.small_categories,
           filter((small_category) =>
             selected_big_category_id ? small_category.big_category_id === selected_big_category_id : true,
           ),
           map((small_category) => (
-            <SmallCategory
-              key={small_category.id}
-              className="small-category"
-              href={`?small_category_id=${small_category.id}`}
-            >
+            <S.SmallCategory key={small_category.id} href={`?small_category_id=${small_category.id}`}>
               {small_category.name}
-            </SmallCategory>
+            </S.SmallCategory>
           )),
           toArray,
         )}
-      </div>
-    </CategoryListWrap>
+      </S.CategoriesBox>
+    </S.CategoryList>
   );
 };
-
-const BigCategory = styled.a`
-  margin-right: 0.8rem;
-  font-size: 1.4em;
-`;
-
-const SmallCategory = styled.a`
-  margin-right: 0.8rem;
-`;
-
-const CategoryListWrap = styled.div`
-  .big-categories-container {
-    display: flex;
-    flex-flow: row wrap;
-    flex-direction: row;
-  }
-
-  .small-categories-container {
-    display: flex;
-    flex-flow: row wrap;
-    flex-direction: row;
-    margin-top: 0.8rem;
-  }
-`;

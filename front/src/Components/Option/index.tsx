@@ -1,8 +1,8 @@
+import { map, pipe, toArray } from '@fxts/core';
 import React from 'react';
-import styled from 'styled-components';
-import { pipe, map, toArray } from '@fxts/core';
 import { changeOptionPropertyType, OptionType } from '../../../../models/data.interface';
 import { OptionProperty } from '../index';
+import * as S from './style';
 
 export interface OptionProps {
   option: OptionType;
@@ -11,9 +11,9 @@ export interface OptionProps {
 
 export const Option = ({ option, changeOptionProperty }: OptionProps) => {
   return (
-    <OptionWrap>
-      <div className="option-name">{option.name}</div>
-      <div className="option-properties-container">
+    <S.Option>
+      <S.OptionNameText>{option.name}</S.OptionNameText>
+      <S.OptionPropertiesBox>
         {pipe(
           option.option_properties,
           map((option_property) => (
@@ -25,20 +25,7 @@ export const Option = ({ option, changeOptionProperty }: OptionProps) => {
           )),
           toArray,
         )}
-      </div>
-    </OptionWrap>
+      </S.OptionPropertiesBox>
+    </S.Option>
   );
 };
-
-const OptionWrap = styled.div`
-  .option-name {
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 0.6rem;
-  }
-  .option-properties-container {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 2rem;
-  }
-`;
