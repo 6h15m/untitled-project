@@ -16,7 +16,9 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
 
   const addOption = () => {
     setOptionList(
-      optionList.concat(<OptionForm option_number={optionNumber + 1} key={`option-form-${optionNumber}`} />),
+      optionList.concat(
+        <OptionForm option_number={optionNumber + 1} key={`option-form-${optionNumber + 1}`} />,
+      ),
     );
     setOptionNumber(optionNumber + 1);
   };
