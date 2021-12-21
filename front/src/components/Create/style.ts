@@ -10,6 +10,16 @@ export const Create = styled.div`
     font-weight: 500;
     margin-bottom: 1rem;
   }
+  input[type='text'],
+  input[type='password'],
+  input[type='number'] {
+    height: auto;
+    line-height: normal;
+    width: 20rem;
+    padding: 0.8rem;
+    background-color: #f4f5f8;
+    border: none;
+  }
 `;
 
 export const FormBox = styled.div`

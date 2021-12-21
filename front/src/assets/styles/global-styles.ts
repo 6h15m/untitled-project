@@ -15,14 +15,6 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: black;
   }
-  input[type="text"], input[type="password"], input[type="number"] {
-    height: auto;
-    line-height: normal;
-    width: 20rem;
-    padding: .8rem;
-    background-color: #F4F5F8;
-    border: none;
-  }
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
