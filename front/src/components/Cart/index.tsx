@@ -1,34 +1,39 @@
-import { each, map, pipe, reduce, toArray } from '@fxts/core';
+import { map, pipe, reduce, toArray } from '@fxts/core';
 import React, { useState } from 'react';
 import { changeTotalPriceType, GetCartsType } from '../../../../models/data.interface';
 import { objToArray, productPriceCalc } from '../../@utils';
 import { Card } from '../Card';
 import * as S from './style';
 
-let _product_total_prices: { [index: number]: number } = {};
+type totalPricesType = { [index: number]: number };
 
 export interface CartProps {
   carts_data: GetCartsType;
 }
 
 export const Cart = ({ carts_data }: CartProps) => {
-  each((cart_data) => {
-    _product_total_prices[cart_data.detailed_product.id] =
-      productPriceCalc(cart_data) * cart_data.product_amount;
-  }, carts_data.carts);
+  const [totalPrices, setTotalPrices] = useState<totalPricesType>(
+    pipe(
+      carts_data.carts,
+      map((cart_data) => ({
+        [cart_data.detailed_product.id]: productPriceCalc(cart_data) * cart_data.product_amount,
+      })),
+      reduce((a, b) => ({ ...a, ...b })),
+    ),
+  );
 
   const [totalPrice, setTotalPrice] = useState(
     pipe(
-      objToArray(_product_total_prices),
+      objToArray(totalPrices),
       reduce((a, b) => a + b),
     ) || 0,
   );
 
   const changeTotalPrice: changeTotalPriceType = (detailed_product_id, total_price) => {
-    _product_total_prices[detailed_product_id] = total_price;
+    totalPrices[detailed_product_id] = total_price;
     setTotalPrice(
       pipe(
-        objToArray(_product_total_prices),
+        objToArray(totalPrices),
         reduce((a, b) => a + b),
       ) || 0,
     );
