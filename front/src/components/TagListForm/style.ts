@@ -8,6 +8,16 @@ export const TagListForm = styled.div`
   margin-bottom: -1.4rem;
 `;
 
+export const AddTagInput = styled.input`
+  margin-right: 0.6rem;
+  padding: 0.4rem 1rem;
+  background-color: #f4f5f8;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  border: none;
+  margin-bottom: 1.4rem;
+`;
+
 export const AddTagBtn = styled.button`
   width: 1.6rem;
   height: 1.6rem;

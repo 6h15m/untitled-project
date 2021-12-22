@@ -36,17 +36,15 @@ export interface OptionPropertyType {
 }
 
 export interface PostOptionType {
-  id?: number;
   name: string;
   option_properties: Array<PostOptionPropertyType>;
 }
 
 export interface PostOptionPropertyType {
-  id?: number;
   name: string;
   additional_price: number;
   base: boolean;
-  option_id?: number;
+  option_property_number: number;
 }
 
 export interface DetailedProductType {
@@ -133,17 +131,3 @@ export type changeTotalPriceType = (
   detailed_product_id: number,
   total_price: number
 ) => void;
-
-interface CustomEventMap {
-  "@untitled/counter_change": CustomEvent<{ changed_count: number }>;
-  "@untitled/product_total_price_change": CustomEvent;
-  "@untitled/delete_card": CustomEvent<{ card: HTMLElement }>;
-}
-declare global {
-  interface HTMLElement {
-    addEventListener<K extends keyof CustomEventMap>(
-      type: K,
-      listener: (this: HTMLElement, event: CustomEventMap[K]) => void
-    ): void;
-  }
-}

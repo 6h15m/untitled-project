@@ -20,6 +20,6 @@ export const TagLabel = styled.label`
   padding: 0.4rem 1rem;
   background-color: #f4f5f8;
   border-radius: 1rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
 `;

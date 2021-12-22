@@ -1,8 +1,20 @@
 import { each, filter, pipe } from '@fxts/core';
 import React, { useState } from 'react';
 import { GetCategoriesType, TagType } from '../../../../models/data.interface';
+import { changeCategoryDataType } from '../CategoryListForm';
 import { CategoryListForm, OptionForm, TagListForm } from '../index';
+import { changeOptionDataType, OptionDataType } from '../OptionForm';
 import * as S from './style';
+
+type OptionDataListType = Array<OptionDataType>;
+
+interface PostCreateType {
+  product_name: string;
+  product_price: number;
+  small_category_id: number;
+  tags: Array<TagType>;
+  options: OptionDataListType;
+}
 
 export interface CreateProps {
   categories_data: GetCategoriesType;
@@ -10,18 +22,43 @@ export interface CreateProps {
 }
 
 export const Create = ({ categories_data, tags_data }: CreateProps) => {
-  const [optionNumber, setOptionNumber] = useState(0);
-  const [optionList, setOptionList] = useState([
-    <OptionForm option_number={optionNumber} key={`option-form-${optionNumber}`} />,
+  const [createData, setCreateData] = useState<PostCreateType>({
+    product_name: '',
+    product_price: 0,
+    small_category_id: categories_data.small_categories[0].id,
+    tags: [],
+    options: [],
+  });
+
+  const changeCategoryData: changeCategoryDataType = (selected_small_category_id) => {
+    setCreateData({ ...createData, small_category_id: selected_small_category_id });
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    setCreateData({ ...createData, [event.target.name]: event.target.value });
+  };
+
+  const [optionDataList, setOptionDataList] = useState<OptionDataListType>([
+    {
+      name: '',
+      option_property_data_list: [],
+    },
   ]);
 
   const addOption = () => {
-    setOptionList(
-      optionList.concat(
-        <OptionForm option_number={optionNumber + 1} key={`option-form-${optionNumber + 1}`} />,
-      ),
-    );
-    setOptionNumber(optionNumber + 1);
+    setOptionDataList([
+      ...optionDataList,
+      {
+        name: '',
+        option_property_data_list: [],
+      },
+    ]);
+  };
+
+  const changeOptionData: changeOptionDataType = (option_number, changed_option_data) => {
+    optionDataList[option_number] = changed_option_data;
+    setCreateData({ ...createData, options: optionDataList });
   };
 
   const hasNullValue = () => {
@@ -38,7 +75,6 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log('submit');
     e.preventDefault();
     try {
       hasNullValue();
@@ -53,15 +89,15 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
       <S.CreateForm onSubmit={handleSubmit}>
         <S.FormBox>
           <h3>Categories</h3>
-          <CategoryListForm categories_data={categories_data} />
+          <CategoryListForm categories_data={categories_data} changeCategoryData={changeCategoryData} />
         </S.FormBox>
         <S.FormBox>
           <h3>Product Name</h3>
-          <input type="text" id="product-name-field" />
+          <input type="text" name="product_name" onChange={handleInputChange} />
         </S.FormBox>
         <S.FormBox>
           <h3>Product Price</h3>
-          <input type="number" placeholder="0" id="product-price-field" />
+          <input type="number" placeholder="0" name="product_price" onChange={handleInputChange} />
         </S.FormBox>
         <S.FormBox>
           <h3>Tags</h3>
@@ -69,7 +105,17 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
         </S.FormBox>
         <S.FormBox>
           <h3>Options</h3>
-          <S.OptionsBox>{optionList}</S.OptionsBox>
+          <S.OptionsBox>
+            {optionDataList.map((option_data, index) => (
+              <OptionForm
+                key={`option-form-${index}`}
+                option_number={index}
+                name={option_data.name}
+                option_property_data_list={option_data.option_property_data_list}
+                changeOptionData={changeOptionData}
+              />
+            ))}
+          </S.OptionsBox>
           <S.AddOptionBtn type="button" onClick={addOption}>
             +
           </S.AddOptionBtn>
