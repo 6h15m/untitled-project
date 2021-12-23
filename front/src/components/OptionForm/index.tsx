@@ -64,7 +64,7 @@ export const OptionForm = ({
 
   useEffect(() => {
     changeOptionData(option_number, optionData);
-  }, [optionData]);
+  }, [optionData, option_number, changeOptionData]);
 
   return (
     <S.OptionForm>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GetDetailType } from '../../../../models/data.interface';
+import { GetDetailType } from '../../../../models/model.interface';
 import { TagList } from '../TagList';
 import * as S from './style';
 

@@ -1,6 +1,6 @@
 import { map, pipe, toArray } from '@fxts/core';
 import React from 'react';
-import { TagType } from '../../../../models/data.interface';
+import { TagType } from '../../../../models/model.interface';
 import { Tag } from '../Tag';
 import * as S from './style';
 

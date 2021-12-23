@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { changeCountType } from '../../../../models/data.interface';
+import { changeCountType } from '../Card';
 import * as S from './style';
 
 export interface CounterProps {
   default_count: number;
-  changeCount?: changeCountType;
+  changeCount: changeCountType;
 }
 
 export const Counter = ({ default_count, changeCount }: CounterProps) => {
@@ -33,7 +33,7 @@ export const Counter = ({ default_count, changeCount }: CounterProps) => {
   };
 
   useEffect(() => {
-    changeCount && changeCount(count);
+    changeCount(count);
   }, [changeCount, count]);
 
   return (

@@ -1,14 +1,15 @@
 import React from 'react';
 import useSWR from 'swr';
-import { GetCategoriesType, GetProductsType } from '../../../../models/data.interface';
-import { fetcher, getParams } from '../../@utils';
+import { CategoryListType, GetProductsType } from '../../../../models/model.interface';
+import { fetcher } from '../../@utils';
+import { GetParams } from '../../hooks';
 import { CategoryList, Header, ProductList } from '../../components';
 
 export interface MainPageProps {}
 
 export const MainPage = ({}: MainPageProps) => {
-  const selected_small_category_id = parseInt(getParams('small_category_id'));
-  const selected_big_category_id = parseInt(getParams('big_category_id'));
+  const selected_small_category_id = parseInt(GetParams('small_category_id'));
+  const selected_big_category_id = parseInt(GetParams('big_category_id'));
 
   const { data: products_data } = useSWR<GetProductsType>(
     selected_small_category_id
@@ -18,7 +19,7 @@ export const MainPage = ({}: MainPageProps) => {
       : '/api/products',
     fetcher,
   );
-  const { data: categories_data } = useSWR<GetCategoriesType>('/api/categories', fetcher);
+  const { data: categories_data } = useSWR<CategoryListType>('/api/categories', fetcher);
 
   return (
     <>

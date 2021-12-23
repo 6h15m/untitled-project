@@ -9,6 +9,11 @@ export interface SmallCategoryType {
   big_category_id?: number;
 }
 
+export interface CategoryListType {
+  small_categories: Array<SmallCategoryType>;
+  big_categories: Array<BigCategoryType>;
+}
+
 export interface ProductType {
   id: number;
   name: string;
@@ -27,11 +32,18 @@ export interface OptionType {
   option_properties: Array<OptionPropertyType>;
 }
 
+export interface OptionDetailType extends OptionType {
+  option_properties: Array<OptionPropertyDetailType>;
+}
+
 export interface OptionPropertyType {
   id: number;
   name: string;
   additional_price: number;
   base: boolean;
+}
+
+export interface OptionPropertyDetailType extends OptionPropertyType {
   option_id: number;
 }
 
@@ -65,11 +77,6 @@ export interface CartType {
   detailed_product: DetailedProductType;
 }
 
-export interface GetCategoriesType {
-  small_categories: Array<SmallCategoryType>;
-  big_categories: Array<BigCategoryType>;
-}
-
 export interface GetProductType {
   id: number;
   name: string;
@@ -83,7 +90,7 @@ export interface GetProductsType {
 }
 
 export interface GetCreateType {
-  categories: GetCategoriesType;
+  categories: CategoryListType;
   tags: Array<TagType>;
 }
 
@@ -100,14 +107,7 @@ export interface GetDetailType {
   small_category: SmallCategoryType;
   big_category: BigCategoryType;
   tags: Array<TagType>;
-  options: Array<OptionType>;
-}
-
-export interface PostDetailType {
-  user_id: string;
-  product_id: number;
-  option_property_ids: Array<number>;
-  product_amount: number;
+  options: Array<OptionDetailType>;
 }
 
 export interface GetCartsType {
@@ -115,19 +115,6 @@ export interface GetCartsType {
   carts: Array<CartType>;
 }
 
-export interface DeleteCartType {
-  detailed_product_id: number;
+export interface TagDataType extends TagType {
+  isNew: boolean;
 }
-
-export type changeOptionPropertyType = (
-  option_property_id: number,
-  additional_price: number,
-  option_id: number
-) => void;
-
-export type changeCountType = (count: number) => void;
-
-export type changeTotalPriceType = (
-  detailed_product_id: number,
-  total_price: number
-) => void;

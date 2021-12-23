@@ -1,12 +1,13 @@
 import { map, pipe, toArray } from '@fxts/core';
 import React from 'react';
-import { changeOptionPropertyType, OptionType } from '../../../../models/data.interface';
+import { OptionDetailType } from '../../../../models/model.interface';
+import { changeOptionPropertyType } from '../Cart';
 import { OptionProperty } from '../index';
 import * as S from './style';
 
 export interface OptionProps {
-  option: OptionType;
-  changeOptionProperty?: changeOptionPropertyType;
+  option: OptionDetailType;
+  changeOptionProperty: changeOptionPropertyType;
 }
 
 export const Option = ({ option, changeOptionProperty }: OptionProps) => {

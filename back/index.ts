@@ -1,16 +1,22 @@
 import type { ErrorRequestHandler } from "express";
 import express from "express";
 import * as http from "http";
-import indexRouter from "./routes/index.js";
-import detailRouter from "./routes/detail.js";
-import cartRouter from "./routes/cart.js";
-import createRouter from "./routes/create.js";
-import searchRouter from "./routes/search.js";
+import CONFIG from "../untitled.config.json";
+import {
+  mainRouter,
+  detailRouter,
+  cartRouter,
+  createRouter,
+  searchRouter,
+} from "./routes";
 
 const app = express();
-const PORT = 8082;
-const HOST_NAME = `localhost`;
-const ALLOWED_ORIGINS = ["http://localhost:6006", "http://localhost:3000"];
+const PORT = CONFIG.PORTS.BACK;
+const HOST_NAME = CONFIG.HOST;
+const ALLOWED_ORIGINS = [
+  `${CONFIG.PROTOCOL}:${CONFIG.PORTS.STORYBOOK}`,
+  `${CONFIG.PROTOCOL}:${CONFIG.PORTS.FRONT}`,
+];
 
 app.use(express.json());
 
@@ -30,7 +36,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/", indexRouter);
+app.use("/api/", mainRouter);
 app.use("/api/detail", detailRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/create", createRouter);

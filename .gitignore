@@ -4,6 +4,7 @@ node_modules
 .pnp.js
 dist/
 .idea
+untitled.config.json
 
 # testing
 /coverage

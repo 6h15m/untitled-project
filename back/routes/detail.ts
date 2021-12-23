@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import POOL from "../database/connect.js";
 import { each, groupBy, map, pipe, toArray, toAsync } from "@fxts/core";
-import { DetailedProductsOptionPropertyType } from "../../models/data.interface";
+import { DetailedProductsOptionPropertyType } from "../../models/model.interface";
 const { SQL, ASSOCIATE, CL, IN } = POOL;
 
 function* entriesToArray(obj: {
@@ -70,16 +70,7 @@ const isAlreadyInCart = async ({
         filtered_detailed_products_option_properties_data,
         groupBy((data) => data.detailed_product_id),
         (a) => entriesToArray(a),
-        map((a) =>
-          pipe(
-            a,
-            map(
-              ({ detailed_product_id, option_property_id }) =>
-                option_property_id
-            ),
-            toArray
-          )
-        ),
+        map((a) => a.map(({ option_property_id }) => option_property_id)),
         toArray
       );
       console.log(filtered_option_property_ids);
@@ -199,4 +190,4 @@ router.post("/addToCart", async function (req, res, next) {
   }
 });
 
-export default router;
+export { router };

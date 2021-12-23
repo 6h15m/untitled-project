@@ -1,12 +1,14 @@
 import { filter, pipe, toArray } from '@fxts/core';
 import React, { useEffect, useState } from 'react';
-import { TagType } from '../../../../models/data.interface';
-import { changeSelectedTagType, TagDataType, TagForm } from '../TagForm';
+import { TagDataType, TagType } from '../../../../models/model.interface';
+import { TagForm } from '../TagForm';
 import * as S from './style';
 
 type TagListType = Array<TagDataType>;
 
 export type changeTagsDataType = (changed_tags_data: TagListType) => void;
+
+export type changeSelectedTagType = (tag_data: TagDataType, isChecked: boolean) => void;
 
 export interface TagListFormProps {
   tags_data: Array<TagType>;
@@ -39,7 +41,7 @@ export const TagListForm = ({ tags_data, changeTagsData }: TagListFormProps) => 
       : setSelectedTagsData(
           pipe(
             selectedTagsData,
-            filter((data) => data.id != tag_data.id),
+            filter((data) => data.id !== tag_data.id),
             toArray,
           ),
         );
@@ -47,7 +49,7 @@ export const TagListForm = ({ tags_data, changeTagsData }: TagListFormProps) => 
 
   useEffect(() => {
     changeTagsData(selectedTagsData);
-  }, [selectedTagsData]);
+  }, [selectedTagsData, changeTagsData]);
 
   return (
     <S.TagListForm>

@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import POOL from "../database/connect.js";
-import { PostCreateType } from "../../models/data.interface";
+import { PostCreateType } from "../../models/model.interface";
 import { each, toAsync } from "@fxts/core";
 
 router.post("/", async function (req, res, next) {
@@ -47,4 +47,4 @@ router.post("/", async function (req, res, next) {
   }
 });
 
-export default router;
+export { router };

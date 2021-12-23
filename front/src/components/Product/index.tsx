@@ -1,5 +1,5 @@
 import React from 'react';
-import { GetProductType } from '../../../../models/data.interface';
+import { GetProductType } from '../../../../models/model.interface';
 import { TagList } from '../TagList';
 import * as S from './style';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import useSWR from 'swr';
-import { GetCartsType } from '../../../../models/data.interface';
+import { GetCartsType } from '../../../../models/model.interface';
 import { fetcher } from '../../@utils';
 import { Cart, Header } from '../../components';
 

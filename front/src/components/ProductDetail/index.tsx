@@ -1,7 +1,9 @@
 import { each, filter, map, pipe, reduce, toArray } from '@fxts/core';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { changeCountType, changeOptionPropertyType, GetDetailType } from '../../../../models/data.interface';
+import { GetDetailType } from '../../../../models/model.interface';
+import { changeCountType } from '../Card';
+import { changeOptionPropertyType } from '../Cart';
 import { Counter, DefaultInfo, Option } from '../index';
 import * as S from './style';
 

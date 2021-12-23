@@ -1,14 +1,17 @@
 import { map, pipe, toArray } from '@fxts/core';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { CartType, changeCountType, changeTotalPriceType } from '../../../../models/data.interface';
+import { CartType } from '../../../../models/model.interface';
 import { productPriceCalc } from '../../@utils';
+import { changeTotalPriceType } from '../Cart';
 import { Counter } from '../Counter';
 import * as S from './style';
 
+export type changeCountType = (count: number) => void;
+
 export interface CardProps {
   cart_data: CartType;
-  changeTotalPrice?: changeTotalPriceType;
+  changeTotalPrice: changeTotalPriceType;
 }
 
 export const Card = ({ cart_data, changeTotalPrice }: CardProps) => {
@@ -33,7 +36,7 @@ export const Card = ({ cart_data, changeTotalPrice }: CardProps) => {
   }, [cart_data.detailed_product.id]);
 
   useEffect(() => {
-    changeTotalPrice && changeTotalPrice(cart_data.detailed_product.id, totalPrice);
+    changeTotalPrice(cart_data.detailed_product.id, totalPrice);
   }, [changeTotalPrice, totalPrice, cart_data.detailed_product.id]);
 
   return (

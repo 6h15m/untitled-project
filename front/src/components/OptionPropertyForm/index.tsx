@@ -42,7 +42,7 @@ export const OptionPropertyForm = ({
 
   useEffect(() => {
     changeOptionPropertyData(option_property_number, optionPropertyData);
-  }, [optionPropertyData]);
+  }, [optionPropertyData, option_property_number, changeOptionPropertyData]);
 
   return (
     <S.OptionPropertyForm>

@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import POOL from "../database/connect.js";
-import { modifyProductData } from "./index.js";
+import { modifyProductData } from "./main.js";
 import { flat, map, pipe, toArray } from "@fxts/core";
 const { SQL, ASSOCIATE, IN } = POOL;
 
@@ -42,4 +42,4 @@ router.get("/:query", async function (req, res, next) {
   }
 });
 
-export default router;
+export { router };

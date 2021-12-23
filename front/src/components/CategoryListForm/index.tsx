@@ -1,12 +1,12 @@
 import { filter, map, pipe, toArray } from '@fxts/core';
 import React, { useEffect, useState } from 'react';
-import { GetCategoriesType } from '../../../../models/data.interface';
+import { CategoryListType } from '../../../../models/model.interface';
 import * as S from './style';
 
 export type changeCategoryDataType = (selected_small_category_id: number) => void;
 
 export interface CategoryListFormProps {
-  categories_data: GetCategoriesType;
+  categories_data: CategoryListType;
   changeCategoryData: changeCategoryDataType;
 }
 
@@ -26,7 +26,7 @@ export const CategoryListForm = ({ categories_data, changeCategoryData }: Catego
 
   useEffect(() => {
     changeCategoryData(selectedSmallCategoryId);
-  }, [selectedSmallCategoryId]);
+  }, [selectedSmallCategoryId, changeCategoryData]);
 
   return (
     <S.CategorySelectorBox>

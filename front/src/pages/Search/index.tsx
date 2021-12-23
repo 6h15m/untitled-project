@@ -1,13 +1,14 @@
 import React from 'react';
 import useSWR from 'swr';
-import { GetProductsType } from '../../../../models/data.interface';
-import { fetcher, getParams } from '../../@utils';
+import { GetProductsType } from '../../../../models/model.interface';
+import { fetcher } from '../../@utils';
+import { GetParams } from '../../hooks';
 import { Header, ProductList } from '../../components';
 
 export interface SearchPageProps {}
 
 export const SearchPage = () => {
-  const query = getParams('q');
+  const query = GetParams('q');
   const { data: products_data } = useSWR<GetProductsType>(`/api/search/${query}`, fetcher);
 
   return (

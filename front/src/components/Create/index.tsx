@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GetCategoriesType, TagType } from '../../../../models/data.interface';
+import { CategoryListType, TagType } from '../../../../models/model.interface';
 import { changeCategoryDataType } from '../CategoryListForm';
 import { CategoryListForm, OptionForm, TagListForm } from '../index';
 import { changeOptionDataType, OptionDataType } from '../OptionForm';
@@ -17,7 +17,7 @@ interface PostCreateType {
 }
 
 export interface CreateProps {
-  categories_data: GetCategoriesType;
+  categories_data: CategoryListType;
   tags_data: Array<TagType>;
 }
 
@@ -71,8 +71,9 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     try {
-    } catch (e) {
-      alert(e);
+      console.log(createData);
+    } catch (err) {
+      alert(err);
     }
   };
 

@@ -1,10 +1,10 @@
 import { filter, map, pipe, toArray } from '@fxts/core';
 import React from 'react';
-import { GetCategoriesType } from '../../../../models/data.interface';
+import { CategoryListType } from '../../../../models/model.interface';
 import * as S from './style';
 
 export interface CategoryListProps {
-  categories_data: GetCategoriesType;
+  categories_data: CategoryListType;
   selected_big_category_id?: number;
 }
 

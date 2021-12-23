@@ -1,12 +1,7 @@
 import React from 'react';
-import { TagType } from '../../../../models/data.interface';
+import { TagDataType } from '../../../../models/model.interface';
+import { changeSelectedTagType } from '../TagListForm';
 import * as S from './style';
-
-export interface TagDataType extends TagType {
-  isNew: boolean;
-}
-
-export type changeSelectedTagType = (tag_data: TagDataType, isChecked: boolean) => void;
 
 export interface TagFormProps {
   tag_data: TagDataType;

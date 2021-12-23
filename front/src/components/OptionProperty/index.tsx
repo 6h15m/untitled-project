@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { changeOptionPropertyType, OptionPropertyType } from '../../../../models/data.interface';
+import { OptionPropertyDetailType } from '../../../../models/model.interface';
+import { changeOptionPropertyType } from '../Cart';
 import * as S from './style';
 
 export interface OptionPropertyProps {
-  option_property: OptionPropertyType;
-  changeOptionProperty?: changeOptionPropertyType;
+  option_property: OptionPropertyDetailType;
+  changeOptionProperty: changeOptionPropertyType;
 }
 
 export const OptionProperty = ({ option_property, changeOptionProperty }: OptionPropertyProps) => {
@@ -12,12 +13,7 @@ export const OptionProperty = ({ option_property, changeOptionProperty }: Option
 
   const handleSelectedOptionProperty = (event: any) => {
     setSelectedOptionProperty(event.target.value);
-    changeOptionProperty &&
-      changeOptionProperty(
-        selectedOptionProperty,
-        option_property.additional_price,
-        option_property.option_id,
-      );
+    changeOptionProperty(selectedOptionProperty, option_property.additional_price, option_property.option_id);
   };
 
   return (

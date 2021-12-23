@@ -1,6 +1,6 @@
 import { map, pipe, toArray } from '@fxts/core';
 import React from 'react';
-import { GetProductsType } from '../../../../models/data.interface';
+import { GetProductsType } from '../../../../models/model.interface';
 import { Product } from '../index';
 import * as S from './style';
 

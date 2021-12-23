@@ -1,5 +1,5 @@
 import { map, pipe, reduce } from '@fxts/core';
-import { CartType } from '../../../models/data.interface';
+import { CartType } from '../../../models/model.interface';
 
 export const productPriceCalc = (cart_data: CartType) =>
   cart_data.detailed_product.price +
