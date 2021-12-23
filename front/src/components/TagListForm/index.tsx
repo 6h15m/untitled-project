@@ -1,31 +1,58 @@
-import React, { useState } from 'react';
+import { filter, pipe, toArray } from '@fxts/core';
+import React, { useEffect, useState } from 'react';
 import { TagType } from '../../../../models/data.interface';
-import { TagForm } from '../TagForm';
+import { changeSelectedTagType, TagDataType, TagForm } from '../TagForm';
 import * as S from './style';
 
-type TagListType = Array<TagType>;
+type TagListType = Array<TagDataType>;
+
+export type changeTagsDataType = (changed_tags_data: TagListType) => void;
 
 export interface TagListFormProps {
-  tags_data: TagListType;
+  tags_data: Array<TagType>;
+  changeTagsData: changeTagsDataType;
 }
 
-export const TagListForm = ({ tags_data }: TagListFormProps) => {
+export const TagListForm = ({ tags_data, changeTagsData }: TagListFormProps) => {
   const [lastTagId, setLastTagId] = useState(tags_data[tags_data.length - 1].id);
-  const [tagList, setTagList] = useState<TagListType>(tags_data);
+  const [tagList, setTagList] = useState<TagListType>(
+    tags_data.map((data) => ({ id: data.id, name: data.name, isNew: false })),
+  );
   const [newTagName, setNewTagName] = useState<string>('');
+  const [selectedTagsData, setSelectedTagsData] = useState<TagListType>([]);
 
-  const addTag = () => {
+  const addTag = (e: React.MouseEvent | React.KeyboardEvent) => {
+    e.preventDefault();
     if (newTagName) {
-      setTagList([...tagList, { id: lastTagId + 1, name: newTagName }]);
+      setTagList([...tagList, { id: lastTagId + 1, name: newTagName, isNew: true }]);
       setLastTagId(lastTagId + 1);
       setNewTagName('');
     }
   };
 
+  const changeSelectedTag: changeSelectedTagType = (tag_data, isChecked) => {
+    isChecked
+      ? setSelectedTagsData([
+          ...selectedTagsData,
+          { id: tag_data.id, name: tag_data.name, isNew: tag_data.isNew },
+        ])
+      : setSelectedTagsData(
+          pipe(
+            selectedTagsData,
+            filter((data) => data.id != tag_data.id),
+            toArray,
+          ),
+        );
+  };
+
+  useEffect(() => {
+    changeTagsData(selectedTagsData);
+  }, [selectedTagsData]);
+
   return (
     <S.TagListForm>
       {tagList.map((tag_data, index) => (
-        <TagForm key={`tag-${index}`} tag_data={tag_data} />
+        <TagForm key={`tag-${index}`} tag_data={tag_data} changeSelectedTag={changeSelectedTag} />
       ))}
       <S.AddTagInput
         placeholder="Insert new tag name 😲"
@@ -34,8 +61,7 @@ export const TagListForm = ({ tags_data }: TagListFormProps) => {
         onChange={(event) => setNewTagName(event.target.value)}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
-            addTag();
-            e.preventDefault();
+            addTag(e);
           }
         }}
       />

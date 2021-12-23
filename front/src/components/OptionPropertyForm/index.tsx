@@ -52,7 +52,7 @@ export const OptionPropertyForm = ({
       </S.FormBox>
       <S.FormBox>
         <h5>Property Name</h5>
-        <S.OptionPropertyTextInput type="text" onChange={handleInputChange} name="name" />
+        <S.OptionPropertyTextInput type="text" onChange={handleInputChange} name="name" required />
       </S.FormBox>
       <S.FormBox right>
         <h5>Additional Price</h5>
@@ -61,6 +61,7 @@ export const OptionPropertyForm = ({
           placeholder="0"
           onChange={handleInputChange}
           name="additional_price"
+          required
         />
       </S.FormBox>
     </S.OptionPropertyForm>

@@ -70,7 +70,7 @@ export const OptionForm = ({
     <S.OptionForm>
       <S.FormBox>
         <h4>Option Name</h4>
-        <S.OptionNameInput type="text" onChange={handleInputChange} name="name" />
+        <S.OptionNameInput type="text" onChange={handleInputChange} name="name" required />
       </S.FormBox>
       <S.FormBox>
         <h4>Option Properties</h4>

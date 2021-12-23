@@ -1,9 +1,9 @@
-import { each, filter, pipe } from '@fxts/core';
 import React, { useState } from 'react';
 import { GetCategoriesType, TagType } from '../../../../models/data.interface';
 import { changeCategoryDataType } from '../CategoryListForm';
 import { CategoryListForm, OptionForm, TagListForm } from '../index';
 import { changeOptionDataType, OptionDataType } from '../OptionForm';
+import { changeTagsDataType } from '../TagListForm';
 import * as S from './style';
 
 type OptionDataListType = Array<OptionDataType>;
@@ -61,23 +61,16 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
     setCreateData({ ...createData, options: optionDataList });
   };
 
-  const hasNullValue = () => {
-    const input_els = document.querySelectorAll('input');
-    pipe(
-      input_els,
-      filter((el) => el.type !== 'checkbox' && el.placeholder !== 'Search'),
-      each((el) => {
-        if (!el.value) {
-          throw 'Please fill all value! 😔';
-        }
-      }),
-    );
+  const changeTagsData: changeTagsDataType = (changed_tags_data) => {
+    setCreateData({
+      ...createData,
+      tags: changed_tags_data.map((data) => ({ id: data.id, name: data.isNew ? data.name : '' })),
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      hasNullValue();
     } catch (e) {
       alert(e);
     }
@@ -93,15 +86,15 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
         </S.FormBox>
         <S.FormBox>
           <h3>Product Name</h3>
-          <input type="text" name="product_name" onChange={handleInputChange} />
+          <input type="text" name="product_name" onChange={handleInputChange} required />
         </S.FormBox>
         <S.FormBox>
           <h3>Product Price</h3>
-          <input type="number" placeholder="0" name="product_price" onChange={handleInputChange} />
+          <input type="number" placeholder="0" name="product_price" onChange={handleInputChange} required />
         </S.FormBox>
         <S.FormBox>
           <h3>Tags</h3>
-          <TagListForm tags_data={tags_data} />
+          <TagListForm tags_data={tags_data} changeTagsData={changeTagsData} />
         </S.FormBox>
         <S.FormBox>
           <h3>Options</h3>
