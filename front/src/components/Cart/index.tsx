@@ -1,6 +1,6 @@
 import { map, pipe, reduce, toArray } from '@fxts/core';
 import React, { useState } from 'react';
-import { GetCartsType } from '../../../../models/model.interface';
+import { GetCart as GetCartType } from '../../../../models/model.interface';
 import { productPriceCalc } from '../../@utils';
 import { Card } from '../Card';
 import * as S from './style';
@@ -14,14 +14,14 @@ export type changeOptionPropertyType = (
 ) => void;
 
 export interface CartProps {
-  carts_data: GetCartsType;
+  cart_data: GetCartType;
 }
 
-export const Cart = ({ carts_data }: CartProps) => {
+export const Cart = ({ cart_data }: CartProps) => {
   const totalPrices = pipe(
-    carts_data.carts,
-    map((cart_data) => ({
-      [cart_data.detailed_product.id]: productPriceCalc(cart_data) * cart_data.product_amount,
+    cart_data.cart,
+    map((card_data) => ({
+      [card_data.detailed_product.id]: productPriceCalc(card_data) * card_data.product_amount,
     })),
     reduce((a, b) => ({ ...a, ...b })),
   );
@@ -45,15 +45,15 @@ export const Cart = ({ carts_data }: CartProps) => {
 
   return (
     <S.Cart>
-      <h2>{carts_data.user_id}'s Cart</h2>
+      <h2>{cart_data.user_id}'s Cart</h2>
       <S.CardsBox>
         {pipe(
-          carts_data.carts,
-          map((cart_data) => {
+          cart_data.cart,
+          map((card_data) => {
             return (
               <Card
-                cart_data={cart_data}
-                key={cart_data.detailed_product.id}
+                card_data={card_data}
+                key={card_data.detailed_product.id}
                 changeTotalPrice={changeTotalPrice}
               />
             );

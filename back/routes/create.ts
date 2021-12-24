@@ -1,8 +1,9 @@
-import express from "express";
-const router = express.Router();
-import POOL from "../database/connect.js";
-import { PostCreateType } from "../../models/model.interface";
 import { each, toAsync } from "@fxts/core";
+import express from "express";
+import { PostCreate } from "../../models/model.interface";
+import POOL from "../database/connect.js";
+
+const router = express.Router();
 
 router.post("/", async function (req, res, next) {
   const { TRANSACTION } = POOL;
@@ -14,7 +15,7 @@ router.post("/", async function (req, res, next) {
       product_price,
       tags,
       options,
-    }: PostCreateType = req.body;
+    }: PostCreate = req.body;
     await QUERY`INSERT INTO products (name, price, small_category_id) VALUES (${product_name}, ${product_price}, ${small_category_id})`;
     await each(async (tag) => {
       tag.name

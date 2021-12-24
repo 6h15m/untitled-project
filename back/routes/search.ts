@@ -1,32 +1,29 @@
+import { flat, pipe, toArray } from "@fxts/core";
 import express from "express";
-const router = express.Router();
 import POOL from "../database/connect.js";
+import { ProductsData, QProductsTagsData } from "../types/data.interface";
 import { modifyProductData } from "./main.js";
-import { flat, map, pipe, toArray } from "@fxts/core";
+
+const router = express.Router();
 const { SQL, ASSOCIATE, IN } = POOL;
 
 router.get("/:query", async function (req, res, next) {
   try {
     const query = req.params.query;
-    const product_id_data_from_tag = await ASSOCIATE`
+    const product_id_data_from_tag: QProductsTagsData = await ASSOCIATE`
       tags ${{
         query: SQL`WHERE UPPER(name) LIKE UPPER(${"%" + query + "%"})`,
       }}
         < products_tags
     `;
     const product_ids_from_tag = pipe(
-      product_id_data_from_tag,
-      map((data: any) =>
-        pipe(
-          data._.products_tags,
-          map((product_tag: any) => product_tag.product_id),
-          toArray
-        )
+      product_id_data_from_tag.map((data) =>
+        data._.products_tags.map((product_tag) => product_tag.product_id)
       ),
       flat,
       toArray
     );
-    const product_data = await ASSOCIATE`
+    const product_data: ProductsData = await ASSOCIATE`
       products ${{
         query: SQL`WHERE UPPER(name) LIKE UPPER(${"%" + query + "%"}) OR ${IN(
           "id",

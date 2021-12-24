@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import {
-  changeOptionPropertyDataType,
-  OptionPropertyDataType,
-  OptionPropertyForm,
-} from '../OptionPropertyForm';
+import React, { useCallback, useEffect, useState } from 'react';
+import { changeOptionDataType } from '../Create';
+import { OptionPropertyDataType, OptionPropertyForm } from '../OptionPropertyForm';
 import * as S from './style';
 
 type optionPropertyDataListType = Array<OptionPropertyDataType>;
+
+export type changeOptionPropertyDataType = (
+  option_property_number: number,
+  changed_option_property_data: OptionPropertyDataType,
+) => void;
 
 export interface OptionDataType {
   name: string;
   option_property_data_list: optionPropertyDataListType;
 }
-
-export type changeOptionDataType = (option_number: number, changed_option_data: OptionDataType) => void;
 
 export interface OptionFormProps extends OptionDataType {
   option_number: number;
@@ -54,13 +54,13 @@ export const OptionForm = ({
     setOptionData({ ...optionData, [event.target.name]: event.target.value });
   };
 
-  const changeOptionPropertyData: changeOptionPropertyDataType = (
-    option_property_number,
-    changed_option_property_data,
-  ) => {
-    optionPropertyDataList[option_property_number] = changed_option_property_data;
-    setOptionData({ ...optionData, option_property_data_list: optionPropertyDataList });
-  };
+  const changeOptionPropertyData: changeOptionPropertyDataType = useCallback(
+    (option_property_number, changed_option_property_data) => {
+      optionPropertyDataList[option_property_number] = changed_option_property_data;
+      setOptionData((prevState) => ({ ...prevState, option_property_data_list: optionPropertyDataList }));
+    },
+    [optionPropertyDataList],
+  );
 
   useEffect(() => {
     changeOptionData(option_number, optionData);

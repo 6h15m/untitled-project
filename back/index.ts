@@ -1,21 +1,23 @@
+import dotenv from "dotenv";
 import type { ErrorRequestHandler } from "express";
 import express from "express";
 import * as http from "http";
-import CONFIG from "../untitled.config.json";
 import {
-  mainRouter,
-  detailRouter,
   cartRouter,
   createRouter,
+  detailRouter,
+  mainRouter,
   searchRouter,
-} from "./routes";
+} from "./routes/index.js";
+
+dotenv.config();
 
 const app = express();
-const PORT = CONFIG.PORTS.BACK;
-const HOST_NAME = CONFIG.HOST;
+const PORT = 8082;
+const HOST_NAME = "localhost";
 const ALLOWED_ORIGINS = [
-  `${CONFIG.PROTOCOL}:${CONFIG.PORTS.STORYBOOK}`,
-  `${CONFIG.PROTOCOL}:${CONFIG.PORTS.FRONT}`,
+  `http://localhost:${process.env.STORYBOOK_PORT}`,
+  `http://localhost:${process.env.FRONT_PORT}`,
 ];
 
 app.use(express.json());

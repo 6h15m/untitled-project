@@ -21,8 +21,8 @@ export const Counter = ({ default_count, changeCount }: CounterProps) => {
     }
   };
 
-  const handleCount = (e: any) => {
-    switch (e.target.value) {
+  const handleCount = (e: React.MouseEvent<HTMLInputElement>) => {
+    switch (e.currentTarget.value) {
       case '+':
         inc();
         break;

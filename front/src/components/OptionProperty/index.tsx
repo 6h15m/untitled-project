@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { OptionPropertyDetailType } from '../../../../models/model.interface';
+import { OptionPropertyDetail as OptionPropertyDetailType } from '../../../../models/model.interface';
 import { changeOptionPropertyType } from '../Cart';
 import * as S from './style';
 
@@ -11,8 +11,8 @@ export interface OptionPropertyProps {
 export const OptionProperty = ({ option_property, changeOptionProperty }: OptionPropertyProps) => {
   const [selectedOptionProperty, setSelectedOptionProperty] = useState<number>(option_property.id);
 
-  const handleSelectedOptionProperty = (event: any) => {
-    setSelectedOptionProperty(event.target.value);
+  const handleSelectedOptionProperty = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedOptionProperty(+event.target.value);
     changeOptionProperty(selectedOptionProperty, option_property.additional_price, option_property.option_id);
   };
 

@@ -27,6 +27,7 @@ export const AddOptionPropertyBtn = styled.button`
   display: flex;
   margin: 1rem auto 0 auto;
   justify-content: center;
+  align-items: center;
   width: 1.6rem;
   height: 1.6rem;
   border-radius: 1rem;

@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { changeOptionPropertyDataType } from '../OptionForm';
 import * as S from './style';
-
-export type changeOptionPropertyDataType = (
-  option_property_number: number,
-  changed_option_property_data: OptionPropertyDataType,
-) => void;
 
 export interface OptionPropertyDataType {
   base: boolean;

@@ -1,6 +1,6 @@
 import { filter, map, pipe, toArray } from '@fxts/core';
 import React from 'react';
-import { CategoryListType } from '../../../../models/model.interface';
+import { CategoryList as CategoryListType } from '../../../../models/model.interface';
 import * as S from './style';
 
 export interface CategoryListProps {
@@ -13,15 +13,11 @@ export const CategoryList = ({ categories_data, selected_big_category_id }: Cate
     <S.CategoryList>
       <S.CategoriesBox>
         <S.BigCategory href="/">All</S.BigCategory>
-        {pipe(
-          categories_data.big_categories,
-          map((big_category) => (
-            <S.BigCategory key={big_category.id} href={`?big_category_id=${big_category.id}`}>
-              {big_category.name}
-            </S.BigCategory>
-          )),
-          toArray,
-        )}
+        {categories_data.big_categories.map((big_category) => (
+          <S.BigCategory key={big_category.id} href={`?big_category_id=${big_category.id}`}>
+            {big_category.name}
+          </S.BigCategory>
+        ))}
       </S.CategoriesBox>
       <S.CategoriesBox>
         {pipe(

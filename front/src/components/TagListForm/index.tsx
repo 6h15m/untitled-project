@@ -1,6 +1,6 @@
 import { filter, pipe, toArray } from '@fxts/core';
 import React, { useEffect, useState } from 'react';
-import { TagDataType, TagType } from '../../../../models/model.interface';
+import { Tag as TagType, TagData as TagDataType } from '../../../../models/model.interface';
 import { TagForm } from '../TagForm';
 import * as S from './style';
 
@@ -23,8 +23,8 @@ export const TagListForm = ({ tags_data, changeTagsData }: TagListFormProps) => 
   const [newTagName, setNewTagName] = useState<string>('');
   const [selectedTagsData, setSelectedTagsData] = useState<TagListType>([]);
 
-  const addTag = (e: React.MouseEvent | React.KeyboardEvent) => {
-    e.preventDefault();
+  const addTag = (event: React.MouseEvent | React.KeyboardEvent) => {
+    event.preventDefault();
     if (newTagName) {
       setTagList([...tagList, { id: lastTagId + 1, name: newTagName, isNew: true }]);
       setLastTagId(lastTagId + 1);
@@ -61,9 +61,9 @@ export const TagListForm = ({ tags_data, changeTagsData }: TagListFormProps) => 
         maxLength={25}
         value={newTagName}
         onChange={(event) => setNewTagName(event.target.value)}
-        onKeyPress={(e) => {
-          if (e.key === 'Enter') {
-            addTag(e);
+        onKeyPress={(event) => {
+          if (event.key === 'Enter') {
+            addTag(event);
           }
         }}
       />

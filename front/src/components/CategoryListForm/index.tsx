@@ -1,9 +1,8 @@
 import { filter, map, pipe, toArray } from '@fxts/core';
 import React, { useEffect, useState } from 'react';
-import { CategoryListType } from '../../../../models/model.interface';
+import { CategoryList as CategoryListType } from '../../../../models/model.interface';
+import { changeCategoryDataType } from '../Create';
 import * as S from './style';
-
-export type changeCategoryDataType = (selected_small_category_id: number) => void;
 
 export interface CategoryListFormProps {
   categories_data: CategoryListType;
@@ -31,15 +30,11 @@ export const CategoryListForm = ({ categories_data, changeCategoryData }: Catego
   return (
     <S.CategorySelectorBox>
       <S.CategorySelector onChange={changeBigCategory}>
-        {pipe(
-          categories_data.big_categories,
-          map((b) => (
-            <option value={b.id} key={b.id}>
-              {b.name}
-            </option>
-          )),
-          toArray,
-        )}
+        {categories_data.big_categories.map((b) => (
+          <option value={b.id} key={b.id}>
+            {b.name}
+          </option>
+        ))}
       </S.CategorySelector>
       <S.CategoryArrow>{`>`}</S.CategoryArrow>
       <S.CategorySelector onChange={changeSmallCategory}>

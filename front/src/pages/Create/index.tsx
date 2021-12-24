@@ -1,6 +1,6 @@
 import React from 'react';
 import useSWR from 'swr';
-import { CategoryListType, TagType } from '../../../../models/model.interface';
+import { CategoryList as CategoryListType, Tag as TagType } from '../../../../models/model.interface';
 import { fetcher } from '../../@utils';
 import { Create, Header } from '../../components';
 

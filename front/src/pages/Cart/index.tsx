@@ -1,6 +1,7 @@
 import React from 'react';
+import trigger from 'swr';
 import useSWR from 'swr';
-import { GetCartsType } from '../../../../models/model.interface';
+import { GetCart as GetCartType } from '../../../../models/model.interface';
 import { fetcher } from '../../@utils';
 import { Cart, Header } from '../../components';
 
@@ -9,12 +10,12 @@ export interface CartPageProps {
 }
 
 export const CartPage = ({ user_id }: CartPageProps) => {
-  const { data: carts_data } = useSWR<GetCartsType>(`/api/cart/${user_id}`, fetcher);
-
+  const { data: cart_data } = useSWR<GetCartType>(`/api/cart/${user_id}`, fetcher);
+  trigger(`/api/cart/${user_id}`);
   return (
     <>
       <Header />
-      {carts_data && <Cart carts_data={carts_data} />}
+      {cart_data && cart_data.cart.length !== 0 && <Cart cart_data={cart_data} />}
     </>
   );
 };

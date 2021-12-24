@@ -1,22 +1,22 @@
-import express from "express";
-const router = express.Router();
-import POOL from "../database/connect.js";
 import { each, groupBy, map, pipe, toArray, toAsync } from "@fxts/core";
-import { DetailedProductsOptionPropertyType } from "../../models/model.interface";
-const { SQL, ASSOCIATE, CL, IN } = POOL;
+import express from "express";
+import { GetDetail } from "../../models/model.interface";
+import POOL from "../database/connect.js";
+import {
+  DetailedProductIdsData,
+  DetailedProductsOptionPropertiesIdsData,
+  ProductsDetailData,
+} from "../types/data.interface";
 
-function* entriesToArray(obj: {
-  [p: number]: DetailedProductsOptionPropertyType[];
-}) {
-  for (const k in obj) yield obj[k];
-}
+const router = express.Router();
+const { SQL, ASSOCIATE, CL, IN, QUERY } = POOL;
 
-const getDetailedProductId = (datas: any) =>
-  pipe(
-    datas,
-    map((data: any) => data.detailed_product_id),
-    toArray
-  ) as Array<number>;
+const getDetailedProductId = (
+  detailed_product_ids_data: DetailedProductIdsData
+) =>
+  detailed_product_ids_data.map(
+    (detailed_product_id_data) => detailed_product_id_data.detailed_product_id
+  );
 
 const isAlreadyInCart = async ({
   user_id,
@@ -28,13 +28,10 @@ const isAlreadyInCart = async ({
   option_property_ids: Array<number>;
 }) => {
   let filtered_detailed_product_ids = getDetailedProductId(
-    await ASSOCIATE`
-    carts ${{
-      query: SQL`WHERE user_id = ${user_id}`,
-      column: CL("detailed_product_id"),
-    }}
-  `
+    await QUERY`
+    SELECT detailed_product_id FROM carts WHERE user_id=${user_id}`
   );
+
   if (filtered_detailed_product_ids.length === 0) {
     console.log("해당 user id에 상품이 없음");
     return false;
@@ -51,40 +48,39 @@ const isAlreadyInCart = async ({
       }}
     `
     );
+
     if (filtered_detailed_product_ids.length === 0) {
-      console.log("해당 product가 존재하지 않음");
+      console.log("해당 product 가 존재하지 않음");
       return false;
     } else {
-      console.log("해당 product가 존재함");
-      const filtered_detailed_products_option_properties_data =
-        (await ASSOCIATE`
-        detailed_products_option_properties ${{
-          query: SQL`WHERE ${IN(
-            "detailed_product_id",
-            filtered_detailed_product_ids
-          )}`,
-        }}
-      `) as Array<DetailedProductsOptionPropertyType>;
-      console.log(filtered_detailed_products_option_properties_data);
+      console.log("해당 product 가 존재함");
+      const filtered_detailed_products_option_properties_data: DetailedProductsOptionPropertiesIdsData =
+        await QUERY`
+        SELECT * from detailed_products_option_properties WHERE ${IN(
+          "detailed_product_id",
+          filtered_detailed_product_ids
+        )}
+       `;
+
       const filtered_option_property_ids = pipe(
         filtered_detailed_products_option_properties_data,
         groupBy((data) => data.detailed_product_id),
-        (a) => entriesToArray(a),
-        map((a) => a.map(({ option_property_id }) => option_property_id)),
+        (data) => Object.values(data),
+        map((data) => data.map(({ option_property_id }) => option_property_id)),
         toArray
       );
-      console.log(filtered_option_property_ids);
+
       filtered_detailed_product_ids = getDetailedProductId(
         filtered_detailed_products_option_properties_data
       );
-      // TODO: temp 삭제
+
       let temp = 0;
       for (const id of filtered_option_property_ids) {
-        temp++;
         if (JSON.stringify(id) === JSON.stringify(option_property_ids)) {
           console.log("해당 옵션을 갖고 있는 상품이 존재함");
           return filtered_detailed_product_ids[temp];
         }
+        temp++;
       }
     }
   }
@@ -95,7 +91,7 @@ const isAlreadyInCart = async ({
 router.get("/:product_id", async function (req, res, next) {
   try {
     const product_id: number = +req.params.product_id;
-    const product_data = await ASSOCIATE`
+    const products_data: ProductsDetailData = await ASSOCIATE`
       products ${{
         query: SQL`WHERE id = ${product_id}`,
         column: CL("id", "name", "price"),
@@ -105,38 +101,39 @@ router.get("/:product_id", async function (req, res, next) {
         }}
           - big_category
         < products_tags
-          - tags
+          - tag
         < products_options
           - options
             < option_properties
     `;
-    res.json({
+    const product_data = products_data[0];
+    const product: GetDetail = {
       product: {
-        id: product_data[0].id,
-        name: product_data[0].name,
-        price: product_data[0].price,
+        id: product_data.id,
+        name: product_data.name,
+        price: product_data.price,
       },
       small_category: {
-        id: product_data[0]._.small_category.id,
-        name: product_data[0]._.small_category.name,
+        id: product_data._.small_category.id,
+        name: product_data._.small_category.name,
       },
       big_category: {
-        id: product_data[0]._.small_category._.big_category.id,
-        name: product_data[0]._.small_category._.big_category.name,
+        id: product_data._.small_category._.big_category.id,
+        name: product_data._.small_category._.big_category.name,
       },
       tags: pipe(
-        product_data[0]._.products_tags,
-        map((product_tag: any) => product_tag._.tags),
+        product_data._.products_tags,
+        map((product_tag) => product_tag._.tag),
         toArray
       ),
       options: pipe(
-        product_data[0]._.products_options,
-        map((product_option: any) => ({
+        product_data._.products_options,
+        map((product_option) => ({
           id: product_option._.options.id,
           name: product_option._.options.name,
           option_properties: pipe(
             product_option._.options._.option_properties,
-            map((option_property: any) => ({
+            map((option_property) => ({
               id: option_property.id,
               name: option_property.name,
               additional_price: option_property.additional_price,
@@ -148,7 +145,8 @@ router.get("/:product_id", async function (req, res, next) {
         })),
         toArray
       ),
-    });
+    };
+    res.json(product);
   } catch (error) {
     next(error);
   }

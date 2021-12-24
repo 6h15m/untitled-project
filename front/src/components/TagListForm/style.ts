@@ -27,5 +27,6 @@ export const AddTagBtn = styled.button`
   color: white;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 1.4rem;
 `;

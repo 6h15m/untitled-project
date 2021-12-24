@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { CategoryListType, TagType } from '../../../../models/model.interface';
-import { changeCategoryDataType } from '../CategoryListForm';
+import React, { useCallback, useState } from 'react';
+import { CategoryList as CategoryListType, Tag as TagType } from '../../../../models/model.interface';
 import { CategoryListForm, OptionForm, TagListForm } from '../index';
-import { changeOptionDataType, OptionDataType } from '../OptionForm';
+import { OptionDataType } from '../OptionForm';
 import { changeTagsDataType } from '../TagListForm';
 import * as S from './style';
 
 type OptionDataListType = Array<OptionDataType>;
+export type changeCategoryDataType = (selected_small_category_id: number) => void;
+export type changeOptionDataType = (option_number: number, changed_option_data: OptionDataType) => void;
 
 interface PostCreateType {
   product_name: string;
@@ -30,9 +31,9 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
     options: [],
   });
 
-  const changeCategoryData: changeCategoryDataType = (selected_small_category_id) => {
-    setCreateData({ ...createData, small_category_id: selected_small_category_id });
-  };
+  const changeCategoryData: changeCategoryDataType = useCallback((selected_small_category_id) => {
+    setCreateData((prevState) => ({ ...prevState, small_category_id: selected_small_category_id }));
+  }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -56,17 +57,20 @@ export const Create = ({ categories_data, tags_data }: CreateProps) => {
     ]);
   };
 
-  const changeOptionData: changeOptionDataType = (option_number, changed_option_data) => {
-    optionDataList[option_number] = changed_option_data;
-    setCreateData({ ...createData, options: optionDataList });
-  };
+  const changeOptionData: changeOptionDataType = useCallback(
+    (option_number, changed_option_data) => {
+      optionDataList[option_number] = changed_option_data;
+      setCreateData((prevState) => ({ ...prevState, options: optionDataList }));
+    },
+    [optionDataList],
+  );
 
-  const changeTagsData: changeTagsDataType = (changed_tags_data) => {
-    setCreateData({
-      ...createData,
+  const changeTagsData: changeTagsDataType = useCallback((changed_tags_data) => {
+    setCreateData((prevState) => ({
+      ...prevState,
       tags: changed_tags_data.map((data) => ({ id: data.id, name: data.isNew ? data.name : '' })),
-    });
-  };
+    }));
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

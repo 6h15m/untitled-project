@@ -1,6 +1,6 @@
 import React from 'react';
 import * as S from './style';
-import { TagType } from '../../../../models/model.interface';
+import { Tag as TagType } from '../../../../models/model.interface';
 
 export interface TagProps {
   tag: TagType;

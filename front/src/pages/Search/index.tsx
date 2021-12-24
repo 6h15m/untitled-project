@@ -1,6 +1,6 @@
 import React from 'react';
 import useSWR from 'swr';
-import { GetProductsType } from '../../../../models/model.interface';
+import { GetProducts as GetProductsType } from '../../../../models/model.interface';
 import { fetcher } from '../../@utils';
 import { GetParams } from '../../hooks';
 import { Header, ProductList } from '../../components';

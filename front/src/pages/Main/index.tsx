@@ -1,6 +1,9 @@
 import React from 'react';
 import useSWR from 'swr';
-import { CategoryListType, GetProductsType } from '../../../../models/model.interface';
+import {
+  CategoryList as CategoryListType,
+  GetProducts as GetProductsType,
+} from '../../../../models/model.interface';
 import { fetcher } from '../../@utils';
 import { GetParams } from '../../hooks';
 import { CategoryList, Header, ProductList } from '../../components';
@@ -13,9 +16,9 @@ export const MainPage = ({}: MainPageProps) => {
 
   const { data: products_data } = useSWR<GetProductsType>(
     selected_small_category_id
-      ? `/api/products/${selected_small_category_id}`
+      ? `/api/products/small_category/${selected_small_category_id}`
       : selected_big_category_id
-      ? `/api/products/${selected_big_category_id}`
+      ? `/api/products/big_category/${selected_big_category_id}` //아니 근데 일케 보내면 걍 똑같은거 아니애??ㅋㅋㅋㅋㅋ
       : '/api/products',
     fetcher,
   );

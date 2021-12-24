@@ -1,120 +1,132 @@
-export interface BigCategoryType {
+export interface BigCategory {
   id: number;
   name: string;
 }
 
-export interface SmallCategoryType {
+export interface SmallCategory {
   id: number;
   name: string;
   big_category_id?: number;
 }
 
-export interface CategoryListType {
-  small_categories: Array<SmallCategoryType>;
-  big_categories: Array<BigCategoryType>;
+export interface CategoryList {
+  small_categories: Array<SmallCategory>;
+  big_categories: Array<BigCategory>;
 }
 
-export interface ProductType {
+export interface Product {
   id: number;
   name: string;
   price: number;
-  small_category_id?: number;
 }
 
-export interface TagType {
+export interface ProductDetail extends Product {
+  small_category_id: number;
+}
+
+export interface Tag {
   id: number;
   name: string;
 }
 
-export interface OptionType {
+export interface Option {
   id: number;
   name: string;
-  option_properties: Array<OptionPropertyType>;
+  option_properties: Array<OptionProperty>;
 }
 
-export interface OptionDetailType extends OptionType {
-  option_properties: Array<OptionPropertyDetailType>;
+export interface OptionDetail extends Option {
+  option_properties: Array<OptionPropertyDetail>;
 }
 
-export interface OptionPropertyType {
+export interface GetOptionProperty {
+  id: number;
+  name: string;
+  additional_price: number;
+}
+
+export interface OptionProperty {
   id: number;
   name: string;
   additional_price: number;
   base: boolean;
 }
 
-export interface OptionPropertyDetailType extends OptionPropertyType {
+export interface OptionPropertyDetail extends OptionProperty {
   option_id: number;
 }
 
-export interface PostOptionType {
+export interface PostOption {
   name: string;
-  option_properties: Array<PostOptionPropertyType>;
+  option_properties: Array<PostOptionProperty>;
 }
 
-export interface PostOptionPropertyType {
+export interface PostOptionProperty {
   name: string;
   additional_price: number;
   base: boolean;
   option_property_number: number;
 }
+export interface GetDetailedProduct {
+  product_id: number;
+  id: number;
+  name: string;
+  price: number;
+  option_properties: Array<GetOptionProperty>;
+}
 
-export interface DetailedProductType {
+export interface DetailedProduct {
   product_id?: number;
   id: number;
   name: string;
   price: number;
-  option_properties: Array<OptionPropertyType>;
+  option_properties: Array<OptionProperty>;
 }
 
-export interface DetailedProductsOptionPropertyType {
-  detailed_product_id: number;
-  option_property_id: number;
-}
-
-export interface CartType {
+export interface GetCard {
   product_amount: number;
-  detailed_product: DetailedProductType;
+  detailed_product: GetDetailedProduct;
 }
 
-export interface GetProductType {
-  id: number;
-  name: string;
-  price: number;
-  small_category_id: number;
-  tags: Array<TagType>;
+export interface Card {
+  product_amount: number;
+  detailed_product: DetailedProduct;
 }
 
-export interface GetProductsType {
-  products: Array<GetProductType>;
+export interface GetProduct extends ProductDetail {
+  tags: Array<Tag>;
 }
 
-export interface GetCreateType {
-  categories: CategoryListType;
-  tags: Array<TagType>;
+export interface GetProducts {
+  products: Array<GetProduct>;
 }
 
-export interface PostCreateType {
+export interface GetCreate {
+  categories: CategoryList;
+  tags: Array<Tag>;
+}
+
+export interface PostCreate {
   small_category_id: number;
   product_name: string;
   product_price: number;
-  tags: Array<TagType>;
-  options: Array<PostOptionType>;
+  tags: Array<Tag>;
+  options: Array<PostOption>;
 }
 
-export interface GetDetailType {
-  product: ProductType;
-  small_category: SmallCategoryType;
-  big_category: BigCategoryType;
-  tags: Array<TagType>;
-  options: Array<OptionDetailType>;
+export interface GetDetail {
+  product: Product;
+  small_category: SmallCategory;
+  big_category: BigCategory;
+  tags: Array<Tag>;
+  options: Array<OptionDetail>;
 }
 
-export interface GetCartsType {
+export interface GetCart {
   user_id: string;
-  carts: Array<CartType>;
+  cart: Array<GetCard>;
 }
 
-export interface TagDataType extends TagType {
+export interface TagData extends Tag {
   isNew: boolean;
 }

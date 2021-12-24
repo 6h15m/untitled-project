@@ -1,11 +1,13 @@
 import { PostgreSQL } from "fxsql";
-import CONFIG from "../../untitled.config.json";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const { CONNECT } = PostgreSQL;
 const POOL = CONNECT({
-  host: CONFIG.DATABASE_INFO.HOST,
-  user: CONFIG.DATABASE_INFO.USER,
-  password: CONFIG.DATABASE_INFO.PASSWORD,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   database: "postgres",
 });
 
