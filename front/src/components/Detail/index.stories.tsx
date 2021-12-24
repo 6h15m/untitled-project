@@ -2,14 +2,14 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 
 import { Counter, DefaultInfo, Option } from '../index';
-import { ProductDetail, ProductDetailProps } from './index';
+import { Detail, ProductDetailProps } from './index';
 
 export default {
-  title: 'components/ProductDetail',
-  component: ProductDetail,
+  title: 'components/Detail',
+  component: Detail,
   subcomponents: { Counter, DefaultInfo, Option },
 } as Meta;
-export const Base: Story<ProductDetailProps> = (args) => <ProductDetail {...args} />;
+export const Base: Story<ProductDetailProps> = (args) => <Detail {...args} />;
 Base.args = {
   detail_data: {
     product: { id: 1, name: 'Overweight Hoodie', price: 25000 },

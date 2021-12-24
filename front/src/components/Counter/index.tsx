@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { changeCountType } from '../Card';
+import { changeCountType } from '../Cart/Card';
 import * as S from './style';
 
 export interface CounterProps {

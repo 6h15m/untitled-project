@@ -1,10 +1,10 @@
 import { map, pipe, toArray } from '@fxts/core';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { GetCard as GetCardType } from '../../../../models/model.interface';
-import { productPriceCalc } from '../../@utils';
-import { changeTotalPriceType } from '../Cart';
-import { Counter } from '../Counter';
+import { GetCard as GetCardType } from '../../../../../models/model.interface';
+import { productPriceCalc } from '../../../@utils';
+import { changeTotalPriceType } from '../index';
+import { Counter } from '../../Counter';
 import * as S from './style';
 
 export type changeCountType = (count: number) => void;

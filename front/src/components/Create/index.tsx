@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { CategoryList as CategoryListType, Tag as TagType } from '../../../../models/model.interface';
 import { CategoryListForm, OptionForm, TagListForm } from '../index';
-import { OptionDataType } from '../OptionForm';
-import { changeTagsDataType } from '../TagListForm';
+import { OptionDataType } from './OptionForm';
+import { changeTagsDataType } from './TagListForm';
 import * as S from './style';
 
 type OptionDataListType = Array<OptionDataType>;

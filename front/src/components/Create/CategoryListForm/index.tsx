@@ -1,7 +1,7 @@
 import { filter, map, pipe, toArray } from '@fxts/core';
 import React, { useEffect, useState } from 'react';
-import { CategoryList as CategoryListType } from '../../../../models/model.interface';
-import { changeCategoryDataType } from '../Create';
+import { CategoryList as CategoryListType } from '../../../../../models/model.interface';
+import { changeCategoryDataType } from '../index';
 import * as S from './style';
 
 export interface CategoryListFormProps {
