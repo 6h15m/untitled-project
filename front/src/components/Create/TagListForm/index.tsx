@@ -1,6 +1,6 @@
 import { filter, pipe, toArray } from '@fxts/core';
 import React, { useEffect, useState } from 'react';
-import { Tag as TagType, TagData as TagDataType } from '../../../../models/model.interface';
+import { Tag as TagType, TagData as TagDataType } from '../../../../../models/model.interface';
 import { TagForm } from '../TagForm';
 import * as S from './style';
 

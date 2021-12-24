@@ -2,7 +2,7 @@ import { map, pipe, reduce, toArray } from '@fxts/core';
 import React, { useState } from 'react';
 import { GetCart as GetCartType } from '../../../../models/model.interface';
 import { productPriceCalc } from '../../@utils';
-import { Card } from '../Card';
+import { Card } from './Card';
 import * as S from './style';
 
 export type changeTotalPriceType = (detailed_product_id: number, total_price: number) => void;

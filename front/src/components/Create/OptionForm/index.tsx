@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { changeOptionDataType } from '../Create';
+import { changeOptionDataType } from '../index';
 import { OptionPropertyDataType, OptionPropertyForm } from '../OptionPropertyForm';
 import * as S from './style';
 

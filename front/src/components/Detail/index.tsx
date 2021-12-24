@@ -2,7 +2,7 @@ import { each, filter, map, pipe, reduce, toArray } from '@fxts/core';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { GetDetail as GetDetailType } from '../../../../models/model.interface';
-import { changeCountType } from '../Card';
+import { changeCountType } from '../Cart/Card';
 import { changeOptionPropertyType } from '../Cart';
 import { Counter, DefaultInfo, Option } from '../index';
 import * as S from './style';
@@ -14,7 +14,7 @@ export interface ProductDetailProps {
   detail_data: GetDetailType;
 }
 
-export const ProductDetail = ({ detail_data }: ProductDetailProps) => {
+export const Detail = ({ detail_data }: ProductDetailProps) => {
   const [price, setPrice] = useState(detail_data.product.price);
   const [totalPrice, setTotalPrice] = useState(detail_data.product.price);
   const [count, setCount] = useState(1);

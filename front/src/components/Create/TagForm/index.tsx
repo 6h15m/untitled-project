@@ -1,5 +1,5 @@
 import React from 'react';
-import { TagData as TagDataType } from '../../../../models/model.interface';
+import { TagData as TagDataType } from '../../../../../models/model.interface';
 import { changeSelectedTagType } from '../TagListForm';
 import * as S from './style';
 

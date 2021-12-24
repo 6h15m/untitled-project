@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import { GetDetail as GetDetailType } from '../../../../models/model.interface';
 import { fetcher } from '../../@utils';
 import { GetParams } from '../../hooks';
-import { Header, ProductDetail } from '../../components';
+import { Header, Detail } from '../../components';
 
 export interface DetailPageProps {}
 
@@ -18,7 +18,7 @@ export const DetailPage = ({}: DetailPageProps) => {
   return (
     <>
       <Header />
-      {detail_data && <ProductDetail detail_data={detail_data} />}
+      {detail_data && <Detail detail_data={detail_data} />}
     </>
   );
 };
